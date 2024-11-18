@@ -11,7 +11,7 @@ function App() {
 
   return (
     <main>
-      <h1>Main</h1>
+      <h1 className="font-bold text-RED">Main</h1>
     </main>
   );
 }

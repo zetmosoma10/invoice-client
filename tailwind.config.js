@@ -6,7 +6,22 @@ export default {
     "node_modules/preline/dist/*.js",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        RED: "#EC5757",
+        RED_LIGHTER: "#9277FF",
+        LIGHT: "#F8F8FB",
+        LIGHT_BLUE: "#DFE3FA",
+        GREY: "#888EB0",
+        GREYISH_BLUE: "#7E88C3",
+        BLUE: "#7C5DFA",
+        LIGHT_BLUE: "#9277FF",
+        DARK_BLUE: "#252945",
+        VERY_BLUE: "#1E2139",
+        BLACK: "#0C0E16",
+        BLUE_BLACK: "#141625",
+      },
+    },
   },
   plugins: [require("@tailwindcss/forms"), require("preline/plugin")],
 };
