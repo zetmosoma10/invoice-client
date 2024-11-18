@@ -10,6 +10,9 @@ export default {
       colors: {
         RED: "#EC5757",
         RED_LIGHTER: "#9277FF",
+        ORANGE: "#FF8F00",
+        GREEN: "#33D69F",
+        LIGHT_GREY: "#373B53",
         LIGHT: "#F8F8FB",
         LIGHT_BLUE: "#DFE3FA",
         GREY: "#888EB0",
