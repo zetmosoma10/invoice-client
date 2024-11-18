@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import Invoice from "./components/Invoice";
 import "preline/preline";
-import Dropdown from "./components/Dropdown";
+import StatusBar from "./components/StatusBar";
 
 function App() {
   const location = useLocation();
@@ -13,7 +12,7 @@ function App() {
 
   return (
     <main className="max-w-[800px] mx-auto">
-      <Dropdown />
+      <StatusBar />
     </main>
   );
 }
