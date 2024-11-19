@@ -7,6 +7,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import Register from "./pages/Register";
 import NavBar from "./components/NavBar";
 import InvoiceActionSec from "./components/InvoiceActionSec";
+import InvoiceDetails from "./pages/InvoiceDetails";
 
 function App() {
   const location = useLocation();
@@ -17,7 +18,7 @@ function App() {
 
   return (
     <main>
-      <InvoiceActionSec />
+      <InvoiceDetails />
     </main>
   );
 }
