@@ -1,11 +1,12 @@
+import "preline/preline";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import "preline/preline";
 import StatusBar from "./components/StatusBar";
 import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
 import Register from "./pages/Register";
 import NavBar from "./components/NavBar";
+import InvoiceActionSec from "./components/InvoiceActionSec";
 
 function App() {
   const location = useLocation();
@@ -16,7 +17,7 @@ function App() {
 
   return (
     <main>
-      <NavBar />
+      <InvoiceActionSec />
     </main>
   );
 }

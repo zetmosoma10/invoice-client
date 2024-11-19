@@ -9,7 +9,7 @@ const StatusBar = () => {
         <StatusBadge status="Pending" color="ORANGE" />
       </div>
       <div className="hidden  md:flex md:items-center md:gap-x-3">
-        <Button className="bg-gray-200 text-blue-700 hover:text-white hover:bg-gray-800 focus:bg-gray-800">
+        <Button className="bg-gray-200 text-blue-700 hover:text-white hover:bg-gray-800 focus:bg-gray-800  focus:text-white">
           Edit
         </Button>
         <Button className="bg-red-500 text-white hover:bg-red-600 focus:bg-red-600">
