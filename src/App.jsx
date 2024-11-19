@@ -5,6 +5,7 @@ import StatusBar from "./components/StatusBar";
 import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
 import Register from "./pages/Register";
+import NavBar from "./components/NavBar";
 
 function App() {
   const location = useLocation();
@@ -14,8 +15,8 @@ function App() {
   }, [location.pathname]);
 
   return (
-    <main className="max-w-[800px] mx-auto">
-      <Register />
+    <main>
+      <NavBar />
     </main>
   );
 }
