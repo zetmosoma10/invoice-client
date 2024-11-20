@@ -1,10 +1,10 @@
 const NavBar = () => {
   return (
-    <header className="w-full bg-blue-600">
-      <nav className="relative w-full flex items-center justify-between gap-3 mx-auto px-4 sm:px-6 lg:px-8 py-2">
+    <header className="w-full bg-blue-600 ">
+      <nav className="relative flex items-center justify-between w-full gap-3 px-4 py-2 mx-auto sm:px-6 lg:px-8">
         <div>
           <a
-            className="flex-none font-semibold text-xl text-white focus:outline-none focus:opacity-80"
+            className="flex-none text-xl font-semibold text-white focus:outline-none focus:opacity-80"
             href="#"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="26">
@@ -21,7 +21,7 @@ const NavBar = () => {
             <div className="py-2 md:py-0 flex flex-col md:flex-row md:items-center md:justify-end gap-0.5 md:gap-1">
               <div className="relative flex flex-wrap items-center gap-x-1.5 md:ps-2.5 mt-1 md:mt-0 md:ms-1.5 before:block before:absolute before:top-1/2 before:-start-px before:w-px before:h-4 before:bg-white/30 before:-translate-y-1/2">
                 <a
-                  className="p-2 w-full flex items-center text-sm text-white/80 hover:text-white focus:outline-none focus:text-white"
+                  className="flex items-center w-full p-2 text-sm text-white/80 hover:text-white focus:outline-none focus:text-white"
                   href="#"
                 >
                   <svg
