@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import StatusBadge from "./common/StatusBadge";
 
 const Invoice = ({
+  id,
   status,
   clientName,
   amountDue,
@@ -10,7 +11,7 @@ const Invoice = ({
 }) => {
   return (
     <Link
-      to="#"
+      to={`invoices/${id}`}
       className="block bg-white md:flex md:justify-between py-3 px-4 mb-4 text-gray-500  rounded-lg shadow-sm hover:shadow-md"
     >
       <div className="flex items-center justify-between md:gap-x-10">

@@ -1,11 +1,13 @@
+import { Link } from "react-router-dom";
+
 const NavBar = () => {
   return (
     <header className="w-full bg-blue-600 ">
       <nav className="relative flex items-center justify-between w-full gap-3 px-4 py-2 mx-auto sm:px-6 lg:px-8">
         <div>
-          <a
+          <Link
+            to="/"
             className="flex-none text-xl font-semibold text-white focus:outline-none focus:opacity-80"
-            href="#"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="26">
               <path
@@ -14,7 +16,7 @@ const NavBar = () => {
                 d="M20.513 0C24.965 2.309 28 6.91 28 12.21 28 19.826 21.732 26 14 26S0 19.826 0 12.21C0 6.91 3.035 2.309 7.487 0L14 12.9z"
               />
             </svg>
-          </a>
+          </Link>
         </div>
         <div id="hs-base-header" aria-labelledby="hs-base-header-collapse">
           <div className="overflow-hidden overflow-y-auto max-h-[75vh] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">

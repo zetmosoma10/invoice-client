@@ -13,16 +13,17 @@ const Home = () => {
             Invoices
           </h1>
           <p className="text-sm md:text-base text-gray-500">
-            There are {data?.data.totalInvoices} total invoices in database.
+            There are {data?.totalInvoices} total invoices in database.
           </p>
         </div>
         <Button className="bg-blue-600 text-white hover:bg-blue-700 focus:bg-blue-700">
           New Invoice
         </Button>
       </div>
-      {data?.data.invoices.map((invoice) => (
+      {data?.invoices.map((invoice) => (
         <Invoice
           key={invoice._id}
+          id={invoice._id}
           status={invoice.status}
           clientName={invoice.clientName}
           amountDue={invoice.amountDue}

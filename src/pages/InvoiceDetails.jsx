@@ -1,7 +1,12 @@
-import Button from "../components/common/Button";
-import StatusBadge from "../components/common/StatusBadge";
+import { useParams } from "react-router-dom";
+import { useGetInvoice } from "../services/useGetInvoice";
+import dayjs from "dayjs";
 
 const InvoiceDetails = () => {
+  const { id } = useParams();
+
+  const { data, isLoading, isError, error } = useGetInvoice(id);
+
   return (
     <div className="max-w-[85rem] px-4 sm:px-6 lg:px-8 mx-auto my-4 sm:my-10">
       {/* Card */}
@@ -17,17 +22,16 @@ const InvoiceDetails = () => {
               Invoice #
             </h2>
             <span className="mt-1 block text-gray-500 dark:text-neutral-500">
-              3682303
+              {data?.invoice.invoiceNumber.toUpperCase()}
             </span>
-
             <address className="mt-4 not-italic text-gray-800 dark:text-neutral-200">
-              45 Roker Terrace
+              {data?.invoice.senderAddress.street}
               <br />
-              Latheronwheel
+              {data?.invoice.senderAddress.postalCode}
               <br />
-              KW5 8NW, London
+              {data?.invoice.senderAddress.city}
               <br />
-              United Kingdom
+              {data?.invoice.senderAddress.country}
               <br />
             </address>
           </div>
@@ -44,19 +48,21 @@ const InvoiceDetails = () => {
                 className="text-sm text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline font-medium dark:text-blue-500"
                 href="#"
               >
-                sara@site.com
+                {data?.invoice.clientEmail}
               </a>
             </h3>
 
             <p className=" text-gray-800 dark:text-neutral-200">
-              Sara Williams
+              {data?.invoice.clientName}
             </p>
             <address className="mt-2 not-italic text-gray-500 dark:text-neutral-500">
-              280 Suzanne Throughway,
+              {data?.invoice.clientAddress.street}
               <br />
-              Breannabury, OR 45801,
+              {data?.invoice.clientAddress.postalCode}
               <br />
-              United States
+              {data?.invoice.clientAddress.city}
+              <br />
+              {data?.invoice.clientAddress.country}
               <br />
             </address>
           </div>
@@ -70,7 +76,7 @@ const InvoiceDetails = () => {
                   Invoice date:
                 </dt>
                 <dd className="col-span-2 text-gray-500 dark:text-neutral-500">
-                  03/10/2018
+                  {dayjs(data?.invoice.invoiceDate).format("DD MMM, YYYY")}
                 </dd>
               </dl>
               <dl className="grid sm:grid-cols-5 gap-x-3">
@@ -78,7 +84,7 @@ const InvoiceDetails = () => {
                   Due date:
                 </dt>
                 <dd className="col-span-2 text-gray-500 dark:text-neutral-500">
-                  03/11/2018
+                  {data?.invoice.paymentDue}
                 </dd>
               </dl>
             </div>
@@ -97,9 +103,6 @@ const InvoiceDetails = () => {
             <div className="text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
               Qty
             </div>
-            <div className="text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
-              Rate
-            </div>
             <div className="text-xs font-medium justify-self-end text-gray-500 uppercase dark:text-neutral-500">
               Amount
             </div>
@@ -107,121 +110,35 @@ const InvoiceDetails = () => {
           <div className="border-b border-gray-200 dark:border-neutral-700"></div>
 
           {/* Table Rows */}
-          {/* <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
-          <div className="col-span-full sm:col-span-2">
-            <p className="font-medium text-gray-800 dark:text-neutral-200">
-              Design UX and UI
-            </p>
-          </div>
-          <div>
-            <p className="text-gray-800 dark:text-neutral-200">1</p>
-          </div>
-          <div>
-            <p className="text-gray-800 dark:text-neutral-200">5</p>
-          </div>
-          <div>
-            <p className="text-end text-gray-800 dark:text-neutral-200">$500</p>
-          </div>
-        </div> */}
-          <div
-            className="grid grid-cols-3 sm:grid-cols-5 gap-2 py-3 border-b border-gray-200 dark:border-neutral-700 
-            sm:border-none"
-          >
-            <div className="col-span-full sm:col-span-2">
-              <div className="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
-                Item
+
+          {data?.invoice.items.map((item) => (
+            <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 py-3 border-b border-gray-200 dark:border-neutral-700 sm:border-none">
+              <div className="col-span-full sm:col-span-2">
+                <div className="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
+                  Item
+                </div>
+                <p className="font-medium text-gray-800 dark:text-neutral-200 pt-1">
+                  {item.name}
+                </p>
               </div>
-              <p className="font-medium text-gray-800 dark:text-neutral-200 pt-1">
-                Web Project
-              </p>
-            </div>
-            <div>
-              <div className="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
-                Qty
+              <div>
+                <div className="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
+                  Qty
+                </div>
+                <p className="text-gray-800 dark:text-neutral-200">
+                  {item.quantity}
+                </p>
               </div>
-              <p className="text-gray-800 dark:text-neutral-200">1</p>
-            </div>
-            <div>
-              <div className="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
-                Rate
+              <div>
+                <div className="sm:hidden text-xs font-medium justify-self-end text-gray-500 uppercase dark:text-neutral-500">
+                  Amount
+                </div>
+                <p className="text-end text-gray-800 dark:text-neutral-200">
+                  {item.price}
+                </p>
               </div>
-              <p className="text-gray-800 dark:text-neutral-200">24</p>
             </div>
-            <div>
-              <div className="sm:hidden text-xs font-medium justify-self-end text-gray-500 uppercase dark:text-neutral-500">
-                Amount
-              </div>
-              <p className="text-end text-gray-800 dark:text-neutral-200">
-                $1250
-              </p>
-            </div>
-          </div>
-          <div
-            className="grid grid-cols-3 sm:grid-cols-5 gap-2 py-3 border-b border-gray-200 dark:border-neutral-700 
-            sm:border-none"
-          >
-            <div className="col-span-full sm:col-span-2">
-              <div className="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
-                Item
-              </div>
-              <p className="font-medium text-gray-800 dark:text-neutral-200 pt-1">
-                Web Project
-              </p>
-            </div>
-            <div>
-              <div className="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
-                Qty
-              </div>
-              <p className="text-gray-800 dark:text-neutral-200">1</p>
-            </div>
-            <div>
-              <div className="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
-                Rate
-              </div>
-              <p className="text-gray-800 dark:text-neutral-200">24</p>
-            </div>
-            <div>
-              <div className="sm:hidden text-xs font-medium justify-self-end text-gray-500 uppercase dark:text-neutral-500">
-                Amount
-              </div>
-              <p className="text-end text-gray-800 dark:text-neutral-200">
-                $1250
-              </p>
-            </div>
-          </div>
-          <div
-            className="grid grid-cols-3 sm:grid-cols-5 gap-2 py-3 border-b border-gray-200 dark:border-neutral-700 
-            sm:border-none"
-          >
-            <div className="col-span-full sm:col-span-2">
-              <div className="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
-                Item
-              </div>
-              <p className="font-medium text-gray-800 dark:text-neutral-200 pt-1">
-                Web Project
-              </p>
-            </div>
-            <div>
-              <div className="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
-                Qty
-              </div>
-              <p className="text-gray-800 dark:text-neutral-200">1</p>
-            </div>
-            <div>
-              <div className="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
-                Rate
-              </div>
-              <p className="text-gray-800 dark:text-neutral-200">24</p>
-            </div>
-            <div>
-              <div className="sm:hidden text-xs font-medium justify-self-end text-gray-500 uppercase dark:text-neutral-500">
-                Amount
-              </div>
-              <p className="text-end text-gray-800 dark:text-neutral-200">
-                $1250
-              </p>
-            </div>
-          </div>
+          ))}
         </div>
 
         {/* Totals */}
@@ -232,7 +149,7 @@ const InvoiceDetails = () => {
                 Subtotal:
               </dt>
               <dd className="col-span-2 font-medium text-gray-800 dark:text-neutral-200">
-                $2750.00
+                {data?.invoice.amountDue}
               </dd>
             </dl>
             <dl className="grid sm:grid-cols-5 gap-x-3 text-sm">
@@ -240,7 +157,7 @@ const InvoiceDetails = () => {
                 Total:
               </dt>
               <dd className="col-span-2 font-medium text-gray-800 dark:text-neutral-200">
-                $2750.00
+                {data?.invoice.amountDue}
               </dd>
             </dl>
           </div>
