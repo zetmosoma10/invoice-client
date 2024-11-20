@@ -13,7 +13,7 @@ function AppLayout() {
   return (
     <main className="bg-slate-50 min-h-screen">
       <NavBar />
-      <section className="max-w-[990px] mx-auto">
+      <section className="max-container">
         <Outlet />
       </section>
     </main>

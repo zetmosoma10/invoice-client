@@ -1,7 +1,9 @@
+import { Link } from "react-router-dom";
+
 const Register = () => {
   return (
     <div className="flex items-center justify-center">
-      <div className="mt-7 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-neutral-900 dark:border-neutral-700">
+      <div className="mt-7 bg-white  rounded-xl shadow-md dark:bg-neutral-900 dark:border-neutral-700">
         <div className="p-4 sm:p-7">
           <div className="text-center">
             <h1 className="block text-2xl font-bold text-gray-800 dark:text-white">
@@ -9,13 +11,13 @@ const Register = () => {
             </h1>
             <p className="mt-2 text-sm text-gray-600 dark:text-neutral-400">
               Already have an account?
-              <a
+              <Link
+                to="/user/login"
                 className="text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline font-medium dark:text-blue-500"
-                href="../examples/html/signin.html"
               >
                 {" "}
                 Sign in here
-              </a>
+              </Link>
             </p>
           </div>
 
@@ -136,21 +138,9 @@ const Register = () => {
                 </p>
               </div>
 
-              <div className="flex items-center">
-                <div className="flex">
-                  <input
-                    id="remember-me"
-                    name="remember-me"
-                    type="checkbox"
-                    className="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 dark:bg-neutral-800 dark:border-neutral-700
-                     dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                  />
-                </div>
-              </div>
-
               <button
                 type="submit"
-                className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+                className="w-full py-3 px-4 mt-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
               >
                 Sign up
               </button>

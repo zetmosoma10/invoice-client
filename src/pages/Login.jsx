@@ -1,7 +1,9 @@
+import { Link } from "react-router-dom";
+
 const Login = () => {
   return (
     <div className="flex items-center justify-center h-screen">
-      <div class="max-w-[500px] mt-7 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-neutral-900 dark:border-neutral-700">
+      <div class="max-w-[500px] mt-7 bg-white  rounded-xl shadow-md dark:bg-neutral-900 dark:border-neutral-700">
         <div class="p-4 sm:p-7">
           <div class="text-center">
             <h1 class="block text-2xl font-bold text-gray-800 dark:text-white">
@@ -9,13 +11,13 @@ const Login = () => {
             </h1>
             <p class="mt-2 text-sm text-gray-600 dark:text-neutral-400">
               Don't have an account yet?
-              <a
+              <Link
+                to="/user/register"
                 class="text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline font-medium dark:text-blue-500"
-                href="../examples/html/signup.html"
               >
                 {" "}
                 Sign up here
-              </a>
+              </Link>
             </p>
           </div>
 
@@ -62,12 +64,12 @@ const Login = () => {
                   >
                     Password
                   </label>
-                  <a
+                  <Link
+                    to="/user/forgot-password"
                     class="inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline font-medium dark:text-blue-500"
-                    href="../examples/html/recover-account.html"
                   >
                     Forgot password?
-                  </a>
+                  </Link>
                 </div>
                 <div class="relative">
                   <input

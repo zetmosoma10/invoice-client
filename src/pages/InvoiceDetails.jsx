@@ -134,7 +134,7 @@ const InvoiceDetails = () => {
                   Amount
                 </div>
                 <p className="text-end text-gray-800 dark:text-neutral-200">
-                  {item.price}
+                  R{item.price}
                 </p>
               </div>
             </div>
@@ -149,7 +149,7 @@ const InvoiceDetails = () => {
                 Subtotal:
               </dt>
               <dd className="col-span-2 font-medium text-gray-800 dark:text-neutral-200">
-                {data?.invoice.amountDue}
+                R{data?.invoice.amountDue}
               </dd>
             </dl>
             <dl className="grid sm:grid-cols-5 gap-x-3 text-sm">
@@ -157,7 +157,7 @@ const InvoiceDetails = () => {
                 Total:
               </dt>
               <dd className="col-span-2 font-medium text-gray-800 dark:text-neutral-200">
-                {data?.invoice.amountDue}
+                R{data?.invoice.amountDue}
               </dd>
             </dl>
           </div>

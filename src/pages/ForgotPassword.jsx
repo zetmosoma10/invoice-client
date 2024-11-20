@@ -1,7 +1,9 @@
+import { Link } from "react-router-dom";
+
 const ForgotPassword = () => {
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <div className="mt-7 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-neutral-900 dark:border-neutral-700">
+      <div className="mt-7 bg-white  rounded-xl shadow-md dark:bg-neutral-900 dark:border-neutral-700">
         <div className="p-4 sm:p-7">
           <div className="text-center">
             <h1 className="block text-2xl font-bold text-gray-800 dark:text-white">
@@ -9,13 +11,13 @@ const ForgotPassword = () => {
             </h1>
             <p className="mt-2 text-sm text-gray-600 dark:text-neutral-400">
               Remember your password?
-              <a
+              <Link
+                to="/user/login"
                 className="text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline font-medium dark:text-blue-500"
-                href="../examples/html/signin.html"
               >
                 {" "}
                 Sign in here
-              </a>
+              </Link>
             </p>
           </div>
 
