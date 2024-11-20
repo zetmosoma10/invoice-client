@@ -1,6 +1,8 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useGetInvoice } from "../services/useGetInvoice";
 import dayjs from "dayjs";
+import StatusBadge from "../components/common/StatusBadge";
+import InvoiceAction from "../components/InvoiceAction";
 
 const InvoiceDetails = () => {
   const { id } = useParams();
@@ -8,13 +10,30 @@ const InvoiceDetails = () => {
   const { data, isLoading, isError, error } = useGetInvoice(id);
 
   return (
-    <div className="max-w-[85rem] px-4 sm:px-6 lg:px-8 mx-auto my-4 sm:my-10">
+    <div className="max-w-[85rem] px-4 sm:px-6 lg:px-8 mx-auto my-4 sm:my-10 ">
+      <Link
+        to="/"
+        className="flex items-center gap-x-2 text-gray-500  font-semibold text-base hover:underline mb-10"
+      >
+        <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M6.342.886L2.114 5.114l4.228 4.228"
+            stroke="#9277FF"
+            stroke-width="2"
+            fill="none"
+            fillRule="evenodd"
+          />
+        </svg>
+        <span>Go back</span>
+      </Link>
+      <InvoiceAction />
       {/* Card */}
-      <div className="flex flex-col p-4 sm:p-10 bg-white shadow-md rounded-xl dark:bg-neutral-800">
+      <div className="flex flex-col mt-8 p-4 sm:p-10 bg-white shadow-md rounded-xl dark:bg-neutral-800">
         {/* Grid */}
         <div className="flex justify-between">
           <div>
-            <h1 className="text-2xl font-bold">Logo Here</h1>
+            <span className="text-gray-500">Status: </span>
+            <StatusBadge status={data?.invoice.status} />
           </div>
           {/* Col */}
           <div className="text-end">

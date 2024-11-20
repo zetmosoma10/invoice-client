@@ -1,14 +1,9 @@
-import StatusBadge from "./common/StatusBadge";
 import Button from "./common/Button";
 
-const StatusBar = () => {
+const InvoiceAction = () => {
   return (
-    <div className="p-6 md:flex md:items-center md:justify-between  border rounded-lg border-gray-300">
-      <div className="flex items-center justify-between md:justify-normal md:gap-x-5">
-        <span className="text-gray-500">Status</span>
-        <StatusBadge status="Pending" color="ORANGE" />
-      </div>
-      <div className="hidden  md:flex md:items-center md:gap-x-3">
+    <div className="p-2 flex items-center justify-end   rounded-lg bg-white shadow-md">
+      <div className="flex items-center gap-x-3">
         <Button className="bg-gray-200 text-blue-700 hover:text-white hover:bg-gray-800 focus:bg-gray-800  focus:text-white">
           Edit
         </Button>
@@ -23,4 +18,4 @@ const StatusBar = () => {
   );
 };
 
-export default StatusBar;
+export default InvoiceAction;
