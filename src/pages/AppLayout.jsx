@@ -8,9 +8,14 @@ import Register from "./Register";
 import NavBar from "../components/NavBar";
 import InvoiceActionSec from "../components/InvoiceActionSec";
 import InvoiceDetails from "./InvoiceDetails";
+import { useGetAllInvoices } from "../services/useGetAllInvoices";
 
-function App() {
+function AppLayout() {
   const location = useLocation();
+
+  const { data, isError, isLoading } = useGetAllInvoices();
+
+  console.log(data);
 
   useEffect(() => {
     window.HSStaticMethods.autoInit();
@@ -23,4 +28,4 @@ function App() {
   );
 }
 
-export default App;
+export default AppLayout;
