@@ -1,25 +1,33 @@
 import { Link } from "react-router-dom";
 import StatusBadge from "./common/StatusBadge";
 
-const Invoice = () => {
+const Invoice = ({
+  status,
+  clientName,
+  amountDue,
+  paymentDue,
+  invoiceNumber,
+}) => {
   return (
     <Link
       to="#"
-      className="block md:flex md:justify-between py-5 px-6 mb-4 text-gray-500 border rounded-lg border-grey-200"
+      className="block bg-white md:flex md:justify-between py-3 px-4 mb-4 text-gray-500  rounded-lg shadow-sm hover:shadow-md"
     >
       <div className="flex items-center justify-between md:gap-x-10">
-        <span className="text-gray-950 font-bold ">#XM123</span>
-        <p>John Smith</p>
+        <span className="text-gray-950 font-bold ">
+          {invoiceNumber.toUpperCase()}
+        </span>
+        <p>{clientName}</p>
       </div>
       <div className="flex items-center justify-between mt-6 md:mt-0">
         <div className="flex flex-col md:flex-row">
-          <span>Due 19 Aug 2024</span>
+          <span>{paymentDue}</span>
           <span className="text-gray-950 font-bold md:mr-10 md:ml-24">
-            R1789.95
+            R{amountDue}
           </span>
         </div>
         <div className="md:flex md:items-center md:gap-x-5">
-          <StatusBadge status="Pending" color="ORANGE" />
+          <StatusBadge status={status} />
           <svg
             className="hidden md:block"
             width="7"

@@ -15,11 +15,11 @@ const StatusBadge = ({ status, className }) => {
 
   return (
     <span
-      className={` inline-flex items-center gap-x-1.5 pt-[14px] pb-[11px] px-[18px] rounded-md text-sm 
-        font-semibold   bg-opacity-5  dark:bg-opacity-5 ${className}`}
+      className={`inline-flex items-center justify-center gap-x-1.5 pt-[14px] pb-[11px] w-[105px] rounded-md text-sm 
+        font-semibold  bg-opacity-15  dark:bg-opacity-5 ${className} ${color}`}
     >
       <span
-        className={`w-[5px] h-[5px] inline-block rounded-full ${color}`}
+        className={`w-[8px] h-[8px] inline-block rounded-full ${color}`}
       ></span>
       {status}
     </span>
