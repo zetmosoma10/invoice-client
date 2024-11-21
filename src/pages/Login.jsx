@@ -1,11 +1,12 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "../components/common/Input";
 import loginSchema from "../schemas/loginSchema";
 import { loginUser } from "../services/auth.js";
 
 const Login = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -13,11 +14,14 @@ const Login = () => {
     formState: { errors },
   } = useForm({ resolver: zodResolver(loginSchema) });
 
-  const { mutate, isPending, isError, isSuccess, error } = loginUser();
+  const { mutate, isPending, isError, error } = loginUser();
 
   const onSubmit = (data) => {
     mutate(data, {
-      onSuccess: () => reset(),
+      onSuccess: () => {
+        reset();
+        navigate("/", { replace: true });
+      },
     });
   };
 

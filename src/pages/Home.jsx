@@ -7,7 +7,7 @@ const Home = () => {
 
   return (
     <>
-      <div className="flex items-center justify-between my-8">
+      <div className="flex items-start justify-between my-8">
         <div>
           <h1 className="font-bold text-2xl md:text-4xl leading-[-0.75px]">
             Invoices

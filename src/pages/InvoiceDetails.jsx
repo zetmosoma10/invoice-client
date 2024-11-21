@@ -19,7 +19,7 @@ const InvoiceDetails = () => {
           <path
             d="M6.342.886L2.114 5.114l4.228 4.228"
             stroke="#9277FF"
-            stroke-width="2"
+            strokeWidth="2"
             fill="none"
             fillRule="evenodd"
           />
@@ -32,7 +32,6 @@ const InvoiceDetails = () => {
         {/* Grid */}
         <div className="flex justify-between">
           <div>
-            <span className="text-gray-500">Status: </span>
             <StatusBadge status={data?.invoice.status} />
           </div>
           {/* Col */}
@@ -71,7 +70,7 @@ const InvoiceDetails = () => {
               </a>
             </h3>
 
-            <p className="text-gray-800  dark:text-neutral-200">
+            <p className="text-gray-800 dark:text-neutral-200">
               {data?.invoice.clientName}
             </p>
             <address className="mt-2 not-italic text-gray-500 dark:text-neutral-500">
@@ -131,7 +130,10 @@ const InvoiceDetails = () => {
           {/* Table Rows */}
 
           {data?.invoice.items.map((item) => (
-            <div className="grid grid-cols-3 gap-2 py-3 border-b border-gray-200 sm:grid-cols-5 dark:border-neutral-700 sm:border-none">
+            <div
+              key={item._id}
+              className="grid grid-cols-3 gap-2 py-3 border-b border-gray-200 sm:grid-cols-5 dark:border-neutral-700 sm:border-none"
+            >
               <div className="col-span-full sm:col-span-2">
                 <div className="text-xs font-medium text-gray-500 uppercase sm:hidden dark:text-neutral-500">
                   Item

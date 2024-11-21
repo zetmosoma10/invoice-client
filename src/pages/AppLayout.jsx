@@ -11,9 +11,9 @@ function AppLayout() {
   }, [location.pathname]);
 
   return (
-    <main className="bg-slate-50 min-h-screen">
+    <main className="min-h-screen bg-slate-100">
       <NavBar />
-      <section className="max-container">
+      <section className="pb-10 max-container">
         <Outlet />
       </section>
     </main>
