@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import _ from "lodash";
 import { registerUser } from "../services/auth.js";
 import registerSchema from "../schemas/registerSchema.js";
+import { useQueryClient } from "@tanstack/react-query";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -15,6 +16,8 @@ const Register = () => {
     formState: { errors },
   } = useForm({ resolver: zodResolver(registerSchema) });
 
+  const queryClient = useQueryClient();
+
   const { mutate, isPending, isError, error } = registerUser();
 
   const onSubmit = (data) => {
@@ -22,7 +25,8 @@ const Register = () => {
     mutate(userData, {
       onSuccess: () => {
         reset();
-        window.location.replace("/");
+        queryClient.invalidateQueries(["invoices"]);
+        navigate("/", { replace: true });
       },
     });
   };

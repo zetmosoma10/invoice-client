@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "../components/common/Input";
 import loginSchema from "../schemas/loginSchema";
 import { loginUser } from "../services/auth.js";
+import { useQueryClient } from "@tanstack/react-query";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -14,13 +15,16 @@ const Login = () => {
     formState: { errors },
   } = useForm({ resolver: zodResolver(loginSchema) });
 
+  const queryClient = useQueryClient();
+
   const { mutate, isPending, isError, error } = loginUser();
 
   const onSubmit = (data) => {
     mutate(data, {
       onSuccess: () => {
         reset();
-        window.location.replace("/");
+        queryClient.invalidateQueries(["invoices"]);
+        navigate("/", { replace: true });
       },
     });
   };

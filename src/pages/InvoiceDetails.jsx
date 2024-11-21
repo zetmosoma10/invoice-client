@@ -1,13 +1,13 @@
 import { useParams, Link } from "react-router-dom";
-import { useGetInvoice } from "../hooks/useGetInvoice";
 import dayjs from "dayjs";
 import StatusBadge from "../components/common/StatusBadge";
 import InvoiceAction from "../components/InvoiceAction";
+import { getInvoice } from "../services/invoicesService";
 
 const InvoiceDetails = () => {
   const { id } = useParams();
 
-  const { data, isLoading, isError, error } = useGetInvoice(id);
+  const { data, isLoading, isError, error } = getInvoice(id);
 
   return (
     <div className="max-w-[85rem] px-4 sm:px-6 lg:px-8 mx-auto my-4 sm:my-10 ">

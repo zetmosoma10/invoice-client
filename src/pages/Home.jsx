@@ -1,9 +1,9 @@
-import { useGetAllInvoices } from "../hooks/useGetAllInvoices";
 import Invoice from "../components/Invoice";
 import Button from "../components/common/Button";
+import { getAllInvoices } from "../services/invoicesService";
 
 const Home = () => {
-  const { data, isError, isLoading, error } = useGetAllInvoices();
+  const { data, isError, isLoading, error } = getAllInvoices();
 
   return (
     <>

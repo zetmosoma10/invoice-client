@@ -1,32 +1,25 @@
-import { createContext, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import "preline/preline";
-import { decodeJwt } from "../services/auth";
-
-const CurrentUserContext = createContext();
-export { CurrentUserContext };
+import { AuthProvider } from "../context/AuthProvider";
 
 function AppLayout() {
   const location = useLocation();
-  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const loginUser = decodeJwt();
-    setUser(loginUser);
-
     window.HSStaticMethods.autoInit();
   }, [location.pathname]);
 
   return (
-    <CurrentUserContext.Provider value={user}>
+    <AuthProvider>
       <main className="min-h-screen bg-slate-100">
         <NavBar />
         <section className="pb-10 max-container">
           <Outlet />
         </section>
       </main>
-    </CurrentUserContext.Provider>
+    </AuthProvider>
   );
 }
 

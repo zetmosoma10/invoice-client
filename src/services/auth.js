@@ -1,6 +1,7 @@
 import axiosInstance from "./axiosInstance";
 import { useMutation } from "@tanstack/react-query";
 import { jwtDecode } from "jwt-decode";
+import { useAuth } from "../context/AuthProvider";
 
 const loginRequest = async (user) => {
   const { data } = await axiosInstance.post("/auth/login", user);
@@ -8,10 +9,12 @@ const loginRequest = async (user) => {
 };
 
 const loginUser = () => {
+  const { login } = useAuth();
+
   return useMutation({
     mutationFn: loginRequest,
     onSuccess: (data) => {
-      localStorage.setItem("token", data.token);
+      login(data.token);
     },
     onError: (error) => {
       console.log("Error logging user");
@@ -26,10 +29,12 @@ const registerRequest = async (user) => {
 };
 
 const registerUser = () => {
+  const { login } = useAuth();
+
   return useMutation({
     mutationFn: registerRequest,
     onSuccess: (data) => {
-      localStorage.setItem("token", data.token);
+      login(data.token);
     },
     onError: (error) => {
       console.log("Error logging user");

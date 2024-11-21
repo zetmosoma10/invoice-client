@@ -1,9 +1,8 @@
-import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { CurrentUserContext } from "../pages/AppLayout";
+import { useAuth } from "../context/AuthProvider";
 
 const NavBar = () => {
-  const currentUser = useContext(CurrentUserContext);
+  const { user } = useAuth();
 
   return (
     <header className="w-full bg-blue-600 ">
@@ -23,7 +22,7 @@ const NavBar = () => {
           </Link>
         </div>
         <div>
-          {!currentUser && (
+          {!user && (
             <Link
               to="user/login"
               className="flex items-center w-full p-2 text-sm text-white/80 hover:text-white focus:outline-none focus:text-white"
@@ -46,7 +45,7 @@ const NavBar = () => {
               Log in
             </Link>
           )}
-          {currentUser && (
+          {user && (
             <Link to="user/profile" className="flex items-center text-gray-100">
               <span className="inline-block overflow-hidden bg-gray-100 rounded-full size-6">
                 <svg
@@ -75,7 +74,7 @@ const NavBar = () => {
                   ></path>
                 </svg>
               </span>
-              <p className="ml-2 text-base">{currentUser.firstName}</p>
+              <p className="ml-2 text-base">{user.firstName}</p>
             </Link>
           )}
         </div>

@@ -1,12 +1,11 @@
-import { useContext } from "react";
-import { CurrentUserContext } from "./AppLayout";
+import { useAuth } from "../context/AuthProvider";
 
 const Profile = () => {
-  const currentUser = useContext(CurrentUserContext);
+  const { user } = useAuth();
   return (
     <div>
       <h2 className="text-3xl font-bold ">
-        {currentUser.firstName} {currentUser.lastName} : Profile
+        {user.firstName} {user.lastName} : Profile
       </h2>
     </div>
   );
