@@ -1,8 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axiosInstance from "./axiosInstance.js";
-import { decodeJwt } from "./auth.js";
-
-const currentUser = decodeJwt();
+import { useAuth } from "../context/AuthProvider.jsx";
 
 const fetchAllInvoice = async () => {
   const { data } = await axiosInstance.get("/invoices");
@@ -10,12 +8,13 @@ const fetchAllInvoice = async () => {
 };
 
 const getAllInvoices = () => {
+  const { user } = useAuth();
   return useQuery({
     queryKey: ["invoices"],
     queryFn: fetchAllInvoice,
     staleTime: 10 * 60 * 1000,
     cacheTime: 15 * 60 * 1000,
-    enabled: !!currentUser,
+    enabled: !!user,
   });
 };
 
@@ -26,12 +25,13 @@ const fetchInvoice = async (id) => {
 };
 
 const getInvoice = (id) => {
+  const { user } = useAuth();
   return useQuery({
     queryKey: ["invoices", id],
     queryFn: () => fetchInvoice(id),
     staleTime: 10 * 60 * 1000,
     cacheTime: 15 * 60 * 1000,
-    enabled: !!currentUser,
+    enabled: !!user,
   });
 };
 

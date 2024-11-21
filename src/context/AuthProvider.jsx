@@ -1,10 +1,13 @@
 import { createContext, useContext, useState } from "react";
 import { decodeJwt } from "../services/auth";
+import { useQueryClient } from "@tanstack/react-query";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(decodeJwt());
+
+  const queryClient = useQueryClient();
 
   const login = (token) => {
     localStorage.setItem("token", token);
@@ -12,8 +15,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
     setUser(null);
+    localStorage.removeItem("token");
+    queryClient.clear();
   };
 
   return (
