@@ -1,9 +1,18 @@
 import Invoice from "../components/Invoice";
+import Pagination from "../components/Pagination";
 import Button from "../components/common/Button";
 import { getAllInvoices } from "../services/invoicesService";
 
 const Home = () => {
   const { data, isError, isLoading, error } = getAllInvoices();
+
+  if (isLoading) {
+    return <h2 className="text-3xl font-semibold ">Loading...</h2>;
+  }
+
+  if (isError) {
+    return <h2 className="text-3xl font-semibold ">{error?.message}</h2>;
+  }
 
   return (
     <>
@@ -31,6 +40,7 @@ const Home = () => {
           invoiceNumber={invoice.invoiceNumber}
         />
       ))}
+      {data?.totalPages > 1 && <Pagination />}
     </>
   );
 };
