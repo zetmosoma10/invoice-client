@@ -1,5 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import { useGetInvoice } from "../services/useGetInvoice";
+import { useGetInvoice } from "../hooks/useGetInvoice";
 import dayjs from "dayjs";
 import StatusBadge from "../components/common/StatusBadge";
 import InvoiceAction from "../components/InvoiceAction";
@@ -13,7 +13,7 @@ const InvoiceDetails = () => {
     <div className="max-w-[85rem] px-4 sm:px-6 lg:px-8 mx-auto my-4 sm:my-10 ">
       <Link
         to="/"
-        className="flex items-center gap-x-2 text-gray-500  font-semibold text-base hover:underline mb-10"
+        className="flex items-center mb-10 text-base font-semibold text-gray-500 gap-x-2 hover:underline"
       >
         <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -28,7 +28,7 @@ const InvoiceDetails = () => {
       </Link>
       <InvoiceAction />
       {/* Card */}
-      <div className="flex flex-col mt-8 p-4 sm:p-10 bg-white shadow-md rounded-xl dark:bg-neutral-800">
+      <div className="flex flex-col p-4 mt-8 bg-white shadow-md sm:p-10 rounded-xl dark:bg-neutral-800">
         {/* Grid */}
         <div className="flex justify-between">
           <div>
@@ -37,10 +37,10 @@ const InvoiceDetails = () => {
           </div>
           {/* Col */}
           <div className="text-end">
-            <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 dark:text-neutral-200">
+            <h2 className="text-2xl font-semibold text-gray-800 md:text-3xl dark:text-neutral-200">
               Invoice #
             </h2>
-            <span className="mt-1 block text-gray-500 dark:text-neutral-500">
+            <span className="block mt-1 text-gray-500 dark:text-neutral-500">
               {data?.invoice.invoiceNumber.toUpperCase()}
             </span>
             <address className="mt-4 not-italic text-gray-800 dark:text-neutral-200">
@@ -59,19 +59,19 @@ const InvoiceDetails = () => {
         {/* End Grid */}
 
         {/* Grid */}
-        <div className="mt-8 grid sm:grid-cols-2 gap-3">
+        <div className="grid gap-3 mt-8 sm:grid-cols-2">
           <div>
             <h3 className="text-lg font-semibold text-gray-800 dark:text-neutral-200">
               Bill to:{"  "}
               <a
-                className="text-sm text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline font-medium dark:text-blue-500"
+                className="text-sm font-medium text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline dark:text-blue-500"
                 href="#"
               >
                 {data?.invoice.clientEmail}
               </a>
             </h3>
 
-            <p className=" text-gray-800 dark:text-neutral-200">
+            <p className="text-gray-800  dark:text-neutral-200">
               {data?.invoice.clientName}
             </p>
             <address className="mt-2 not-italic text-gray-500 dark:text-neutral-500">
@@ -87,9 +87,9 @@ const InvoiceDetails = () => {
           </div>
           {/* Col */}
 
-          <div className="sm:text-end space-y-2">
+          <div className="space-y-2 sm:text-end">
             {/* Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-1 gap-3 sm:gap-2">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-1 sm:gap-2">
               <dl className="grid sm:grid-cols-5 gap-x-3">
                 <dt className="col-span-3 font-semibold text-gray-800 dark:text-neutral-200">
                   Invoice date:
@@ -114,15 +114,15 @@ const InvoiceDetails = () => {
         {/* End Grid */}
 
         {/* Invoice Table */}
-        <div className="mt-6 border border-gray-200 p-4 rounded-lg dark:border-neutral-700">
-          <div className="hidden sm:grid sm:grid-cols-5 pt-2 pb-4">
-            <div className="sm:col-span-2 text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
+        <div className="p-4 mt-6 border border-gray-200 rounded-lg dark:border-neutral-700">
+          <div className="hidden pt-2 pb-4 sm:grid sm:grid-cols-5">
+            <div className="text-xs font-medium text-gray-500 uppercase sm:col-span-2 dark:text-neutral-500">
               Item
             </div>
             <div className="text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
               Qty
             </div>
-            <div className="text-xs font-medium justify-self-end text-gray-500 uppercase dark:text-neutral-500">
+            <div className="text-xs font-medium text-gray-500 uppercase justify-self-end dark:text-neutral-500">
               Amount
             </div>
           </div>
@@ -131,17 +131,17 @@ const InvoiceDetails = () => {
           {/* Table Rows */}
 
           {data?.invoice.items.map((item) => (
-            <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 py-3 border-b border-gray-200 dark:border-neutral-700 sm:border-none">
+            <div className="grid grid-cols-3 gap-2 py-3 border-b border-gray-200 sm:grid-cols-5 dark:border-neutral-700 sm:border-none">
               <div className="col-span-full sm:col-span-2">
-                <div className="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
+                <div className="text-xs font-medium text-gray-500 uppercase sm:hidden dark:text-neutral-500">
                   Item
                 </div>
-                <p className="font-medium text-gray-800 dark:text-neutral-200 pt-1">
+                <p className="pt-1 font-medium text-gray-800 dark:text-neutral-200">
                   {item.name}
                 </p>
               </div>
               <div>
-                <div className="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
+                <div className="text-xs font-medium text-gray-500 uppercase sm:hidden dark:text-neutral-500">
                   Qty
                 </div>
                 <p className="text-gray-800 dark:text-neutral-200">
@@ -149,10 +149,10 @@ const InvoiceDetails = () => {
                 </p>
               </div>
               <div>
-                <div className="sm:hidden text-xs font-medium justify-self-end text-gray-500 uppercase dark:text-neutral-500">
+                <div className="text-xs font-medium text-gray-500 uppercase sm:hidden justify-self-end dark:text-neutral-500">
                   Amount
                 </div>
-                <p className="text-end text-gray-800 dark:text-neutral-200">
+                <p className="text-gray-800 text-end dark:text-neutral-200">
                   R{item.price}
                 </p>
               </div>
@@ -161,9 +161,9 @@ const InvoiceDetails = () => {
         </div>
 
         {/* Totals */}
-        <div className="mt-8 flex sm:justify-end">
+        <div className="flex mt-8 sm:justify-end">
           <div className="w-full max-w-2xl sm:text-end">
-            <dl className="grid sm:grid-cols-5 gap-x-3 text-sm">
+            <dl className="grid text-sm sm:grid-cols-5 gap-x-3">
               <dt className="col-span-3 text-gray-500 dark:text-neutral-500">
                 Subtotal:
               </dt>
@@ -171,7 +171,7 @@ const InvoiceDetails = () => {
                 R{data?.invoice.amountDue}
               </dd>
             </dl>
-            <dl className="grid sm:grid-cols-5 gap-x-3 text-sm">
+            <dl className="grid text-sm sm:grid-cols-5 gap-x-3">
               <dt className="col-span-3 text-gray-500 dark:text-neutral-500">
                 Total:
               </dt>
@@ -190,7 +190,7 @@ export default InvoiceDetails;
 
 {
   /* <a
-  className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+  className="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg gap-x-2 hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
   href="#"
 >
   <svg

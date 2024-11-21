@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import axiosInstance from "./axiosInstance.js";
+import axiosInstance from "../services/axiosInstance.js";
 
 const fetchData = async (id) => {
   const { data } = await axiosInstance.get(`/invoices/${id}`);
