@@ -1,5 +1,6 @@
 import axiosInstance from "./axiosInstance";
 import { useMutation } from "@tanstack/react-query";
+import { jwtDecode } from "jwt-decode";
 
 const loginRequest = async (user) => {
   const { data } = await axiosInstance.post("/auth/login", user);
@@ -37,4 +38,12 @@ const registerUser = () => {
   });
 };
 
-export { loginUser, registerUser };
+const decodeJwt = () => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    return jwtDecode(token);
+  }
+  return null;
+};
+
+export { loginUser, registerUser, decodeJwt };

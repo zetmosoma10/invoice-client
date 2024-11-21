@@ -5,6 +5,7 @@ import InvoiceDetails from "./pages/InvoiceDetails";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
+import Profile from "./pages/Profile";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "user/forgot-password",
         element: <ForgotPassword />,
+      },
+      {
+        path: "user/profile",
+        element: <Profile />,
       },
     ],
   },
