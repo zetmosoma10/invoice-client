@@ -22,7 +22,7 @@ const Register = () => {
     mutate(userData, {
       onSuccess: () => {
         reset();
-        navigate("/");
+        window.location.replace("/");
       },
     });
   };
@@ -94,7 +94,17 @@ const Register = () => {
                 className="inline-flex items-center justify-center w-full px-4 py-3 mt-3 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg gap-x-2 hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
                 disabled={isPending}
               >
-                {isPending ? "Singing up..." : "Sing up"}
+                {isPending ? (
+                  <div
+                    className="animate-spin inline-block size-6 border-[3px] border-current border-t-transparent text-gray-50 rounded-full dark:text-gray-50"
+                    role="status"
+                    aria-label="loading"
+                  >
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                ) : (
+                  "Sing up"
+                )}
               </button>
             </div>
           </form>

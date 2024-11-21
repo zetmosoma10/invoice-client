@@ -48,7 +48,7 @@ const NavBar = () => {
           )}
           {currentUser && (
             <Link to="user/profile" className="flex items-center text-gray-100">
-              <span class="inline-block size-6 bg-gray-100 rounded-full overflow-hidden">
+              <span className="inline-block overflow-hidden bg-gray-100 rounded-full size-6">
                 <svg
                   class="size-full text-gray-300"
                   width="16"
