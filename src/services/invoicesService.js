@@ -2,16 +2,16 @@ import { useQuery } from "@tanstack/react-query";
 import axiosInstance from "./axiosInstance.js";
 import { useAuth } from "../context/AuthProvider.jsx";
 
-const fetchAllInvoice = async () => {
-  const { data } = await axiosInstance.get("/invoices");
+const fetchAllInvoice = async (page) => {
+  const { data } = await axiosInstance.get(`/invoices?page=${page}`);
   return data;
 };
 
-const getAllInvoices = () => {
+const getAllInvoices = (page) => {
   const { user } = useAuth();
   return useQuery({
-    queryKey: ["invoices"],
-    queryFn: fetchAllInvoice,
+    queryKey: ["invoices", page],
+    queryFn: () => fetchAllInvoice(page),
     staleTime: 10 * 60 * 1000,
     cacheTime: 15 * 60 * 1000,
     enabled: !!user,

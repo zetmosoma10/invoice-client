@@ -2,9 +2,24 @@ import Invoice from "../components/Invoice";
 import Pagination from "../components/Pagination";
 import Button from "../components/common/Button";
 import { getAllInvoices } from "../services/invoicesService";
+import { useState } from "react";
 
 const Home = () => {
-  const { data, isError, isLoading, error } = getAllInvoices();
+  const [page, setPage] = useState(1);
+
+  const { data, isError, isLoading, error } = getAllInvoices(page);
+
+  const incrementPage = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
+
+  const decrementPage = () => {
+    setPage((prevPage) => prevPage - 1);
+  };
+
+  const setCurrentPage = (page) => {
+    setPage(page);
+  };
 
   if (isLoading) {
     return <h2 className="text-3xl font-semibold ">Loading...</h2>;
@@ -40,7 +55,15 @@ const Home = () => {
           invoiceNumber={invoice.invoiceNumber}
         />
       ))}
-      {data?.totalPages > 1 && <Pagination />}
+      {data?.totalPages > 1 && (
+        <Pagination
+          currentPage={data?.currentPage}
+          totalPages={data?.totalPages}
+          incrementPage={incrementPage}
+          decrementPage={decrementPage}
+          setCurrentPage={setCurrentPage}
+        />
+      )}
     </>
   );
 };
