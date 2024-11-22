@@ -31,8 +31,8 @@ const Login = () => {
 
   return (
     <div className="flex items-center justify-center h-screen">
-      <div className="max-w-[500px] mt-7 bg-white  rounded-xl shadow-md dark:bg-neutral-900 dark:border-neutral-700">
-        <div className="p-4 sm:p-7">
+      <div className="sm:w-[450px] bg-white  rounded-xl shadow-md dark:bg-neutral-900 dark:border-neutral-700">
+        <div className="px-5 py-6 sm:p-7">
           <div className="text-center">
             <h1 className="block text-2xl font-bold text-gray-800 dark:text-white">
               Sign in
@@ -69,6 +69,14 @@ const Login = () => {
                 errors={errors}
                 register={register}
               />
+              <div className="text-end">
+                <Link
+                  to="/user/forgot-password"
+                  className="text-sm font-medium text-blue-600 gap-x-1 decoration-2 hover:underline focus:outline-none focus:underline dark:text-blue-500"
+                >
+                  Forgot password?
+                </Link>
+              </div>
               <button
                 className="inline-flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg gap-x-2 hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
                 disabled={isPending}
