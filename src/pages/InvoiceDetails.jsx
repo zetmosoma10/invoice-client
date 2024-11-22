@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useLocation } from "react-router-dom";
 import dayjs from "dayjs";
 import StatusBadge from "../components/common/StatusBadge";
 import InvoiceAction from "../components/InvoiceAction";
@@ -6,13 +6,16 @@ import { getInvoice } from "../services/invoicesService";
 
 const InvoiceDetails = () => {
   const { id } = useParams();
+  const location = useLocation();
 
   const { data, isLoading, isError, error } = getInvoice(id);
+
+  const query = location.state?.query || "";
 
   return (
     <div className="max-w-[85rem] px-4 sm:px-6 lg:px-8 mx-auto my-4 sm:my-10 ">
       <Link
-        to="/"
+        to={`..?${query}`}
         className="flex items-center mb-10 text-base font-semibold text-gray-500 gap-x-2 hover:underline"
       >
         <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
@@ -189,28 +192,3 @@ const InvoiceDetails = () => {
 };
 
 export default InvoiceDetails;
-
-{
-  /* <a
-  className="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg gap-x-2 hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
-  href="#"
->
-  <svg
-    className="shrink-0 size-4"
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <polyline points="6 9 6 2 18 2 18 9" />
-    <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
-    <rect width="12" height="8" x="6" y="14" />
-  </svg>
-  Print
-</a>; */
-}

@@ -4,6 +4,7 @@ import StatusBadge from "./common/StatusBadge";
 const Invoice = ({
   id,
   status,
+  query,
   clientName,
   amountDue,
   paymentDue,
@@ -12,10 +13,11 @@ const Invoice = ({
   return (
     <Link
       to={`invoices/${id}`}
-      className="block bg-white md:flex md:justify-between py-3 px-4 mb-4 text-gray-500  rounded-lg shadow-sm hover:shadow-md"
+      state={{ query }}
+      className="block px-4 py-3 mb-4 text-gray-500 bg-white rounded-lg shadow-sm md:flex md:justify-between hover:shadow-md"
     >
       <div className="flex items-center justify-between md:gap-x-10">
-        <span className="text-gray-950 font-bold ">
+        <span className="font-bold text-gray-950 ">
           {invoiceNumber.toUpperCase()}
         </span>
         <p>{clientName}</p>
@@ -23,7 +25,7 @@ const Invoice = ({
       <div className="flex items-center justify-between mt-6 md:mt-0">
         <div className="flex flex-col md:flex-row">
           <span>{paymentDue}</span>
-          <span className="text-gray-950 font-bold md:mr-10 md:ml-24">
+          <span className="font-bold text-gray-950 md:mr-10 md:ml-24">
             R{amountDue}
           </span>
         </div>

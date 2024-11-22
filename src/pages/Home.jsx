@@ -1,13 +1,21 @@
+import { useEffect, useState } from "react";
 import Invoice from "../components/Invoice";
 import Pagination from "../components/Pagination";
 import Button from "../components/common/Button";
 import { getAllInvoices } from "../services/invoicesService";
-import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 const Home = () => {
-  const [page, setPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialPage = parseInt(searchParams.get("page")) || 1;
+  const [page, setPage] = useState(initialPage);
 
+  const queryStr = searchParams.toString();
   const { data, isError, isLoading, error } = getAllInvoices(page);
+
+  useEffect(() => {
+    setSearchParams({ page });
+  }, [page, setSearchParams]);
 
   const incrementPage = () => {
     setPage((prevPage) => prevPage + 1);
@@ -48,6 +56,7 @@ const Home = () => {
         <Invoice
           key={invoice._id}
           id={invoice._id}
+          query={queryStr}
           status={invoice.status}
           clientName={invoice.clientName}
           amountDue={invoice.amountDue}
