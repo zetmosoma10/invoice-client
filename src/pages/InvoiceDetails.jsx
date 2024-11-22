@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import StatusBadge from "../components/common/StatusBadge";
 import InvoiceAction from "../components/InvoiceAction";
 import { getInvoice } from "../services/invoicesService";
+import InvoiceDetailsSkeleton from "../components/skeletons/InvoiceDetailsSkeleton";
 
 const InvoiceDetails = () => {
   const { id } = useParams();
@@ -11,6 +12,10 @@ const InvoiceDetails = () => {
   const { data, isLoading, isError, error } = getInvoice(id);
 
   const query = location.state?.query || "";
+
+  if (isLoading) {
+    return <InvoiceDetailsSkeleton />;
+  }
 
   return (
     <div className="max-w-[85rem] px-4 sm:px-6 lg:px-8 mx-auto my-4 sm:my-10 ">

@@ -4,6 +4,7 @@ import Pagination from "../components/Pagination";
 import Button from "../components/common/Button";
 import { getAllInvoices } from "../services/invoicesService";
 import { useSearchParams } from "react-router-dom";
+import InvoiceSkeleton from "../components/skeletons/InvoiceSkeleton";
 
 const Home = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -30,7 +31,13 @@ const Home = () => {
   };
 
   if (isLoading) {
-    return <h2 className="text-3xl font-semibold ">Loading...</h2>;
+    return (
+      <div className="mt-28">
+        {[1, 2, 3, 4, 5].map((item) => (
+          <InvoiceSkeleton key={item} />
+        ))}
+      </div>
+    );
   }
 
   if (isError) {

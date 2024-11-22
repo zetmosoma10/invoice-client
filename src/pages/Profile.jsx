@@ -1,6 +1,7 @@
+import dayjs from "dayjs";
+import ProfileSkeleton from "../components/skeletons/ProfileSkeleton.jsx";
 import { useAuth } from "../context/AuthProvider";
 import { getCurrentUserDetails } from "../services/user.js";
-import dayjs from "dayjs";
 
 const Profile = () => {
   const { user } = useAuth();
@@ -8,7 +9,7 @@ const Profile = () => {
   const { data, isLoading, isError, error } = getCurrentUserDetails();
 
   if (isLoading) {
-    return <h2 className="text-3xl font-semibold ">Loading...</h2>;
+    return <ProfileSkeleton />;
   }
 
   if (isError) {
