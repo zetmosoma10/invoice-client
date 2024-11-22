@@ -5,6 +5,7 @@ import Button from "../components/common/Button";
 import { getAllInvoices } from "../services/invoicesService";
 import { useSearchParams } from "react-router-dom";
 import InvoiceSkeleton from "../components/skeletons/InvoiceSkeleton";
+import { getEmptyIcon } from "../utils/getEmptyIcon";
 
 const Home = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -45,7 +46,7 @@ const Home = () => {
   }
 
   return (
-    <>
+    <div className="min-h-screen ">
       <div className="flex items-start justify-between my-8">
         <div>
           <h1 className="font-bold text-2xl md:text-4xl leading-[-0.75px]">
@@ -59,18 +60,34 @@ const Home = () => {
           New Invoice
         </Button>
       </div>
-      {data?.invoices.map((invoice) => (
-        <Invoice
-          key={invoice._id}
-          id={invoice._id}
-          query={queryStr}
-          status={invoice.status}
-          clientName={invoice.clientName}
-          amountDue={invoice.amountDue}
-          paymentDue={invoice.paymentDue}
-          invoiceNumber={invoice.invoiceNumber}
-        />
-      ))}
+
+      {data?.totalInvoices === 0 ? (
+        <div className="flex items-center justify-center">
+          <div className="text-center">
+            <h4 className="text-xl font-bold sm:text-2xl text-gray-950">
+              There is nothing here
+            </h4>
+            <p className="text-gray-500">
+              Create an invoice by clicking the{" "}
+              <span className="font-bold">New Invoice</span> button and get
+              started.
+            </p>
+          </div>
+        </div>
+      ) : (
+        data?.invoices.map((invoice) => (
+          <Invoice
+            key={invoice._id}
+            id={invoice._id}
+            query={queryStr}
+            status={invoice.status}
+            clientName={invoice.clientName}
+            amountDue={invoice.amountDue}
+            paymentDue={invoice.paymentDue}
+            invoiceNumber={invoice.invoiceNumber}
+          />
+        ))
+      )}
       {data?.totalPages > 1 && (
         <Pagination
           currentPage={data?.currentPage}
@@ -80,7 +97,7 @@ const Home = () => {
           setCurrentPage={setCurrentPage}
         />
       )}
-    </>
+    </div>
   );
 };
 
