@@ -53,7 +53,7 @@ const NavBar = () => {
               >
                 <span className="inline-block overflow-hidden bg-gray-100 rounded-full size-6">
                   <svg
-                    class="size-full text-gray-300"
+                    className="text-gray-300 size-full"
                     width="16"
                     height="16"
                     viewBox="0 0 16 16"
