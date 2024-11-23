@@ -1,21 +1,9 @@
 import dayjs from "dayjs";
-import ProfileSkeleton from "../components/skeletons/ProfileSkeleton.jsx";
 import { useAuth } from "../context/AuthProvider";
-import { getCurrentUserDetails } from "../services/user.js";
 import { Link } from "react-router-dom";
 
 const Profile = () => {
-  const { user } = useAuth();
-
-  const { data, isLoading, isError, error } = getCurrentUserDetails();
-
-  if (isLoading) {
-    return <ProfileSkeleton />;
-  }
-
-  if (isError) {
-    return <h2 className="text-3xl font-semibold ">{error?.message}</h2>;
-  }
+  const { user, updateUser } = useAuth();
 
   return (
     <>
@@ -37,10 +25,10 @@ const Profile = () => {
       <div className="mt-10 bg-white shadow-lg w-[90%] mx-auto rounded-lg">
         <div className="flex items-start p-8 gap-x-6 ">
           <div className="relative">
-            {data?.user.profilePicUrl ? (
+            {user?.profilePicUrl ? (
               <img
                 className="inline-block size-[100px] sm:size-[140px] rounded-full"
-                src={profilePicUrl}
+                src={user?.profilePicUrl}
                 alt="Avatar"
               ></img>
             ) : (
@@ -72,7 +60,7 @@ const Profile = () => {
                 </svg>
               </span>
             )}
-            {data?.user.profilePicUrl ? (
+            {user?.profilePicUrl ? (
               <button className="absolute bottom-[-10px] left-0 right-0 text-xs sm:text-sm py-1   sm:py-2 sm:px-3 rounded-2xl  bg-blue-500 text-gray-100 text-nowrap ">
                 remove picture
               </button>
@@ -85,7 +73,7 @@ const Profile = () => {
           <div>
             <div className="border-b border-b-gray-300">
               <h3 className="text-lg font-semibold sm:text-2xl text-gray-950">
-                {user.firstName} {user.lastName}
+                {user?.firstName} {user?.lastName}
               </h3>
             </div>
             <div className="mt-2">
@@ -95,7 +83,7 @@ const Profile = () => {
                   href="#"
                   className="font-medium text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline dark:text-blue-500"
                 >
-                  {user.email}
+                  {user?.email}
                 </a>
               </p>
               <p className="text-sm text-gray-900 sm:text-base ">

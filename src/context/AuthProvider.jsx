@@ -1,17 +1,39 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { decodeJwt } from "../services/auth";
 import { useQueryClient } from "@tanstack/react-query";
+import { getUser } from "../services/user";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(decodeJwt());
+  const [user, setUser] = useState(null);
 
   const queryClient = useQueryClient();
 
-  const login = (token) => {
+  const updateUser = (updatedUser) => {
+    setUser(updatedUser); // This function updates the global user state
+  };
+
+  const fetchUser = async () => {
+    try {
+      const data = await getUser();
+      setUser(data?.user);
+    } catch (error) {
+      console.log("Error fetching user.", error);
+      logout();
+    }
+  };
+
+  useEffect(() => {
+    const token = decodeJwt();
+    if (token) {
+      fetchUser();
+    }
+  }, []);
+
+  const login = async (token) => {
     localStorage.setItem("token", token);
-    setUser(decodeJwt());
+    await fetchUser();
   };
 
   const logout = () => {
@@ -21,7 +43,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, updateUser, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
