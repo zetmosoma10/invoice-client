@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthProvider";
 
 const ProtectRoutes = () => {
   const { user } = useAuth();
+ 
 
   if (!user) {
     return (

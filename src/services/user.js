@@ -5,4 +5,19 @@ const getUser = async () => {
   return data;
 };
 
-export { getUser };
+// profilePicture
+const uploadFile = async (file) => {
+  const { data } = await axiosInstance.post(
+    `/user/upload-profile-image`,
+    file,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+
+  return data;
+};
+
+export { getUser, uploadFile };

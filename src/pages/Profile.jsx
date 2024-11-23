@@ -1,9 +1,42 @@
 import dayjs from "dayjs";
 import { useAuth } from "../context/AuthProvider";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { uploadFile } from "../services/user";
 
 const Profile = () => {
+  const [selectedFile, setSelectedFile] = useState(null);
   const { user, updateUser } = useAuth();
+  const [isLoading, setIsLoading] = useState("idle");
+
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!selectedFile) {
+      alert("Please select a file first");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("profilePicture", selectedFile);
+
+    try {
+      setIsLoading("submitting");
+      const data = await uploadFile(formData);
+      const profilePicUrl = data.profilePicUrl;
+      updateUser({ ...user, profilePicUrl });
+    } catch (error) {
+      setIsLoading("idle");
+      alert("Error happened while uploading image");
+      console.log(error);
+    } finally {
+      setIsLoading("idle");
+    }
+  };
 
   return (
     <>
@@ -27,7 +60,7 @@ const Profile = () => {
           <div className="relative">
             {user?.profilePicUrl ? (
               <img
-                className="inline-block size-[100px] sm:size-[140px] rounded-full"
+                className="inline-block size-[100px] sm:size-[140px] rounded-full object-cover"
                 src={user?.profilePicUrl}
                 alt="Avatar"
               ></img>
@@ -60,15 +93,6 @@ const Profile = () => {
                 </svg>
               </span>
             )}
-            {user?.profilePicUrl ? (
-              <button className="absolute bottom-[-10px] left-0 right-0 text-xs sm:text-sm py-1   sm:py-2 sm:px-3 rounded-2xl  bg-blue-500 text-gray-100 text-nowrap ">
-                remove picture
-              </button>
-            ) : (
-              <button className="absolute bottom-[-10px] left-0 right-0 text-xs sm:text-sm py-1   sm:py-2 sm:px-3 rounded-2xl  bg-blue-500 text-gray-100 text-nowrap ">
-                upload picture
-              </button>
-            )}
           </div>
           <div>
             <div className="border-b border-b-gray-300">
@@ -93,6 +117,25 @@ const Profile = () => {
                 </span>
               </p>
             </div>
+            <form onSubmit={handleSubmit} className="mt-3 flex-col gap-y-2">
+              <input type="file" accept="image/*" onChange={handleFileChange} />
+              <button
+                disabled={isLoading === "submitting"}
+                className="bg-blue-700 text-gray-50 text-sm py-2 px-4 disabled:bg-blue-400 disabled:cursor-wait rounded-3xl hover:bg-blue-500 capitalize active:scale-105"
+              >
+                {isLoading === "submitting" ? (
+                  <div
+                    className="animate-spin inline-block size-6 border-[3px] border-current border-t-transparent text-gray-50 rounded-full dark:text-gray-50"
+                    role="status"
+                    aria-label="loading"
+                  >
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                ) : (
+                  "upload"
+                )}
+              </button>
+            </form>
           </div>
         </div>
       </div>

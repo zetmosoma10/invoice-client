@@ -6,12 +6,12 @@ import { getUser } from "../services/user";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(decodeJwt());
 
   const queryClient = useQueryClient();
 
   const updateUser = (updatedUser) => {
-    setUser(updatedUser); // This function updates the global user state
+    setUser(updatedUser);
   };
 
   const fetchUser = async () => {
