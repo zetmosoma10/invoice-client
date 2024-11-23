@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import Invoice from "../components/Invoice";
 import Pagination from "../components/Pagination";
-import Button from "../components/common/Button";
 import { getAllInvoices } from "../services/invoicesService";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import InvoiceSkeleton from "../components/skeletons/InvoiceSkeleton";
 import ShowEmptyIcon from "../components/common/ShowEmptyIcon";
 import Dropdown from "../components/Dropdown";
@@ -56,16 +55,6 @@ const Home = () => {
     setPage(page);
   };
 
-  if (isLoading) {
-    return (
-      <div className="mt-28">
-        {[1, 2, 3, 4, 5].map((item) => (
-          <InvoiceSkeleton key={item} />
-        ))}
-      </div>
-    );
-  }
-
   if (isError) {
     return <h2 className="text-3xl font-semibold ">{error?.message}</h2>;
   }
@@ -91,12 +80,16 @@ const Home = () => {
             </>
           )}
         </div>
-        <Button className="text-white bg-blue-600 hover:bg-blue-700 focus:bg-blue-700">
-          New Invoice
-        </Button>
+       
       </div>
       {data?.totalInvoices === 0 ? (
         <ShowEmptyIcon />
+      ) : isLoading ? (
+        <div>
+          {[1, 2, 3, 4, 5].map((item) => (
+            <InvoiceSkeleton key={item} />
+          ))}
+        </div>
       ) : (
         data?.invoices.map((invoice) => (
           <Invoice

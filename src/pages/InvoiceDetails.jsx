@@ -1,15 +1,23 @@
-import { useParams, Link, useLocation } from "react-router-dom";
+import { useParams, Link, useLocation, useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import StatusBadge from "../components/common/StatusBadge";
 import InvoiceAction from "../components/InvoiceAction";
-import { getInvoice } from "../services/invoicesService";
+import { getInvoice, deleteInvoice } from "../services/invoicesService";
 import InvoiceDetailsSkeleton from "../components/skeletons/InvoiceDetailsSkeleton";
 
 const InvoiceDetails = () => {
   const { id } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const { data, isLoading, isError, error } = getInvoice(id);
+  const { mutate } = deleteInvoice();
+
+  const onDelete = (invoiceId) => {
+    mutate(invoiceId, {
+      onSuccess: () => navigate("/", { replace: true }),
+    });
+  };
 
   const query = location.state?.query || "";
 
@@ -34,7 +42,7 @@ const InvoiceDetails = () => {
         </svg>
         <span>Go back</span>
       </Link>
-      <InvoiceAction />
+      <InvoiceAction onDelete={() => onDelete(id)} />
       {/* Card */}
       <div className="flex flex-col p-4 mt-8 bg-white shadow-md sm:p-10 rounded-xl dark:bg-neutral-800">
         {/* Grid */}

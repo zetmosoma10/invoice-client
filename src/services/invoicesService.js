@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axiosInstance from "./axiosInstance.js";
 import { useAuth } from "../context/AuthProvider.jsx";
 
@@ -10,6 +10,7 @@ const fetchAllInvoice = async (page, status) => {
   return data;
 };
 
+// * GET ALL INVOICES
 const getAllInvoices = (page, status) => {
   const { user } = useAuth();
   return useQuery({
@@ -38,4 +39,37 @@ const getInvoice = (id) => {
   });
 };
 
-export { getAllInvoices, getInvoice };
+// * DELETE INVOICE
+
+const deleteRequest = async (id) => {
+  const { data } = await axiosInstance.delete(`/invoices/${id}`);
+  return data;
+};
+
+const deleteInvoice = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id) => deleteRequest(id),
+    onMutate: async (id) => {
+      queryClient.cancelQueries(["invoices"]);
+      const prevData = queryClient.getQueryData(["invoices"]);
+
+      queryClient.setQueryData(["invoices"], (oldData) => {
+        return oldData?.filter((invoice) => invoice._id !== id);
+      });
+
+      return prevData;
+    },
+
+    onError: (error, invoice, context) => {
+      queryClient.invalidateQueries(["invoices"], context.prevData);
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries(["invoices"]);
+    },
+  });
+};
+
+export { getAllInvoices, getInvoice, deleteInvoice };
