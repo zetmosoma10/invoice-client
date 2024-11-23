@@ -6,18 +6,41 @@ import { getAllInvoices } from "../services/invoicesService";
 import { useSearchParams } from "react-router-dom";
 import InvoiceSkeleton from "../components/skeletons/InvoiceSkeleton";
 import ShowEmptyIcon from "../components/common/ShowEmptyIcon";
+import Dropdown from "../components/Dropdown";
 
 const Home = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const initialPage = parseInt(searchParams.get("page")) || 1;
+  const initialStatus = searchParams.get("status") || "";
+
+  const [selectedStatus, setSelectedStatus] = useState(initialStatus);
   const [page, setPage] = useState(initialPage);
 
   const queryStr = searchParams.toString();
-  const { data, isError, isLoading, error } = getAllInvoices(page);
+
+  const { data, isError, isLoading, error } = getAllInvoices(
+    page,
+    selectedStatus
+  );
 
   useEffect(() => {
-    setSearchParams({ page });
-  }, [page, setSearchParams]);
+    setSearchParams((prevSearchParams) => {
+      const query = {
+        ...Object.fromEntries(prevSearchParams),
+        page,
+        status: selectedStatus,
+      };
+      if (!selectedStatus) delete query.status;
+      if (page === 1) delete query.page;
+
+      return query;
+    });
+  }, [page, selectedStatus, setSearchParams]);
+
+  const handleSelectedStatus = (status) => {
+    setSelectedStatus(status);
+    setPage(1);
+  };
 
   const incrementPage = () => {
     setPage((prevPage) => prevPage + 1);
@@ -55,12 +78,17 @@ const Home = () => {
           <p className="text-sm text-gray-500 md:text-base">
             There are {data?.totalInvoices} total invoices in database.
           </p>
+          <div className="mt-6">
+            <Dropdown
+              selectedStatus={selectedStatus}
+              handleSelectedStatus={handleSelectedStatus}
+            />
+          </div>
         </div>
         <Button className="text-white bg-blue-600 hover:bg-blue-700 focus:bg-blue-700">
           New Invoice
         </Button>
       </div>
-
       {data?.totalInvoices === 0 ? (
         <ShowEmptyIcon />
       ) : (
