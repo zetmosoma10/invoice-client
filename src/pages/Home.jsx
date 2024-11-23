@@ -5,7 +5,7 @@ import Button from "../components/common/Button";
 import { getAllInvoices } from "../services/invoicesService";
 import { useSearchParams } from "react-router-dom";
 import InvoiceSkeleton from "../components/skeletons/InvoiceSkeleton";
-import { getEmptyIcon } from "../utils/getEmptyIcon";
+import ShowEmptyIcon from "../components/common/ShowEmptyIcon";
 
 const Home = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -62,18 +62,7 @@ const Home = () => {
       </div>
 
       {data?.totalInvoices === 0 ? (
-        <div className="flex items-center justify-center">
-          <div className="text-center">
-            <h4 className="text-xl font-bold sm:text-2xl text-gray-950">
-              There is nothing here
-            </h4>
-            <p className="text-gray-500">
-              Create an invoice by clicking the{" "}
-              <span className="font-bold">New Invoice</span> button and get
-              started.
-            </p>
-          </div>
-        </div>
+        <ShowEmptyIcon />
       ) : (
         data?.invoices.map((invoice) => (
           <Invoice
