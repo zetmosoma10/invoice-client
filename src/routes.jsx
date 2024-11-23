@@ -9,6 +9,7 @@ import Profile from "./pages/Profile";
 import Logout from "./pages/Logout";
 import NotFoundPage from "./pages/NotFoundPage";
 import ProtectRoutes from "./components/ProtectRoutes";
+import RedirectIfAuthenticated from "./components/RedirectIfAuthenticated";
 
 const router = createBrowserRouter([
   {
@@ -33,12 +34,17 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "user/login",
-        element: <Login />,
-      },
-      {
-        path: "user/register",
-        element: <Register />,
+        element: <RedirectIfAuthenticated />,
+        children: [
+          {
+            path: "user/login",
+            element: <Login />,
+          },
+          {
+            path: "user/register",
+            element: <Register />,
+          },
+        ],
       },
       {
         path: "user/forgot-password",
