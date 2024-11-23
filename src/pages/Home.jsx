@@ -7,6 +7,7 @@ import { useSearchParams } from "react-router-dom";
 import InvoiceSkeleton from "../components/skeletons/InvoiceSkeleton";
 import ShowEmptyIcon from "../components/common/ShowEmptyIcon";
 import Dropdown from "../components/Dropdown";
+import { useAuth } from "../context/AuthProvider";
 
 const Home = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -15,6 +16,7 @@ const Home = () => {
 
   const [selectedStatus, setSelectedStatus] = useState(initialStatus);
   const [page, setPage] = useState(initialPage);
+  const { user } = useAuth();
 
   const queryStr = searchParams.toString();
 
@@ -75,15 +77,19 @@ const Home = () => {
           <h1 className="font-bold text-2xl md:text-4xl leading-[-0.75px]">
             Invoices
           </h1>
-          <p className="text-sm text-gray-500 md:text-base">
-            There are {data?.totalInvoices} total invoices in database.
-          </p>
-          <div className="mt-6">
-            <Dropdown
-              selectedStatus={selectedStatus}
-              handleSelectedStatus={handleSelectedStatus}
-            />
-          </div>
+          {user && (
+            <>
+              <p className="text-sm text-gray-500 md:text-base">
+                There are {data?.totalInvoices} total invoices in database.
+              </p>
+              <div className="mt-6">
+                <Dropdown
+                  selectedStatus={selectedStatus}
+                  handleSelectedStatus={handleSelectedStatus}
+                />
+              </div>
+            </>
+          )}
         </div>
         <Button className="text-white bg-blue-600 hover:bg-blue-700 focus:bg-blue-700">
           New Invoice

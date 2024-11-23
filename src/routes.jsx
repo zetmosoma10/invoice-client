@@ -8,6 +8,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import Profile from "./pages/Profile";
 import Logout from "./pages/Logout";
 import NotFoundPage from "./pages/NotFoundPage";
+import ProtectRoutes from "./components/ProtectRoutes";
 
 const router = createBrowserRouter([
   {
@@ -19,8 +20,17 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "invoices/:id",
-        element: <InvoiceDetails />,
+        element: <ProtectRoutes />,
+        children: [
+          {
+            path: "invoices/:id",
+            element: <InvoiceDetails />,
+          },
+          {
+            path: "user/profile",
+            element: <Profile />,
+          },
+        ],
       },
       {
         path: "user/login",
@@ -33,10 +43,6 @@ const router = createBrowserRouter([
       {
         path: "user/forgot-password",
         element: <ForgotPassword />,
-      },
-      {
-        path: "user/profile",
-        element: <Profile />,
       },
       {
         path: "user/logout",

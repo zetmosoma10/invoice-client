@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "../components/common/Input";
 import loginSchema from "../schemas/loginSchema";
@@ -8,6 +8,7 @@ import { useQueryClient } from "@tanstack/react-query";
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const {
     register,
     handleSubmit,
@@ -20,6 +21,7 @@ const Login = () => {
   const { mutate, isPending, isError, error } = loginUser();
 
   const onSubmit = (data) => {
+    location.state = null;
     mutate(data, {
       onSuccess: () => {
         reset();
@@ -28,6 +30,8 @@ const Login = () => {
       },
     });
   };
+
+  const message = location.state?.message || null;
 
   return (
     <div className="flex items-center justify-center h-screen">
@@ -51,6 +55,11 @@ const Login = () => {
           {isError && (
             <p className="mt-4 text-lg font-semibold text-center text-red-600 ">
               {error?.response.data.message}
+            </p>
+          )}
+          {message && (
+            <p className="mt-4 text-lg font-semibold text-center text-red-600 ">
+              {message}
             </p>
           )}
           <form onSubmit={handleSubmit(onSubmit)} className="mt-7" noValidate>
