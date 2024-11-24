@@ -39,9 +39,8 @@ const Pagination = ({
           key={page}
           type="button"
           onClick={() => setCurrentPage(page)}
-          className={`min-h-[38px] min-w-[38px] flex justify-center items-center bg-white text-gray-800 border border-gray-200 py-2 px-3 text-sm first:rounded-s-lg last:rounded-e-lg focus:outline-none $focus:bg-gray-300 hover:bg-gray-300 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-600 dark:border-neutral-700 dark:text-white  ${
-            currentPage === page && "bg-gray-400 dark:bg-neutral-500"
-          }`}
+          style={{ backgroundColor: currentPage === page && "lightgray" }}
+          className=" min-h-[38px] min-w-[38px] flex justify-center items-center bg-white text-gray-800 border border-gray-200 py-2 px-3 text-sm first:rounded-s-lg last:rounded-e-lg focus:outline-none $focus:bg-gray-300 hover:bg-gray-300 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-600 dark:border-neutral-700 dark:text-white"
           aria-current="page"
         >
           {page}

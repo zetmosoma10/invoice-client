@@ -31,6 +31,7 @@ const Home = () => {
         page,
         status: selectedStatus,
       };
+
       if (!selectedStatus) delete query.status;
       if (page === 1) delete query.page;
 
@@ -45,14 +46,17 @@ const Home = () => {
 
   const incrementPage = () => {
     setPage((prevPage) => prevPage + 1);
+    window.scrollTo(0, 0);
   };
 
   const decrementPage = () => {
     setPage((prevPage) => prevPage - 1);
+    window.scrollTo(0, 0);
   };
 
   const setCurrentPage = (page) => {
     setPage(page);
+    window.scrollTo(0, 0);
   };
 
   if (isError) {
@@ -80,7 +84,6 @@ const Home = () => {
             </>
           )}
         </div>
-       
       </div>
       {data?.totalInvoices === 0 ? (
         <ShowEmptyIcon />
