@@ -1,11 +1,14 @@
+import { useState, useEffect } from "react";
 import { useParams, Link, useLocation, useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import StatusBadge from "../components/common/StatusBadge";
 import InvoiceAction from "../components/InvoiceAction";
 import { getInvoice, deleteInvoice } from "../services/invoicesService";
 import InvoiceDetailsSkeleton from "../components/skeletons/InvoiceDetailsSkeleton";
+import Modal from "../components/Modal";
 
 const InvoiceDetails = () => {
+  const [modal, setModal] = useState(false);
   const { id } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
@@ -13,10 +16,34 @@ const InvoiceDetails = () => {
   const { data, isLoading, isError, error } = getInvoice(id);
   const { mutate } = deleteInvoice();
 
+  useEffect(() => {
+    if (modal) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [modal]);
+
   const onDelete = (invoiceId) => {
     mutate(invoiceId, {
-      onSuccess: () => navigate("/", { replace: true }),
+      onSuccess: () => {
+        setModal(false);
+        navigate("/", { replace: true });
+      },
     });
+  };
+
+  const addModal = () => {
+    console.log(modal);
+    setModal(true);
+  };
+
+  const removeModal = () => {
+    setModal(false);
   };
 
   const query = location.state?.query || "";
@@ -42,8 +69,16 @@ const InvoiceDetails = () => {
         </svg>
         <span>Go back</span>
       </Link>
-      <InvoiceAction onDelete={() => onDelete(id)} />
+      <InvoiceAction addModal={addModal} />
       {/* Card */}
+      {modal && (
+        <Modal
+          invoiceNumber={data?.invoice.invoiceNumber.toUpperCase()}
+          onDelete={() => onDelete(id)}
+          removeModal={removeModal}
+          isLoading={isLoading}
+        />
+      )}
       <div className="flex flex-col p-4 mt-8 bg-white shadow-md sm:p-10 rounded-xl dark:bg-neutral-800">
         {/* Grid */}
         <div className="flex justify-between">
