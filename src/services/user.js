@@ -6,7 +6,7 @@ const getUser = async () => {
   return data;
 };
 
-// * PSOT profile pic
+// * POST profile pic
 const uploadFile = async (file) => {
   const { data } = await axiosInstance.post(
     `/user/upload-profile-image`,
@@ -21,4 +21,11 @@ const uploadFile = async (file) => {
   return data;
 };
 
-export { getUser, uploadFile };
+// * REMOVE PROFILE
+//delete-profile-image
+const deleteProfilePics = async () => {
+  const { data } = await axiosInstance.post("/user/delete-profile-image");
+  return data;
+};
+
+export { getUser, uploadFile, deleteProfilePics };

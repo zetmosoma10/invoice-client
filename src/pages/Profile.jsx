@@ -2,15 +2,31 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import { useAuth } from "../context/AuthProvider";
-import { uploadFile } from "../services/user";
+import { uploadFile, deleteProfilePics } from "../services/user";
 
 const Profile = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const { user, updateUser } = useAuth();
-  const [isLoading, setIsLoading] = useState("idle");
+  const [isUpdatingPic, setIsUpdatingPic] = useState("idle");
+  const [isDeletingPic, setIsDeletingPic] = useState("idle");
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
+  };
+
+  const handleFileDelete = async () => {
+    try {
+      setIsDeletingPic("submitting");
+      const data = await deleteProfilePics();
+      const profilePicUrl = data.profilePicUrl;
+      updateUser({ ...user, profilePicUrl });
+    } catch (error) {
+      setIsDeletingPic("idle");
+      alert("Error happened while uploading image");
+      console.log(error);
+    } finally {
+      setIsDeletingPic("idle");
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -25,16 +41,17 @@ const Profile = () => {
     formData.append("profilePicture", selectedFile);
 
     try {
-      setIsLoading("submitting");
+      setIsUpdatingPic("submitting");
       const data = await uploadFile(formData);
       const profilePicUrl = data.profilePicUrl;
       updateUser({ ...user, profilePicUrl });
+      setSelectedFile(null);
     } catch (error) {
-      setIsLoading("idle");
+      setIsUpdatingPic("idle");
       alert("Error happened while uploading image");
       console.log(error);
     } finally {
-      setIsLoading("idle");
+      setIsUpdatingPic("idle");
     }
   };
 
@@ -125,21 +142,42 @@ const Profile = () => {
                 className="inline-block w-full "
               />
               <button
-                disabled={isLoading === "submitting"}
-                className="px-4 py-2 mt-2 text-sm capitalize bg-blue-700 text-gray-50 disabled:bg-blue-400 disabled:cursor-wait rounded-3xl hover:bg-blue-500 active:scale-105"
+                type="submit"
+                disabled={isUpdatingPic === "submitting"}
+                className="px-4 w-[130px] py-2 mt-2 text-sm capitalize bg-blue-700 text-gray-50 disabled:bg-blue-400 disabled:cursor-wait rounded-3xl hover:bg-blue-500 active:scale-105"
               >
-                {isLoading === "submitting" ? (
+                {isUpdatingPic === "submitting" ? (
                   <div
-                    className="animate-spin inline-block size-6 border-[3px] border-current border-t-transparent text-gray-50 rounded-full dark:text-gray-50"
+                    className="animate-spin inline-block size-3 border-[3px] border-current border-t-transparent text-gray-50 rounded-full dark:text-gray-50"
                     role="status"
                     aria-label="loading"
                   >
                     <span className="sr-only">Loading...</span>
                   </div>
                 ) : (
-                  "upload"
+                  "upload picture"
                 )}
               </button>
+              {user?.profilePicUrl && (
+                <button
+                  type="button"
+                  onClick={handleFileDelete}
+                  disabled={isDeletingPic === "submitting"}
+                  className="px-4 py-2 w-[130px] mt-2 ml-2 text-sm capitalize bg-gray-700 text-gray-50 disabled:bg-gray-400 disabled:cursor-wait rounded-3xl hover:bg-gray-500 active:scale-105"
+                >
+                  {isDeletingPic === "submitting" ? (
+                    <div
+                      className="animate-spin inline-block size-3 border-[3px] border-current border-t-transparent text-gray-50 rounded-full dark:text-gray-50"
+                      role="status"
+                      aria-label="loading"
+                    >
+                      <span className="sr-only">Loading...</span>
+                    </div>
+                  ) : (
+                    "delete picture"
+                  )}
+                </button>
+              )}
             </form>
           </div>
         </div>
