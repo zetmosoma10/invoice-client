@@ -3,7 +3,11 @@ import { useParams, Link, useLocation, useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import StatusBadge from "../components/common/StatusBadge";
 import InvoiceAction from "../components/InvoiceAction";
-import { getInvoice, deleteInvoice } from "../services/invoicesService";
+import {
+  getInvoice,
+  deleteInvoice,
+  markAsPaid,
+} from "../services/invoicesService";
 import InvoiceDetailsSkeleton from "../components/skeletons/InvoiceDetailsSkeleton";
 import Modal from "../components/Modal";
 
@@ -14,7 +18,8 @@ const InvoiceDetails = () => {
   const navigate = useNavigate();
 
   const { data, isLoading, isError, error } = getInvoice(id);
-  const { mutate } = deleteInvoice();
+  const { mutate: deleteMutation } = deleteInvoice();
+  const { mutate: markAsPaidMutation } = markAsPaid();
 
   useEffect(() => {
     if (modal) {
@@ -29,7 +34,7 @@ const InvoiceDetails = () => {
   }, [modal]);
 
   const onDelete = (invoiceId) => {
-    mutate(invoiceId, {
+    deleteMutation(invoiceId, {
       onSuccess: () => {
         setModal(false);
         navigate("/", { replace: true });
@@ -37,8 +42,11 @@ const InvoiceDetails = () => {
     });
   };
 
+  const onPaid = (invoiceId) => {
+    markAsPaidMutation(invoiceId);
+  };
+
   const addModal = () => {
-    console.log(modal);
     setModal(true);
   };
 
@@ -69,7 +77,7 @@ const InvoiceDetails = () => {
         </svg>
         <span>Go back</span>
       </Link>
-      <InvoiceAction addModal={addModal} />
+      <InvoiceAction onPaid={() => onPaid(id)} addModal={addModal} />
       {/* Card */}
       {modal && (
         <Modal

@@ -1,6 +1,6 @@
 import Button from "./common/Button";
 
-const InvoiceAction = ({ addModal }) => {
+const InvoiceAction = ({ addModal, onPaid }) => {
   return (
     <div className="flex items-center justify-end p-2 bg-white rounded-lg shadow-md">
       <div className="flex items-center gap-x-3">
@@ -13,7 +13,10 @@ const InvoiceAction = ({ addModal }) => {
         >
           Delete
         </Button>
-        <Button className="text-white bg-blue-600 hover:bg-blue-700 focus:bg-blue-700">
+        <Button
+          onClick={onPaid}
+          className="text-white bg-blue-600 hover:bg-blue-700 focus:bg-blue-700"
+        >
           Mark as Paid
         </Button>
       </div>

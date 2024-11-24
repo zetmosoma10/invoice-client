@@ -40,7 +40,6 @@ const getInvoice = (id) => {
 };
 
 // * DELETE INVOICE
-
 const deleteRequest = async (id) => {
   const { data } = await axiosInstance.delete(`/invoices/${id}`);
   return data;
@@ -52,14 +51,14 @@ const deleteInvoice = () => {
   return useMutation({
     mutationFn: (id) => deleteRequest(id),
     onMutate: async (id) => {
-      queryClient.cancelQueries(["invoices"]);
-      const prevData = queryClient.getQueryData(["invoices"]);
+      await queryClient.cancelQueries(["invoices"]);
+      const prevInvoices = queryClient.getQueryData(["invoices"]);
 
       queryClient.setQueryData(["invoices"], (oldData) => {
         return oldData?.filter((invoice) => invoice._id !== id);
       });
 
-      return prevData;
+      return { prevInvoices };
     },
 
     onError: (error, invoice, context) => {
@@ -72,4 +71,39 @@ const deleteInvoice = () => {
   });
 };
 
-export { getAllInvoices, getInvoice, deleteInvoice };
+// * MARK AS PAID
+const markAsPaidRequest = async (id) => {
+  const { data } = await axiosInstance.patch(`/invoices/${id}/markAsPaid`);
+  return data;
+};
+
+const markAsPaid = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id) => markAsPaidRequest(id),
+    onMutate: async (id) => {
+      await queryClient.cancelQueries(["invoices"]);
+      const prevInvoices = queryClient.getQueryData(["invoices"]);
+
+      queryClient.setQueryData(["invoices"], (oldData) => {
+        return oldData?.map((invoice) =>
+          invoice._id === id ? { ...invoice, status: "Paid" } : invoice
+        );
+      });
+
+      return { prevInvoices };
+    },
+
+    onError: (error, invoice, context) => {
+      queryClient.invalidateQueries(["invoices"], context.prevData);
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries(["invoices"]);
+      queryClient.invalidateQueries(["invoice", id]);
+    },
+  });
+};
+
+export { getAllInvoices, getInvoice, deleteInvoice, markAsPaid };
