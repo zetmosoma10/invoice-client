@@ -1,7 +1,7 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import { useAuth } from "../context/AuthProvider";
-import { Link } from "react-router-dom";
-import { useState } from "react";
 import { uploadFile } from "../services/user";
 
 const Profile = () => {
@@ -55,17 +55,17 @@ const Profile = () => {
         </svg>
         <span>Go back</span>
       </Link>
-      <div className="mt-10 bg-white shadow-lg w-[90%] mx-auto rounded-lg">
-        <div className="flex items-start p-8 gap-x-6 ">
-          <div className="relative">
+      <div className="mt-10 bg-white shadow-lg w-[95%] mx-auto rounded-lg">
+        <div className="p-6 text-center sm:text-left sm:flex sm:items-start sm:gap-x-6 ">
+          <div className="overflow-hidden rounded-full size-[140px] sm:size-[140px] mx-auto sm:mx-0">
             {user?.profilePicUrl ? (
               <img
-                className="inline-block size-[100px] sm:size-[140px] rounded-full object-cover"
+                className="inline-block object-cover w-full rounded-full"
                 src={user?.profilePicUrl}
                 alt="Avatar"
               ></img>
             ) : (
-              <span className="inline-block overflow-hidden bg-gray-700 dark:bg-gray-200 rounded-full size-[100px] sm:size-[140px]">
+              <span className="inline-block w-full bg-gray-700 dark:bg-gray-200 ">
                 <svg
                   className="text-gray-700 dark:text-gray-200 size-full"
                   width="16"
@@ -95,8 +95,8 @@ const Profile = () => {
             )}
           </div>
           <div>
-            <div className="border-b border-b-gray-300">
-              <h3 className="text-lg font-semibold sm:text-2xl text-gray-950">
+            <div className="mt-4 border-b sm:mt-0 border-b-gray-300">
+              <h3 className="text-xl font-semibold sm:text-2xl text-gray-950">
                 {user?.firstName} {user?.lastName}
               </h3>
             </div>
@@ -117,11 +117,16 @@ const Profile = () => {
                 </span>
               </p>
             </div>
-            <form onSubmit={handleSubmit} className="mt-3 flex-col gap-y-2">
-              <input type="file" accept="image/*" onChange={handleFileChange} />
+            <form onSubmit={handleSubmit} className="mt-3 ">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                className="inline-block w-full "
+              />
               <button
                 disabled={isLoading === "submitting"}
-                className="bg-blue-700 text-gray-50 text-sm py-2 px-4 disabled:bg-blue-400 disabled:cursor-wait rounded-3xl hover:bg-blue-500 capitalize active:scale-105"
+                className="px-4 py-2 mt-2 text-sm capitalize bg-blue-700 text-gray-50 disabled:bg-blue-400 disabled:cursor-wait rounded-3xl hover:bg-blue-500 active:scale-105"
               >
                 {isLoading === "submitting" ? (
                   <div

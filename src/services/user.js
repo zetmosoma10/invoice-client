@@ -1,11 +1,12 @@
 import axiosInstance from "./axiosInstance";
 
+// * GET user details
 const getUser = async () => {
   const { data } = await axiosInstance.get("/user/get-current-user");
   return data;
 };
 
-// profilePicture
+// * PSOT profile pic
 const uploadFile = async (file) => {
   const { data } = await axiosInstance.post(
     `/user/upload-profile-image`,
