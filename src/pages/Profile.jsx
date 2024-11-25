@@ -22,7 +22,7 @@ const Profile = () => {
       updateUser({ ...user, profilePicUrl });
     } catch (error) {
       setIsDeletingPic("idle");
-      alert("Error happened while uploading image");
+      alert("Error happened while deleting image");
       console.log(error);
     } finally {
       setIsDeletingPic("idle");

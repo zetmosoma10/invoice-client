@@ -12,20 +12,22 @@ const ItemsSection = ({ fields, remove, append, errors, register }) => {
               label="Item Name"
               id={`items.${index}.name`}
               register={register}
-              errors={errors}
+              errors={errors?.items?.[index]?.name}
             />
             <div className="grid grid-cols-3 gap-2">
               <Input
+                type="number"
                 label="Qty."
                 id={`items.${index}.quantity`}
                 register={register}
-                errors={errors}
+                errors={errors?.items?.[index]?.quantity}
               />
               <Input
+                type="number"
                 label="Price"
                 id={`items.${index}.price`}
                 register={register}
-                errors={errors}
+                errors={errors?.items?.[index]?.price}
               />
               {index > 0 && (
                 <svg
@@ -47,7 +49,7 @@ const ItemsSection = ({ fields, remove, append, errors, register }) => {
           </div>
         ))}
         <Button
-          onClick={() => append({ name: "", quantity: "", price: "" })}
+          onClick={() => append({ name: "", quantity: 0, price: 0 })}
           className="w-full rounded-3xl active:scale-95 text-center text-blue-700 bg-gray-200 hover:text-white hover:bg-gray-800 focus:bg-gray-800"
         >
           + Add New Item

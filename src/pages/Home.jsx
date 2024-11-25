@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useAuth } from "../context/AuthProvider";
+import { getAllInvoices } from "../services/invoicesService";
 import Invoice from "../components/Invoice";
 import Pagination from "../components/Pagination";
-import { getAllInvoices } from "../services/invoicesService";
 import InvoiceSkeleton from "../components/skeletons/InvoiceSkeleton";
 import ShowEmptyIcon from "../components/common/ShowEmptyIcon";
 import Dropdown from "../components/Dropdown";
-import { useAuth } from "../context/AuthProvider";
-import InvoiceForm from "../components/InvoiceForm";
+import InvoiceForm from "../components/invoice-form/InvoiceForm";
 import Button from "../components/common/Button";
 
 const Home = () => {

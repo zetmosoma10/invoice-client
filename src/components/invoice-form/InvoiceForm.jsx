@@ -1,9 +1,11 @@
 import { useForm, useFieldArray } from "react-hook-form";
-import Input from "./common/Input";
-import Button from "./common/Button";
-import AddressSection from "./invoice-form/AddressSection";
-import ItemsSection from "./invoice-form/ItemsSection";
-import PaymentTerms from "./invoice-form/PaymentTerms";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Input from "../common/Input";
+import Button from "../common/Button";
+import AddressSection from "./AddressSection";
+import ItemsSection from "./ItemsSection";
+import PaymentTerms from "./PaymentTerms";
+import invoiceSchema from "../../schemas/invoiceSchema";
 
 const InvoiceForm = ({ onFormClose }) => {
   const {
@@ -12,6 +14,7 @@ const InvoiceForm = ({ onFormClose }) => {
     control,
     formState: { errors },
   } = useForm({
+    resolver: zodResolver(invoiceSchema),
     defaultValues: {
       clientName: "",
       clientEmail: "",
@@ -32,8 +35,8 @@ const InvoiceForm = ({ onFormClose }) => {
       items: [
         {
           name: "",
-          quantity: "",
-          price: "",
+          quantity: 0,
+          price: 0,
         },
       ],
     },
@@ -82,13 +85,13 @@ const InvoiceForm = ({ onFormClose }) => {
             <p className="font-semibold text-blue-500">Bill To</p>
             <Input
               register={register}
-              errors={errors}
+              errors={errors?.clientName}
               label="Client's Name"
               id="clientName"
             />
             <Input
               register={register}
-              errors={errors}
+              errors={errors?.clientEmail}
               type="email"
               label="Client's Email"
               id="clientEmail"
@@ -101,11 +104,11 @@ const InvoiceForm = ({ onFormClose }) => {
             <PaymentTerms
               label="Payment Terms"
               id="paymentTerms"
-              errors={errors}
+              errors={errors?.paymentTerms}
               register={register}
             />
             <Input
-              errors={errors}
+              errors={errors?.description}
               register={register}
               label="Project Description"
               id="description"
