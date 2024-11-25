@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import Invoice from "../components/Invoice";
 import Pagination from "../components/Pagination";
 import { getAllInvoices } from "../services/invoicesService";
-import { Link, useSearchParams } from "react-router-dom";
 import InvoiceSkeleton from "../components/skeletons/InvoiceSkeleton";
 import ShowEmptyIcon from "../components/common/ShowEmptyIcon";
 import Dropdown from "../components/Dropdown";
 import { useAuth } from "../context/AuthProvider";
+import InvoiceForm from "../components/InvoiceForm";
+import Button from "../components/common/Button";
 
 const Home = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -15,6 +17,7 @@ const Home = () => {
 
   const [selectedStatus, setSelectedStatus] = useState(initialStatus);
   const [page, setPage] = useState(initialPage);
+  const [isFormOpen, setIsFormOpen] = useState(false);
   const { user } = useAuth();
 
   const queryStr = searchParams.toString();
@@ -39,6 +42,18 @@ const Home = () => {
     });
   }, [page, selectedStatus, setSearchParams]);
 
+  useEffect(() => {
+    if (isFormOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isFormOpen]);
+
   const handleSelectedStatus = (status) => {
     setSelectedStatus(status);
     setPage(1);
@@ -59,12 +74,21 @@ const Home = () => {
     window.scrollTo(0, 0);
   };
 
+  const onFormOpen = () => {
+    setIsFormOpen(true);
+  };
+
+  const onFormClose = () => {
+    setIsFormOpen(false);
+  };
+
   if (isError) {
     return <h2 className="text-3xl font-semibold ">{error?.message}</h2>;
   }
 
   return (
     <div className="min-h-screen ">
+      {isFormOpen && <InvoiceForm onFormClose={onFormClose} />}
       <div className="flex items-start justify-between my-8">
         <div>
           <h1 className="font-bold text-2xl md:text-4xl leading-[-0.75px]">
@@ -84,6 +108,12 @@ const Home = () => {
             </>
           )}
         </div>
+        <Button
+          onClick={onFormOpen}
+          className="text-white bg-blue-600 hover:bg-blue-700 focus:bg-blue-700"
+        >
+          New Invoice
+        </Button>
       </div>
       {data?.totalInvoices === 0 ? (
         <ShowEmptyIcon />

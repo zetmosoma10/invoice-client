@@ -62,7 +62,7 @@ const deleteInvoice = () => {
     },
 
     onError: (error, invoice, context) => {
-      queryClient.invalidateQueries(["invoices"], context.prevData);
+      queryClient.setQueryData(["invoices"], context.prevData);
     },
 
     onSettled: () => {
@@ -83,23 +83,27 @@ const markAsPaid = () => {
   return useMutation({
     mutationFn: (id) => markAsPaidRequest(id),
     onMutate: async (id) => {
-      await queryClient.cancelQueries(["invoices"]);
-      const prevInvoices = queryClient.getQueryData(["invoices"]);
+      await queryClient.cancelQueries(["invoices", id]);
+      const prevInvoices = queryClient.getQueryData(["invoices", id]);
 
-      queryClient.setQueryData(["invoices"], (oldData) => {
-        return oldData?.map((invoice) =>
-          invoice._id === id ? { ...invoice, status: "Paid" } : invoice
-        );
+      queryClient.setQueryData(["invoices", id], (oldData) => {
+        // return oldData?.map((invoice) =>
+        //   invoice._id === id ? { ...invoice, status: "Paid" } : invoice
+        // );
+        return {
+          ...oldData,
+          status: "Paid",
+        };
       });
 
-      return { prevInvoices };
+      return { prevInvoices, id };
     },
 
     onError: (error, invoice, context) => {
-      queryClient.invalidateQueries(["invoices"], context.prevData);
+      queryClient.setQueryData(["invoices", context.id], context.prevData);
     },
 
-    onSettled: () => {
+    onSettled: (id) => {
       queryClient.invalidateQueries(["invoices"]);
       queryClient.invalidateQueries(["invoice", id]);
     },

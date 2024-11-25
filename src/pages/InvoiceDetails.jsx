@@ -34,12 +34,9 @@ const InvoiceDetails = () => {
   }, [modal]);
 
   const onDelete = (invoiceId) => {
-    deleteMutation(invoiceId, {
-      onSuccess: () => {
-        setModal(false);
-        navigate("/", { replace: true });
-      },
-    });
+    setModal(false);
+    navigate("/", { replace: true });
+    deleteMutation(invoiceId);
   };
 
   const onPaid = (invoiceId) => {
