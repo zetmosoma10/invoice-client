@@ -110,7 +110,7 @@ const Home = () => {
         </div>
         <Button
           onClick={onFormOpen}
-          className="text-white bg-blue-600 hover:bg-blue-700 focus:bg-blue-700"
+          className="text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:bg-blue-700"
         >
           New Invoice
         </Button>
