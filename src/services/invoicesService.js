@@ -87,9 +87,6 @@ const markAsPaid = () => {
       const prevInvoices = queryClient.getQueryData(["invoices", id]);
 
       queryClient.setQueryData(["invoices", id], (oldData) => {
-        // return oldData?.map((invoice) =>
-        //   invoice._id === id ? { ...invoice, status: "Paid" } : invoice
-        // );
         return {
           ...oldData,
           status: "Paid",
@@ -110,4 +107,40 @@ const markAsPaid = () => {
   });
 };
 
-export { getAllInvoices, getInvoice, deleteInvoice, markAsPaid };
+// * CREATE INVOICE
+const createInvoiceRequest = async (invoice) => {
+  console.log("Before POST");
+  const { data } = await axiosInstance.post("/invoices", invoice);
+  console.log("After POST", data);
+  return data;
+};
+
+const createInvoice = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (invoice) => createInvoiceRequest(invoice),
+    onMutate: async (invoice) => {
+      await queryClient.cancelQueries(["invoices"]);
+
+      const prevInvoices = queryClient.getQueryData(["invoices"]);
+
+      queryClient.setQueryData(["invoices"], (oldInvoices) => {
+        return [
+          { ...invoice, id: `temp-${Date.now()}` },
+          ...(oldInvoices || []),
+        ];
+      });
+
+      return { prevInvoices };
+    },
+    onError: (error, invoice, context) => {
+      queryClient.setQueryData(["invoices"], context.prevInvoices);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(["invoices"]);
+    },
+  });
+};
+
+export { getAllInvoices, getInvoice, deleteInvoice, markAsPaid, createInvoice };
