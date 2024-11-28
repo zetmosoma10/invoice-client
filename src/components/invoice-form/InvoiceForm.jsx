@@ -6,9 +6,9 @@ import AddressSection from "./AddressSection";
 import ItemsSection from "./ItemsSection";
 import PaymentTerms from "./PaymentTerms";
 import invoiceSchema from "../../schemas/invoiceSchema";
-import { createInvoice } from "../../services/invoicesService";
+import { createInvoice, updateInvoice } from "../../services/invoicesService";
 
-const InvoiceForm = ({ onFormClose, invoice }) => {
+const InvoiceForm = ({ onFormClose, invoice, onUpdate }) => {
   const {
     register,
     handleSubmit,
@@ -53,7 +53,13 @@ const InvoiceForm = ({ onFormClose, invoice }) => {
     control,
   });
 
-  const { mutate, isPending, isError, error } = createInvoice();
+  const { mutate: createMutation, isPending, isError, error } = createInvoice();
+  const {
+    mutate: updateMutation,
+    isPending: isUpdatePending,
+    isError: isUpdateError,
+    error: updateError,
+  } = updateInvoice();
 
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) {
@@ -61,10 +67,15 @@ const InvoiceForm = ({ onFormClose, invoice }) => {
     }
   };
 
+  const handleUpdate = (data) => {
+    const payload = { ...invoice, ...data };
+    updateMutation(payload);
+  };
+
   const handleSave = (data, status) => {
     const payload = { ...data, status };
     try {
-      mutate(payload);
+      createMutation(payload);
       onFormClose();
     } catch (error) {
       console.log(error);
@@ -73,6 +84,11 @@ const InvoiceForm = ({ onFormClose, invoice }) => {
 
   const onSubmit = (data) => {
     handleSave(data, "Pending");
+  };
+
+  const onCancel = () => {
+    reset();
+    onFormClose();
   };
 
   return (
@@ -160,13 +176,13 @@ const InvoiceForm = ({ onFormClose, invoice }) => {
             {invoice?.clientName ? (
               <>
                 <Button
-                  onClick={() => reset()}
+                  onClick={onCancel}
                   className="text-blue-700 bg-gray-200 rounded-xl hover:text-white active:text-white hover:bg-gray-800 active:bg-gray-800"
                 >
                   Cancel
                 </Button>
                 <Button
-                  type="submit"
+                  onClick={handleSubmit((data) => handleUpdate(data))}
                   className="text-white bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 rounded-xl"
                 >
                   Save Changes

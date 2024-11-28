@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axiosInstance from "./axiosInstance.js";
 import { useAuth } from "../context/AuthProvider.jsx";
+import _ from "lodash";
 
 const fetchAllInvoice = async (page, status) => {
   const query = new URLSearchParams({ page });
@@ -31,7 +32,7 @@ const fetchInvoice = async (id) => {
 const getInvoice = (id) => {
   const { user } = useAuth();
   return useQuery({
-    queryKey: ["invoices", id],
+    queryKey: ["invoice", id],
     queryFn: () => fetchInvoice(id),
     staleTime: 10 * 60 * 1000,
     cacheTime: 15 * 60 * 1000,
@@ -142,4 +143,81 @@ const createInvoice = () => {
   });
 };
 
-export { getAllInvoices, getInvoice, deleteInvoice, markAsPaid, createInvoice };
+// * UPDATE INVOICE
+const updateInvoiceRequest = async (invoice) => {
+  const { id } = invoice;
+  const payload = _.omit(invoice, [
+    "__v",
+    "_id",
+    "id",
+    "user",
+    "amountDue",
+    "invoiceNumber",
+    "paymentDue",
+  ]);
+
+  const { data } = await axiosInstance.patch(`/invoices/${id}`, payload);
+  return data;
+};
+
+const updateInvoice = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (invoice) => updateInvoiceRequest(invoice),
+    onMutate: async (updatedInvoice) => {
+      await queryClient.cancelQueries(["invoices"]);
+      await queryClient.cancelQueries(["invoice", updatedInvoice._id]);
+
+      const prevInvoices = queryClient.getQueryData(["invoices"]);
+      const prevInvoiceDetails = queryClient.getQueryData([
+        "invoice",
+        updatedInvoice._id,
+      ]);
+
+      queryClient.setQueryData(["invoices"], (oldInvoices) => {
+        return oldInvoices?.map((invoice) =>
+          invoice.id === updateInvoice.id
+            ? { ...invoice, ...updateInvoice }
+            : invoice
+        );
+      });
+
+      queryClient.setQueryData(
+        ["invoice", updatedInvoice._id],
+        (oldInvoice) => {
+          return {
+            ...oldInvoice,
+            ...updatedInvoice,
+          };
+        }
+      );
+
+      return { prevInvoiceDetails, prevInvoices };
+    },
+
+    onError: (error, updatedInvoice, context) => {
+      console.log("Error while updating invoice");
+      console.log(error);
+      queryClient.setQueryData(["invoices"], context.prevInvoices);
+      queryClient.setQueryData(
+        ["invoice", updatedInvoice.id],
+        context.prevInvoiceDetails
+      );
+    },
+
+    onSettled: (updatedInvoice) => {
+      queryClient.invalidateQueries(["invoices"]);
+      queryClient.invalidateQueries(["invoice", updatedInvoice.id]);
+    },
+  });
+};
+
+export {
+  getAllInvoices,
+  getInvoice,
+  deleteInvoice,
+  markAsPaid,
+  createInvoice,
+  updateInvoice,
+};
