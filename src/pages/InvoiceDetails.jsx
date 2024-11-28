@@ -19,7 +19,7 @@ const InvoiceDetails = () => {
 
   const { data, isLoading, isError, error } = getInvoice(id);
   const { mutate: deleteMutation } = deleteInvoice();
-  const { mutate: markAsPaidMutation } = markAsPaid();
+  const { mutate: markAsPaidMutation, isPending } = markAsPaid();
 
   useEffect(() => {
     if (modal) {
@@ -75,6 +75,7 @@ const InvoiceDetails = () => {
         <span>Go back</span>
       </Link>
       <InvoiceAction
+        isPending={isPending}
         status={data?.invoice.status}
         onPaid={() => onPaid(id)}
         addModal={addModal}
@@ -98,7 +99,7 @@ const InvoiceDetails = () => {
             <h2 className="text-2xl font-semibold text-gray-800 md:text-3xl dark:text-neutral-200">
               Invoice #
             </h2>
-            <span className="block mt-1 text-gray-500 dark:text-neutral-500">
+            <span className="block mt-1 font-semibold text-gray-500 dark:text-neutral-500">
               {data?.invoice.invoiceNumber.toUpperCase()}
             </span>
             <address className="mt-4 not-italic text-gray-800 dark:text-neutral-200">

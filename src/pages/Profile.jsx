@@ -18,8 +18,7 @@ const Profile = () => {
     try {
       setIsDeletingPic("submitting");
       const data = await deleteProfilePics();
-      const profilePicUrl = data.profilePicUrl;
-      updateUser({ ...user, profilePicUrl });
+      updateUser(data.user);
     } catch (error) {
       setIsDeletingPic("idle");
       alert("Error happened while deleting image");
@@ -43,8 +42,7 @@ const Profile = () => {
     try {
       setIsUpdatingPic("submitting");
       const data = await uploadFile(formData);
-      const profilePicUrl = data.profilePicUrl;
-      updateUser({ ...user, profilePicUrl });
+      updateUser(data.user);
       setSelectedFile(null);
     } catch (error) {
       setIsUpdatingPic("idle");
@@ -121,7 +119,7 @@ const Profile = () => {
               <p className="text-sm text-gray-900 sm:text-base ">
                 Email:{" "}
                 <a
-                  href="#"
+                  href={`mailto:${user?.email}`}
                   className="font-medium text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline dark:text-blue-500"
                 >
                   {user?.email}
@@ -130,7 +128,7 @@ const Profile = () => {
               <p className="text-sm text-gray-900 sm:text-base ">
                 Account Created:{" "}
                 <span className="font-medium">
-                  {dayjs().format("DD MMM, YYYY")}
+                  {dayjs(user?.createdAt).format("DD MMM, YYYY")}
                 </span>
               </p>
             </div>
