@@ -109,9 +109,7 @@ const markAsPaid = () => {
 
 // * CREATE INVOICE
 const createInvoiceRequest = async (invoice) => {
-  console.log("Before POST");
   const { data } = await axiosInstance.post("/invoices", invoice);
-  console.log("After POST", data);
   return data;
 };
 
@@ -126,6 +124,7 @@ const createInvoice = () => {
       const prevInvoices = queryClient.getQueryData(["invoices"]);
 
       queryClient.setQueryData(["invoices"], (oldInvoices) => {
+        console.log({ ...invoice, id: `temp-${Date.now()}` });
         return [
           { ...invoice, id: `temp-${Date.now()}` },
           ...(oldInvoices || []),

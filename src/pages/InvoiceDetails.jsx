@@ -74,14 +74,17 @@ const InvoiceDetails = () => {
         </svg>
         <span>Go back</span>
       </Link>
-      <InvoiceAction onPaid={() => onPaid(id)} addModal={addModal} />
+      <InvoiceAction
+        status={data?.invoice.status}
+        onPaid={() => onPaid(id)}
+        addModal={addModal}
+      />
       {/* Card */}
       {modal && (
         <Modal
           invoiceNumber={data?.invoice.invoiceNumber.toUpperCase()}
           onDelete={() => onDelete(id)}
           removeModal={removeModal}
-          isLoading={isLoading}
         />
       )}
       <div className="flex flex-col p-4 mt-8 bg-white shadow-md sm:p-10 rounded-xl dark:bg-neutral-800">

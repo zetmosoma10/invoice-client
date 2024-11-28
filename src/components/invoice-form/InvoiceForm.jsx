@@ -7,8 +7,11 @@ import ItemsSection from "./ItemsSection";
 import PaymentTerms from "./PaymentTerms";
 import invoiceSchema from "../../schemas/invoiceSchema";
 import { createInvoice } from "../../services/invoicesService";
+import { useState } from "react";
 
 const InvoiceForm = ({ onFormClose }) => {
+  const [isDraftLoading, setIsDraftLoading] = useState("idle");
+  const [isLoading, setIsLoading] = useState("idle");
   const {
     register,
     handleSubmit,
@@ -51,11 +54,17 @@ const InvoiceForm = ({ onFormClose }) => {
 
   const { mutate, isPending, isError, error } = createInvoice();
 
+  const handleOverlayClick = (e) => {
+    if (e.target === e.currentTarget) {
+      onFormClose();
+    }
+  };
+
   const handleSave = (data, status) => {
     const payload = { ...data, status };
-    console.log(payload);
     try {
       mutate(payload);
+      onFormClose();
     } catch (error) {
       console.log(error);
     }
@@ -66,7 +75,10 @@ const InvoiceForm = ({ onFormClose }) => {
   };
 
   return (
-    <section className="z-10 absolute top-0 bottom-0 left-0 w-full min-h-screen bg-gray-950 bg-opacity-15">
+    <section
+      onClick={handleOverlayClick}
+      className="absolute top-0 bottom-0 left-0 z-10 w-full min-h-screen bg-gray-950 bg-opacity-15"
+    >
       <div className="overflow-y-scroll  bg-white pt-8 px-6 absolute top-0 left-0 bottom-0 h-screen w-full md:w-[75%] lg:w-[60%]">
         <button
           onClick={onFormClose}
@@ -139,7 +151,7 @@ const InvoiceForm = ({ onFormClose }) => {
           <div className="sticky bottom-0 left-0 right-0 w-full  z-20 bg-white drop-shadow-[0_-5px_100px_rgba(0,0,0,0.3)] flex items-center justify-end py-6 px-2 space-x-2 mt-40 ">
             <Button
               onClick={() => reset()}
-              className="text-blue-700 rounded-xl bg-gray-200 hover:text-white hover:bg-gray-800 focus:bg-gray-800"
+              className="text-blue-700 bg-gray-200 rounded-xl hover:text-white active:text-white hover:bg-gray-800 active:bg-gray-800"
             >
               Discard
             </Button>
