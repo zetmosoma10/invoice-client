@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../context/AuthProvider";
 import { getAllInvoices } from "../services/invoicesService";
 import Invoice from "../components/Invoice";
@@ -18,6 +18,7 @@ const Home = () => {
   const [selectedStatus, setSelectedStatus] = useState(initialStatus);
   const [page, setPage] = useState(initialPage);
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const navigate = useNavigate();
   const { user } = useAuth();
 
   const queryStr = searchParams.toString();
@@ -75,7 +76,11 @@ const Home = () => {
   };
 
   const onFormOpen = () => {
-    setIsFormOpen(true);
+    if (user) {
+      setIsFormOpen(true);
+    } else {
+      navigate("user/login", { state: { message: "You should login first" } });
+    }
   };
 
   const onFormClose = () => {

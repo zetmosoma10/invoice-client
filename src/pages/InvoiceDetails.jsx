@@ -1,18 +1,20 @@
 import { useState, useEffect } from "react";
 import { useParams, Link, useLocation, useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
-import StatusBadge from "../components/common/StatusBadge";
-import InvoiceAction from "../components/InvoiceAction";
 import {
   getInvoice,
   deleteInvoice,
   markAsPaid,
 } from "../services/invoicesService";
+import StatusBadge from "../components/common/StatusBadge";
+import InvoiceAction from "../components/InvoiceAction";
 import InvoiceDetailsSkeleton from "../components/skeletons/InvoiceDetailsSkeleton";
 import Modal from "../components/Modal";
+import InvoiceForm from "./../components/invoice-form/InvoiceForm";
 
 const InvoiceDetails = () => {
   const [modal, setModal] = useState(false);
+  const [isInvoiceFormOpen, setIsInvoiceFormOpen] = useState(false);
   const { id } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
@@ -22,7 +24,7 @@ const InvoiceDetails = () => {
   const { mutate: markAsPaidMutation, isPending } = markAsPaid();
 
   useEffect(() => {
-    if (modal) {
+    if (modal || isInvoiceFormOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
@@ -31,7 +33,7 @@ const InvoiceDetails = () => {
     return () => {
       document.body.style.overflow = "auto";
     };
-  }, [modal]);
+  }, [modal, isInvoiceFormOpen]);
 
   const onDelete = (invoiceId) => {
     setModal(false);
@@ -41,6 +43,14 @@ const InvoiceDetails = () => {
 
   const onPaid = (invoiceId) => {
     markAsPaidMutation(invoiceId);
+  };
+
+  const onFormOpen = () => {
+    setIsInvoiceFormOpen(true);
+  };
+
+  const onFormClose = () => {
+    setIsInvoiceFormOpen(false);
   };
 
   const addModal = () => {
@@ -59,6 +69,9 @@ const InvoiceDetails = () => {
 
   return (
     <div className="max-w-[85rem] px-4 sm:px-6 lg:px-8 mx-auto my-4 sm:my-10 ">
+      {isInvoiceFormOpen && (
+        <InvoiceForm onFormClose={onFormClose} invoice={data?.invoice} />
+      )}
       <Link
         to={`..?${query}`}
         className="flex items-center mb-10 text-base font-semibold text-gray-500 gap-x-2 hover:underline"
@@ -78,6 +91,7 @@ const InvoiceDetails = () => {
         isPending={isPending}
         status={data?.invoice.status}
         onPaid={() => onPaid(id)}
+        onFormOpen={onFormOpen}
         addModal={addModal}
       />
       {/* Card */}

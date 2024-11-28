@@ -1,11 +1,12 @@
 import Button from "./common/Button";
 
-const InvoiceAction = ({ addModal, onPaid, status, isPending }) => {
+const InvoiceAction = ({ addModal, onPaid, status, isPending, onFormOpen }) => {
   return (
     <div className="flex items-center justify-end p-2 bg-white rounded-lg shadow-md">
       <div className="flex items-center gap-x-3">
         {status !== "Paid" && (
           <Button
+            onClick={onFormOpen}
             disable={isPending}
             className="text-blue-700 bg-gray-200 rounded-lg hover:text-white hover:bg-gray-800 focus:bg-gray-800 focus:text-white"
           >

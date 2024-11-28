@@ -7,11 +7,8 @@ import ItemsSection from "./ItemsSection";
 import PaymentTerms from "./PaymentTerms";
 import invoiceSchema from "../../schemas/invoiceSchema";
 import { createInvoice } from "../../services/invoicesService";
-import { useState } from "react";
 
-const InvoiceForm = ({ onFormClose }) => {
-  const [isDraftLoading, setIsDraftLoading] = useState("idle");
-  const [isLoading, setIsLoading] = useState("idle");
+const InvoiceForm = ({ onFormClose, invoice }) => {
   const {
     register,
     handleSubmit,
@@ -21,23 +18,27 @@ const InvoiceForm = ({ onFormClose }) => {
   } = useForm({
     resolver: zodResolver(invoiceSchema),
     defaultValues: {
-      clientName: "",
-      clientEmail: "",
-      paymentTerms: "",
-      description: "",
+      clientName: invoice?.clientName || "",
+      clientEmail: invoice?.clientEmail || "",
+      paymentTerms: invoice?.paymentTerms || "",
+      description: invoice?.description || "",
       senderAddress: {
-        street: "",
-        city: "",
-        postalCode: "",
-        country: "",
+        street: invoice?.senderAddress.street || "",
+        city: invoice?.senderAddress.city || "",
+        postalCode: invoice?.senderAddress.postalCode || "",
+        country: invoice?.senderAddress.country || "",
       },
       clientAddress: {
-        street: "",
-        city: "",
-        postalCode: "",
-        country: "",
+        street: invoice?.clientAddress.street || "",
+        city: invoice?.clientAddress.city || "",
+        postalCode: invoice?.clientAddress.postalCode || "",
+        country: invoice?.clientAddress.country || "",
       },
-      items: [
+      items: invoice?.items.map((item) => ({
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price,
+      })) || [
         {
           name: "",
           quantity: 0,
@@ -96,7 +97,14 @@ const InvoiceForm = ({ onFormClose }) => {
           <span>Go back</span>
         </button>
         <h4 className="text-2xl font-bold mt-6 leading-[-0.5px] text-gray-950">
-          New Invoice
+          {invoice?.clientName ? (
+            <span>
+              Edit <span className="text-blue-500">#</span>
+              {invoice?.invoiceNumber.toUpperCase()}
+            </span>
+          ) : (
+            "New Invoice"
+          )}
         </h4>
         <form onSubmit={handleSubmit(onSubmit)} className="mt-5">
           <div className="space-y-6">
@@ -149,26 +157,45 @@ const InvoiceForm = ({ onFormClose }) => {
           />
 
           <div className="sticky bottom-0 left-0 right-0 w-full  z-20 bg-white drop-shadow-[0_-5px_100px_rgba(0,0,0,0.3)] flex items-center justify-end py-6 px-2 space-x-2 mt-40 ">
-            <Button
-              onClick={() => reset()}
-              className="text-blue-700 bg-gray-200 rounded-xl hover:text-white active:text-white hover:bg-gray-800 active:bg-gray-800"
-            >
-              Discard
-            </Button>
-            <Button
-              disabled={isPending}
-              onClick={handleSubmit((data) => handleSave(data, "Draft"))}
-              className="text-white bg-gray-800 hover:bg-gray-900 focus:bg-gray-900 dark:bg-white dark:text-neutral-800 rounded-xl"
-            >
-              Save as Draft
-            </Button>
-            <Button
-              disabled={isPending}
-              type="submit"
-              className="text-white bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 rounded-xl"
-            >
-              Save & Send
-            </Button>
+            {invoice?.clientName ? (
+              <>
+                <Button
+                  onClick={() => reset()}
+                  className="text-blue-700 bg-gray-200 rounded-xl hover:text-white active:text-white hover:bg-gray-800 active:bg-gray-800"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  className="text-white bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 rounded-xl"
+                >
+                  Save Changes
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  onClick={() => reset()}
+                  className="text-blue-700 bg-gray-200 rounded-xl hover:text-white active:text-white hover:bg-gray-800 active:bg-gray-800"
+                >
+                  Discard
+                </Button>
+                <Button
+                  disabled={isPending}
+                  onClick={handleSubmit((data) => handleSave(data, "Draft"))}
+                  className="text-white bg-gray-800 hover:bg-gray-900 focus:bg-gray-900 dark:bg-white dark:text-neutral-800 rounded-xl"
+                >
+                  Save as Draft
+                </Button>
+                <Button
+                  disabled={isPending}
+                  type="submit"
+                  className="text-white bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 rounded-xl"
+                >
+                  Save & Send
+                </Button>
+              </>
+            )}
           </div>
         </form>
       </div>
