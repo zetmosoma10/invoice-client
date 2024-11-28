@@ -68,14 +68,14 @@ const Login = () => {
                 type="email"
                 label="Email address"
                 id="email"
-                errors={errors}
+                errors={errors?.email}
                 register={register}
               />
               <Input
                 type="password"
                 label="Password"
                 id="password"
-                errors={errors}
+                errors={errors?.password}
                 register={register}
               />
               <div className="text-end">

@@ -64,13 +64,13 @@ const Register = () => {
                   label="First Name"
                   id="firstName"
                   register={register}
-                  errors={errors}
+                  errors={errors?.firstName}
                 />
                 <Input
                   label="Last Name"
                   id="lastName"
                   register={register}
-                  errors={errors}
+                  errors={errors?.lastName}
                 />
               </div>
               <Input
@@ -78,21 +78,21 @@ const Register = () => {
                 type="email"
                 id="email"
                 register={register}
-                errors={errors}
+                errors={errors?.email}
               />
               <Input
                 label="Password"
                 type="password"
                 id="password"
                 register={register}
-                errors={errors}
+                errors={errors?.password}
               />
               <Input
                 label="Confirm Password"
                 type="password"
                 id="confirmPassword"
                 register={register}
-                errors={errors}
+                errors={errors?.confirmPassword}
               />
               <button
                 className="inline-flex items-center justify-center w-full px-4 py-3 mt-3 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg gap-x-2 hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"

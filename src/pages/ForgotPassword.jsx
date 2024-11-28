@@ -47,7 +47,7 @@ const ForgotPassword = () => {
                   type="email"
                   id="email"
                   register={register}
-                  errors={errors}
+                  errors={errors?.email}
                 />
                 <button className="inline-flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg gap-x-2 hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
                   Reset password
