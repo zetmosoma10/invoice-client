@@ -1,4 +1,12 @@
+import { motion } from "motion/react";
 import Button from "./common/Button";
+
+// Animation Variants
+const modalVariants = {
+  hidden: { opacity: 0, scale: 0.8 },
+  visible: { opacity: 1, scale: 1 },
+  exit: { opacity: 0, scale: 0.8 },
+};
 
 const Modal = ({ invoiceNumber, onDelete, removeModal, isDeletePending }) => {
   const handleOverlayClick = (e) => {
@@ -12,7 +20,13 @@ const Modal = ({ invoiceNumber, onDelete, removeModal, isDeletePending }) => {
       onClick={handleOverlayClick}
       className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50"
     >
-      <div className="p-4 md:px-8 md:py-6 mx-4 bg-white rounded-lg shadow-lg max-w-[500px]">
+      <motion.div
+        variants={modalVariants}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+        className="p-4 md:px-8 md:py-6 mx-4 bg-white rounded-lg shadow-lg max-w-[500px]"
+      >
         <div className="p-5">
           <h3 className="font-bold text-xl md:text-2xl leading-[-0.5] text-gray-950">
             Confirm Deletion
@@ -38,7 +52,7 @@ const Modal = ({ invoiceNumber, onDelete, removeModal, isDeletePending }) => {
             </Button>
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };

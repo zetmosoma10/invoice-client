@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { motion, AnimatePresence } from "motion/react";
 import { useAuth } from "../context/AuthProvider";
 import { getAllInvoices } from "../services/invoicesService";
 import Invoice from "../components/Invoice";
@@ -91,9 +92,21 @@ const Home = () => {
     return <h2 className="text-3xl font-semibold ">{error?.message}</h2>;
   }
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
   return (
     <div className="min-h-screen ">
-      {isFormOpen && <InvoiceForm onFormClose={onFormClose} />}
+      <AnimatePresence>
+        {isFormOpen && <InvoiceForm onFormClose={onFormClose} />}
+      </AnimatePresence>
       <div className="flex items-start justify-between my-8">
         <div>
           <h1 className="font-bold text-2xl md:text-4xl leading-[-0.75px]">
@@ -130,18 +143,27 @@ const Home = () => {
           ))}
         </div>
       ) : (
-        data?.invoices.map((invoice) => (
-          <Invoice
-            key={invoice._id}
-            id={invoice._id}
-            query={queryStr}
-            status={invoice.status}
-            clientName={invoice.clientName}
-            amountDue={invoice.amountDue}
-            paymentDue={invoice.paymentDue}
-            invoiceNumber={invoice.invoiceNumber}
-          />
-        ))
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          layout
+        >
+          <AnimatePresence>
+            {data?.invoices.map((invoice) => (
+              <Invoice
+                key={invoice._id}
+                id={invoice._id}
+                query={queryStr}
+                status={invoice.status}
+                clientName={invoice.clientName}
+                amountDue={invoice.amountDue}
+                paymentDue={invoice.paymentDue}
+                invoiceNumber={invoice.invoiceNumber}
+              />
+            ))}
+          </AnimatePresence>
+        </motion.div>
       )}
       {data?.totalPages > 1 && (
         <Pagination

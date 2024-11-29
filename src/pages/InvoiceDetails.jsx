@@ -1,17 +1,18 @@
 import { useState, useEffect } from "react";
 import { useParams, Link, useLocation, useNavigate } from "react-router-dom";
-import dayjs from "dayjs";
+import { AnimatePresence } from "motion/react";
 import { toast } from "react-toastify";
-import {
-  getInvoice,
-  deleteInvoice,
-  markAsPaid,
-} from "../services/invoicesService";
+import dayjs from "dayjs";
 import StatusBadge from "../components/common/StatusBadge";
 import InvoiceAction from "../components/InvoiceAction";
 import InvoiceDetailsSkeleton from "../components/skeletons/InvoiceDetailsSkeleton";
 import Modal from "../components/Modal";
 import InvoiceForm from "./../components/invoice-form/InvoiceForm";
+import {
+  getInvoice,
+  deleteInvoice,
+  markAsPaid,
+} from "../services/invoicesService";
 
 const InvoiceDetails = () => {
   const [modal, setModal] = useState(false);
@@ -48,7 +49,6 @@ const InvoiceDetails = () => {
       onSuccess: () => {
         setModal(false);
         navigate("/", { replace: true });
-        toast.success("Invoice deleted successfully");
       },
       onError: (error) => {
         toast.error(error.response.data.message);
@@ -95,9 +95,11 @@ const InvoiceDetails = () => {
 
   return (
     <div className="max-w-[85rem] px-4 sm:px-6 lg:px-8 mx-auto my-4 sm:my-10 ">
-      {isInvoiceFormOpen && (
-        <InvoiceForm onFormClose={onFormClose} invoice={data?.invoice} />
-      )}
+      <AnimatePresence>
+        {isInvoiceFormOpen && (
+          <InvoiceForm onFormClose={onFormClose} invoice={data?.invoice} />
+        )}
+      </AnimatePresence>
       <Link
         to={`..?${query}`}
         className="flex items-center mb-10 text-base font-semibold text-gray-500 gap-x-2 hover:underline"
@@ -121,14 +123,16 @@ const InvoiceDetails = () => {
         addModal={addModal}
       />
       {/* Card */}
-      {modal && (
-        <Modal
-          invoiceNumber={data?.invoice.invoiceNumber.toUpperCase()}
-          onDelete={() => onDelete(id)}
-          removeModal={removeModal}
-          isDeletePending={isDeletePending}
-        />
-      )}
+      <AnimatePresence>
+        {modal && (
+          <Modal
+            invoiceNumber={data?.invoice.invoiceNumber.toUpperCase()}
+            onDelete={() => onDelete(id)}
+            removeModal={removeModal}
+            isDeletePending={isDeletePending}
+          />
+        )}
+      </AnimatePresence>
       <div className="flex flex-col p-4 mt-8 bg-white shadow-md sm:p-10 rounded-xl dark:bg-neutral-800">
         {/* Grid */}
         <div className="flex justify-between">
@@ -161,7 +165,7 @@ const InvoiceDetails = () => {
         {/* Grid */}
         <div className="grid gap-3 mt-8 sm:grid-cols-2">
           <div>
-            <h3 className="text-lg font-semibold text-gray-800 dark:text-neutral-200">
+            {/* <h3 className="text-lg font-semibold text-gray-800 dark:text-neutral-200">
               Bill to:{"  "}
               <a
                 href={`mailto:${data?.invoice.clientEmail}`}
@@ -169,11 +173,13 @@ const InvoiceDetails = () => {
               >
                 {data?.invoice.clientEmail}
               </a>
-            </h3>
+            </h3> */}
             <h3 className="mt-3 text-lg font-semibold text-gray-800 dark:text-neutral-200">
-              Bill details:
+              Bill to:{" "}
+              <span className="font-medium text-gray-500">
+                {data?.invoice.clientName}
+              </span>
             </h3>
-            <p className="font-medium">{data?.invoice.clientName}</p>
             <address className="not-italic text-gray-500 dark:text-neutral-500">
               {data?.invoice.clientAddress.street}
               <br />
@@ -206,6 +212,7 @@ const InvoiceDetails = () => {
                   {data?.invoice.paymentDue}
                 </span>
               </div>
+
               {data?.invoice.status === "Paid" && (
                 <div className="">
                   <span className="block font-semibold text-blue-500 sm:inline-block sm:mr-2 dark:text-neutral-200">
@@ -216,6 +223,17 @@ const InvoiceDetails = () => {
                   </span>
                 </div>
               )}
+              <div className="">
+                <span className="block font-semibold text-gray-800 sm:inline-block sm:mr-2 dark:text-neutral-200">
+                  Email:
+                </span>
+                <a
+                  href={`mailto:${data?.invoice.clientEmail}`}
+                  className="text-blue-500 dark:text-blue-500 hover:underline"
+                >
+                  {data?.invoice.clientEmail}
+                </a>
+              </div>
             </div>
             {/* End Grid */}
           </div>

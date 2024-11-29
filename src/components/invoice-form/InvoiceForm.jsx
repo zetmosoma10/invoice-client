@@ -1,5 +1,6 @@
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "react-toastify";
 import Input from "../common/Input";
 import Button from "../common/Button";
 import AddressSection from "./AddressSection";
@@ -7,7 +8,7 @@ import ItemsSection from "./ItemsSection";
 import PaymentTerms from "./PaymentTerms";
 import invoiceSchema from "../../schemas/invoiceSchema";
 import { createInvoice, updateInvoice } from "../../services/invoicesService";
-import { toast } from "react-toastify";
+import { motion } from "motion/react";
 
 const InvoiceForm = ({ onFormClose, invoice }) => {
   const {
@@ -79,7 +80,6 @@ const InvoiceForm = ({ onFormClose, invoice }) => {
     updateMutation(payload, {
       onSuccess: () => {
         onFormClose();
-        toast.success("Invoice Updated successfully");
       },
       onError: (error) => {
         toast.error(error.message);
@@ -92,7 +92,6 @@ const InvoiceForm = ({ onFormClose, invoice }) => {
     createMutation(payload, {
       onSuccess: () => {
         onFormClose();
-        toast.success("Invoice created successfully");
       },
       onError: (error) => {
         toast.error(error.message);
@@ -114,7 +113,13 @@ const InvoiceForm = ({ onFormClose, invoice }) => {
       onClick={handleOverlayClick}
       className="absolute top-0 bottom-0 left-0 z-10 w-full min-h-screen bg-gray-950 bg-opacity-15"
     >
-      <div className="overflow-y-scroll  bg-white pt-8 px-6 absolute top-0 left-0 bottom-0 h-screen w-full md:w-[75%] lg:w-[60%]">
+      <motion.div
+        initial={{ x: "-100%" }}
+        animate={{ x: 0 }}
+        exit={{ x: "-100%" }}
+        transition={{ duration: 0.3 }}
+        className="overflow-y-scroll  bg-white pt-8 px-6 absolute top-0 left-0 bottom-0 h-screen w-full md:w-[75%] lg:w-[60%]"
+      >
         <button
           onClick={onFormClose}
           className="flex items-center text-base font-semibold text-gray-500 gap-x-2 hover:underline"
@@ -245,7 +250,7 @@ const InvoiceForm = ({ onFormClose, invoice }) => {
             )}
           </div>
         </form>
-      </div>
+      </motion.div>
     </section>
   );
 };
