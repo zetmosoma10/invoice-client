@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { jwtDecode } from "jwt-decode";
 import { useAuth } from "../context/AuthProvider";
 
+// * LOGIN USER
 const loginRequest = async (user) => {
   const { data } = await axiosInstance.post("/auth/login", user);
   return data;
@@ -16,13 +17,10 @@ const loginUser = () => {
     onSuccess: (data) => {
       login(data.token);
     },
-    onError: (error) => {
-      console.log("Error logging user");
-      console.log(error);
-    },
   });
 };
 
+// * REGISTER USER
 const registerRequest = async (user) => {
   const { data } = await axiosInstance.post("/auth/register", user);
   return data;
@@ -35,10 +33,6 @@ const registerUser = () => {
     mutationFn: registerRequest,
     onSuccess: (data) => {
       login(data.token);
-    },
-    onError: (error) => {
-      console.log("Error logging user");
-      console.log(error);
     },
   });
 };

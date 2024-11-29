@@ -6,6 +6,7 @@ import _ from "lodash";
 import { registerUser } from "../services/auth.js";
 import registerSchema from "../schemas/registerSchema.js";
 import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -27,6 +28,10 @@ const Register = () => {
         reset();
         queryClient.invalidateQueries(["invoices"]);
         navigate("/", { replace: true });
+      },
+      onError: (error) => {
+        if (!error?.status)
+          toast.error(`${error.message}. Please try again later.`);
       },
     });
   };
@@ -51,7 +56,7 @@ const Register = () => {
             </p>
           </div>
 
-          {isError && (
+          {isError && error?.status === 400 && (
             <p className="mt-4 text-lg font-semibold text-center text-red-600 ">
               {error?.response.data.message}
             </p>

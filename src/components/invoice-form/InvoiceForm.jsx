@@ -7,8 +7,9 @@ import ItemsSection from "./ItemsSection";
 import PaymentTerms from "./PaymentTerms";
 import invoiceSchema from "../../schemas/invoiceSchema";
 import { createInvoice, updateInvoice } from "../../services/invoicesService";
+import { toast } from "react-toastify";
 
-const InvoiceForm = ({ onFormClose, invoice, onUpdate }) => {
+const InvoiceForm = ({ onFormClose, invoice }) => {
   const {
     register,
     handleSubmit,
@@ -53,7 +54,13 @@ const InvoiceForm = ({ onFormClose, invoice, onUpdate }) => {
     control,
   });
 
-  const { mutate: createMutation, isPending, isError, error } = createInvoice();
+  const {
+    mutate: createMutation,
+    isPending: isCreatePending,
+    isError: isCreateError,
+    error: createError,
+  } = createInvoice();
+
   const {
     mutate: updateMutation,
     isPending: isUpdatePending,
@@ -69,17 +76,28 @@ const InvoiceForm = ({ onFormClose, invoice, onUpdate }) => {
 
   const handleUpdate = (data) => {
     const payload = { ...invoice, ...data };
-    updateMutation(payload);
+    updateMutation(payload, {
+      onSuccess: () => {
+        onFormClose();
+        toast.success("Invoice Updated successfully");
+      },
+      onError: (error) => {
+        toast.error(error.message);
+      },
+    });
   };
 
   const handleSave = (data, status) => {
     const payload = { ...data, status };
-    try {
-      createMutation(payload);
-      onFormClose();
-    } catch (error) {
-      console.log(error);
-    }
+    createMutation(payload, {
+      onSuccess: () => {
+        onFormClose();
+        toast.success("Invoice created successfully");
+      },
+      onError: (error) => {
+        toast.error(error.message);
+      },
+    });
   };
 
   const onSubmit = (data) => {
@@ -172,6 +190,18 @@ const InvoiceForm = ({ onFormClose, invoice, onUpdate }) => {
             errors={errors}
           />
 
+          {isCreateError ? (
+            <p className="my-3 text-red-500">
+              {createError.response.data.message}
+            </p>
+          ) : null}
+
+          {isUpdateError ? (
+            <p className="my-3 text-red-500">
+              {updateError.response.data.message}
+            </p>
+          ) : null}
+
           <div className="sticky bottom-0 left-0 right-0 w-full  z-20 bg-white drop-shadow-[0_-5px_100px_rgba(0,0,0,0.3)] flex items-center justify-end py-6 px-2 space-x-2 mt-40 ">
             {invoice?.clientName ? (
               <>
@@ -182,10 +212,11 @@ const InvoiceForm = ({ onFormClose, invoice, onUpdate }) => {
                   Cancel
                 </Button>
                 <Button
+                  disabled={isUpdatePending}
                   onClick={handleSubmit((data) => handleUpdate(data))}
                   className="text-white bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 rounded-xl"
                 >
-                  Save Changes
+                  {isUpdatePending ? "Saving..." : "Save Changes"}
                 </Button>
               </>
             ) : (
@@ -197,18 +228,18 @@ const InvoiceForm = ({ onFormClose, invoice, onUpdate }) => {
                   Discard
                 </Button>
                 <Button
-                  disabled={isPending}
+                  disabled={isCreatePending}
                   onClick={handleSubmit((data) => handleSave(data, "Draft"))}
                   className="text-white bg-gray-800 hover:bg-gray-900 focus:bg-gray-900 dark:bg-white dark:text-neutral-800 rounded-xl"
                 >
                   Save as Draft
                 </Button>
                 <Button
-                  disabled={isPending}
+                  disabled={isCreatePending}
                   type="submit"
                   className="text-white bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 rounded-xl"
                 >
-                  Save & Send
+                  {isCreatePending ? "Saving..." : "Save & Send"}
                 </Button>
               </>
             )}

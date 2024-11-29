@@ -1,6 +1,6 @@
 import Button from "./common/Button";
 
-const Modal = ({ invoiceNumber, onDelete, removeModal }) => {
+const Modal = ({ invoiceNumber, onDelete, removeModal, isDeletePending }) => {
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) {
       removeModal();
@@ -30,10 +30,11 @@ const Modal = ({ invoiceNumber, onDelete, removeModal }) => {
               Cancel
             </Button>
             <Button
+              disabled={isDeletePending}
               onClick={onDelete}
               className="text-white bg-red-500 hover:bg-red-600 focus:bg-red-600 rounded-2xl"
             >
-              Delete
+              {isDeletePending ? "Deleting..." : "Delete"}
             </Button>
           </div>
         </div>

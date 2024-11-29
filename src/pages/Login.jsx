@@ -5,6 +5,7 @@ import Input from "../components/common/Input";
 import loginSchema from "../schemas/loginSchema";
 import { loginUser } from "../services/auth.js";
 import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -27,6 +28,10 @@ const Login = () => {
         reset();
         queryClient.invalidateQueries(["invoices"]);
         navigate("/", { replace: true });
+      },
+      onError: (error) => {
+        if (!error?.status)
+          toast.error(`${error.message}. Please try again later.`);
       },
     });
   };
@@ -52,7 +57,7 @@ const Login = () => {
               </Link>
             </p>
           </div>
-          {isError && (
+          {isError && error.status >= 400 && error.status < 500 && (
             <p className="mt-4 text-lg font-semibold text-center text-red-600 ">
               {error?.response.data.message}
             </p>

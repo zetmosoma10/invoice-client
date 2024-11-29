@@ -18,7 +18,6 @@ const getAllInvoices = (page, status) => {
     queryKey: ["invoices", page, status],
     queryFn: () => fetchAllInvoice(page, status),
     staleTime: 10 * 60 * 1000,
-    cacheTime: 15 * 60 * 1000,
     enabled: !!user,
   });
 };

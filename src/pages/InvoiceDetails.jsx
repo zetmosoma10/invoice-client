@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Link, useLocation, useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
+import { toast } from "react-toastify";
 import {
   getInvoice,
   deleteInvoice,
@@ -19,8 +20,15 @@ const InvoiceDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { data, isLoading, isError, error } = getInvoice(id);
-  const { mutate: deleteMutation } = deleteInvoice();
+  const {
+    data,
+    isLoading: isInvoicePending,
+    isError: isInvoiceError,
+    error: invoiceError,
+  } = getInvoice(id);
+
+  const { mutate: deleteMutation, isPending: isDeletePending } =
+    deleteInvoice();
   const { mutate: markAsPaidMutation, isPending } = markAsPaid();
 
   useEffect(() => {
@@ -36,13 +44,27 @@ const InvoiceDetails = () => {
   }, [modal, isInvoiceFormOpen]);
 
   const onDelete = (invoiceId) => {
-    setModal(false);
-    navigate("/", { replace: true });
-    deleteMutation(invoiceId);
+    deleteMutation(invoiceId, {
+      onSuccess: () => {
+        setModal(false);
+        navigate("/", { replace: true });
+        toast.success("Invoice deleted successfully");
+      },
+      onError: (error) => {
+        toast.error(error.response.data.message);
+      },
+    });
   };
 
   const onPaid = (invoiceId) => {
-    markAsPaidMutation(invoiceId);
+    markAsPaidMutation(invoiceId, {
+      onSuccess: () => {
+        toast.success("Invoice Paid successfully");
+      },
+      onError: (error) => {
+        toast.error(error.message);
+      },
+    });
   };
 
   const onFormOpen = () => {
@@ -63,8 +85,12 @@ const InvoiceDetails = () => {
 
   const query = location.state?.query || "";
 
-  if (isLoading) {
+  if (isInvoicePending) {
     return <InvoiceDetailsSkeleton />;
+  }
+
+  if (isInvoiceError && invoiceError.status === 404) {
+    return navigate("/not-found", { replace: true });
   }
 
   return (
@@ -100,6 +126,7 @@ const InvoiceDetails = () => {
           invoiceNumber={data?.invoice.invoiceNumber.toUpperCase()}
           onDelete={() => onDelete(id)}
           removeModal={removeModal}
+          isDeletePending={isDeletePending}
         />
       )}
       <div className="flex flex-col p-4 mt-8 bg-white shadow-md sm:p-10 rounded-xl dark:bg-neutral-800">
