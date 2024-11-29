@@ -9,7 +9,10 @@ const Input = ({
 }) => {
   return (
     <div>
-      <label htmlFor={id} className="block mb-2 text-sm dark:text-white">
+      <label
+        htmlFor={id}
+        className="block mb-2 text-sm font-medium dark:text-white"
+      >
         {label}
       </label>
       <div className="relative">

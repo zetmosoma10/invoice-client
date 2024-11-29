@@ -90,7 +90,7 @@ const NavBar = () => {
               </Link>
               <Link
                 to="user/logout"
-                className="px-2 py-1 ml-4 text-blue-600 transition-all border bg-gray-50 rounded-3xl hover:scale-105"
+                className="px-2 py-1 ml-4 text-sm text-blue-600 transition-all border md:text-base bg-gray-50 rounded-3xl hover:scale-105"
               >
                 Logout
               </Link>

@@ -10,15 +10,15 @@ const InvoiceDetailsSkeleton = () => {
       <div className="flex flex-col p-4 mt-8 bg-white shadow-md sm:p-10 rounded-xl dark:bg-neutral-800">
         {/* Grid */}
         <div className="flex justify-between">
-          <div className="h-6 w-[120px] bg-gray-200 rounded-full text-end"></div>
+          <div className="h-3 w-[80px] mr-3 md:h-6 md:w-[120px] bg-gray-200 rounded-full text-end"></div>
           {/* Col */}
           <div className="text-end">
-            <h2 className="h-8 w-[150px] bg-gray-200 rounded-full text-end"></h2>
+            <h2 className="h-4 w-[100px] md:h-8 md:w-[150px] bg-gray-200 rounded-full"></h2>
             <address className="mt-4 space-y-2">
-              <span className="h-3 w-[200px] rounded-full bg-gray-200 block "></span>
-              <span className="h-3 w-[200px] rounded-full bg-gray-200 block"></span>
-              <span className="h-3 w-[200px] rounded-full bg-gray-200 block"></span>
-              <span className="h-3 w-[200px] rounded-full bg-gray-200 block"></span>
+              <span className="h-2 w-[150px] md:h-3 md:w-[200px] rounded-full bg-gray-200 block "></span>
+              <span className="h-2 w-[150px] md:h-3 md:w-[200px] rounded-full bg-gray-200 block"></span>
+              <span className="h-2 w-[150px] md:h-3 md:w-[200px] rounded-full bg-gray-200 block"></span>
+              <span className="h-2 w-[150px] md:h-3 md:w-[200px] rounded-full bg-gray-200 block"></span>
             </address>
           </div>
           {/* Col */}
@@ -30,10 +30,10 @@ const InvoiceDetailsSkeleton = () => {
           <div>
             <h3 className="h-6 w-[150px]"></h3>
             <address className="mt-4 space-y-2">
-              <span className="h-3 w-[200px] rounded-full bg-gray-200 block "></span>
-              <span className="h-3 w-[200px] rounded-full bg-gray-200 block"></span>
-              <span className="h-3 w-[200px] rounded-full bg-gray-200 block"></span>
-              <span className="h-3 w-[200px] rounded-full bg-gray-200 block"></span>
+              <span className="h-2 w-[150px] md:h-3 md:w-[200px] rounded-full bg-gray-200 block "></span>
+              <span className="h-2 w-[150px] md:h-3 md:w-[200px] rounded-full bg-gray-200 block"></span>
+              <span className="h-2 w-[150px] md:h-3 md:w-[200px] rounded-full bg-gray-200 block"></span>
+              <span className="h-2 w-[150px] md:h-3 md:w-[200px] rounded-full bg-gray-200 block"></span>
               <br />
             </address>
           </div>

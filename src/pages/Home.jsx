@@ -120,6 +120,7 @@ const Home = () => {
           New Invoice
         </Button>
       </div>
+      {!user && <ShowEmptyIcon />}
       {data?.totalInvoices === 0 ? (
         <ShowEmptyIcon />
       ) : isLoading ? (

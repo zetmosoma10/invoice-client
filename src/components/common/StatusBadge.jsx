@@ -1,10 +1,4 @@
 const StatusBadge = ({ status, className }) => {
-  // const colorClasses = {
-  //   GREEN: "bg-GREEN text-GREEN dark:bg-GREEN dark:text-GREEN",
-  //   ORANGE: "bg-ORANGE text-ORANGE dark:bg-ORANGE dark:text-ORANGE",
-  //   LIGHT_GREY: "bg-LIGHT_GREY text-LIGHT_GREY dark:bg-LIGHT dark:text-LIGHT",
-  // };
-
   let color;
   if (status === "Draft")
     color = "bg-LIGHT_GREY text-LIGHT_GREY dark:bg-LIGHT dark:text-LIGHT";
@@ -15,7 +9,7 @@ const StatusBadge = ({ status, className }) => {
 
   return (
     <span
-      className={`inline-flex items-center justify-center gap-x-1.5 pt-[14px] pb-[11px] w-[105px] rounded-md text-sm 
+      className={`inline-flex items-center justify-center gap-x-1.5 pt-[10px] md:pt-[14px] pb-[8px] md:pb-[11px] w-[90px] md:w-[105px] rounded-md text-sm 
         font-semibold  bg-opacity-15  dark:bg-opacity-5 ${className} ${color}`}
     >
       <span

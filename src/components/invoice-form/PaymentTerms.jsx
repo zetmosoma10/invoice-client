@@ -3,7 +3,7 @@ const PaymentTerms = ({ label, id, errors, register }) => {
   return (
     <div className="grid gap-6">
       <div className="space-y-2">
-        <label htmlFor={id} className="text-sm">
+        <label htmlFor={id} className="text-sm font-medium">
           {label}
         </label>
         <select
