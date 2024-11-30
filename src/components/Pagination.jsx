@@ -1,3 +1,4 @@
+import { useOutletContext } from "react-router-dom";
 import _ from "lodash";
 
 const Pagination = ({
@@ -8,6 +9,15 @@ const Pagination = ({
   totalPages,
 }) => {
   const pageArray = _.range(1, totalPages + 1);
+
+  const { darkMode } = useOutletContext();
+
+  let bgColor;
+  if (darkMode) {
+    bgColor = "#3f3f46";
+  } else {
+    bgColor = "lightgray";
+  }
 
   return (
     <nav
@@ -42,7 +52,7 @@ const Pagination = ({
           key={page}
           type="button"
           onClick={() => setCurrentPage(page)}
-          style={{ backgroundColor: currentPage === page && "#3f3f46" }}
+          style={{ backgroundColor: currentPage === page && bgColor }}
           className=" min-h-[38px] min-w-[38px] flex justify-center items-center bg-white dark:bg-neutral-900 text-gray-800 border border-gray-200 py-2 px-3 text-sm first:rounded-s-lg last:rounded-e-lg focus:outline-none $focus:bg-gray-300 hover:bg-gray-300 dark:hover:bg-neutral-700 disabled:opacity-50 disabled:pointer-events-none  dark:border-neutral-700 dark:text-neutral-200"
           aria-current="page"
         >

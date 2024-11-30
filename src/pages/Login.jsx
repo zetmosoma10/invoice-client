@@ -73,6 +73,7 @@ const Login = () => {
                 type="email"
                 label="Email address"
                 id="email"
+                autoFocus={true}
                 errors={errors?.email}
                 register={register}
               />

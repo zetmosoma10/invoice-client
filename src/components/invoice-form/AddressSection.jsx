@@ -8,6 +8,7 @@ const AddressSection = ({ register, errors, baseId }) => {
         errors={errors?.[baseId]?.street}
         label="Street Address"
         id={`${baseId}.street`}
+        autoFocus={baseId === "senderAddress"}
       />
       <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
         <Input

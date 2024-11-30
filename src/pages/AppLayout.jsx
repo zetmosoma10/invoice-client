@@ -30,7 +30,7 @@ function AppLayout() {
         <NavBar toggleDarkMode={toggleDarkMode} darkMode={darkMode} />
         <ToastContainer />
         <section className="flex-1 flex  justify-center">
-          <Outlet />
+          <Outlet context={{ darkMode }} />
         </section>
       </main>
     </AuthProvider>

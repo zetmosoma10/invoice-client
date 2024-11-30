@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { motion, AnimatePresence } from "motion/react";
+import { AnimatePresence } from "motion/react";
 import { useAuth } from "../context/AuthProvider";
 import { getAllInvoices } from "../services/invoicesService";
 import Invoice from "../components/Invoice";
@@ -92,16 +92,6 @@ const Home = () => {
     return <h2 className="text-3xl font-semibold ">{error?.message}</h2>;
   }
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
   return (
     <div className=" max-container my-3">
       <AnimatePresence>
@@ -143,27 +133,18 @@ const Home = () => {
           ))}
         </div>
       ) : (
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          layout
-        >
-          <AnimatePresence>
-            {data?.invoices.map((invoice) => (
-              <Invoice
-                key={invoice._id}
-                id={invoice._id}
-                query={queryStr}
-                status={invoice.status}
-                clientName={invoice.clientName}
-                amountDue={invoice.amountDue}
-                paymentDue={invoice.paymentDue}
-                invoiceNumber={invoice.invoiceNumber}
-              />
-            ))}
-          </AnimatePresence>
-        </motion.div>
+        data?.invoices.map((invoice) => (
+          <Invoice
+            key={invoice._id}
+            id={invoice._id}
+            query={queryStr}
+            status={invoice.status}
+            clientName={invoice.clientName}
+            amountDue={invoice.amountDue}
+            paymentDue={invoice.paymentDue}
+            invoiceNumber={invoice.invoiceNumber}
+          />
+        ))
       )}
       {data?.totalPages > 1 && (
         <Pagination

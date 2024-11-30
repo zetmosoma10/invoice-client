@@ -68,6 +68,7 @@ const Register = () => {
                 <Input
                   label="First Name"
                   id="firstName"
+                  autoFocus={true}
                   register={register}
                   errors={errors?.firstName}
                 />

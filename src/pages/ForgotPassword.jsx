@@ -46,6 +46,7 @@ const ForgotPassword = () => {
                   label="Email Address"
                   type="email"
                   id="email"
+                  autoFocus={true}
                   register={register}
                   errors={errors?.email}
                 />
