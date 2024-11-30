@@ -296,10 +296,10 @@ const ShowEmptyIcon = () => {
             />
           </g>
         </svg>
-        <h4 className="text-xl font-bold sm:text-2xl text-gray-950 mt-3">
+        <h4 className="mt-3 text-xl font-bold sm:text-2xl text-gray-950 dark:text-neutral-200">
           There is nothing here
         </h4>
-        <p className="text-gray-500">
+        <p className="text-gray-500 dark:text-neutral-500">
           Create an invoice by clicking the{" "}
           <span className="font-bold">New Invoice</span> button and get started.
         </p>

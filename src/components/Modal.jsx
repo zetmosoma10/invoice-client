@@ -25,16 +25,18 @@ const Modal = ({ invoiceNumber, onDelete, removeModal, isDeletePending }) => {
         initial="hidden"
         animate="visible"
         exit="exit"
-        className="p-4 md:px-8 md:py-6 mx-4 bg-white rounded-lg shadow-lg max-w-[500px]"
+        className="p-4 md:px-8 md:py-6 mx-4 bg-white dark:bg-neutral-800 rounded-lg shadow-lg max-w-[500px]"
       >
         <div className="p-5">
-          <h3 className="font-bold text-xl md:text-2xl leading-[-0.5] text-gray-950">
+          <h3 className="font-bold text-xl md:text-2xl leading-[-0.5] text-gray-950 dark:text-neutral-200">
             Confirm Deletion
           </h3>
-          <p className="mt-2 text-sm text-gray-500">
+          <p className="mt-2 text-sm text-gray-500 dark:text-neutral-200">
             Are you sure you want to delete invoice{" "}
-            <span className="font-bold text-gray-950">{invoiceNumber}</span>?
-            This action cannot be undone.
+            <span className="font-bold text-gray-950 dark:text-neutral-200">
+              #{invoiceNumber}
+            </span>
+            ? This action cannot be undone.
           </p>
           <div className="flex items-center justify-end mt-5 gap-x-2">
             <Button

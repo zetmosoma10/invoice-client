@@ -10,12 +10,15 @@ const Pagination = ({
   const pageArray = _.range(1, totalPages + 1);
 
   return (
-    <nav className="flex items-center mt-6 -space-x-px" aria-label="Pagination">
+    <nav
+      className="flex items-center mt-6 -space-x-px dark:bg-neutral-900"
+      aria-label="Pagination"
+    >
       <button
         type="button"
         disabled={currentPage === 1}
         onClick={decrementPage}
-        className="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm first:rounded-s-lg last:rounded-e-lg bg-white border border-gray-200 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:border-neutral-700 dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10"
+        className="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm first:rounded-s-lg last:rounded-e-lg bg-white dark:bg-neutral-900 border border-gray-200 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:border-neutral-700 dark:text-neutral-200 dark:hover:bg-white/10 dark:focus:bg-white/10"
         aria-label="Previous"
       >
         <svg
@@ -39,8 +42,8 @@ const Pagination = ({
           key={page}
           type="button"
           onClick={() => setCurrentPage(page)}
-          style={{ backgroundColor: currentPage === page && "lightgray" }}
-          className=" min-h-[38px] min-w-[38px] flex justify-center items-center bg-white text-gray-800 border border-gray-200 py-2 px-3 text-sm first:rounded-s-lg last:rounded-e-lg focus:outline-none $focus:bg-gray-300 hover:bg-gray-300 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-600 dark:border-neutral-700 dark:text-white"
+          style={{ backgroundColor: currentPage === page && "#3f3f46" }}
+          className=" min-h-[38px] min-w-[38px] flex justify-center items-center bg-white dark:bg-neutral-900 text-gray-800 border border-gray-200 py-2 px-3 text-sm first:rounded-s-lg last:rounded-e-lg focus:outline-none $focus:bg-gray-300 hover:bg-gray-300 dark:hover:bg-neutral-700 disabled:opacity-50 disabled:pointer-events-none  dark:border-neutral-700 dark:text-neutral-200"
           aria-current="page"
         >
           {page}
@@ -51,7 +54,7 @@ const Pagination = ({
         type="button"
         disabled={currentPage === totalPages}
         onClick={incrementPage}
-        className="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm first:rounded-s-lg last:rounded-e-lg bg-white border border-gray-200 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:border-neutral-700 dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10"
+        className="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm first:rounded-s-lg last:rounded-e-lg bg-white dark:bg-neutral-900 border border-gray-200 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:border-neutral-700 dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10"
         aria-label="Next"
       >
         <span className="hidden sm:block">Next</span>

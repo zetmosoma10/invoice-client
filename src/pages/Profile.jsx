@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import dayjs from "dayjs";
 import { useAuth } from "../context/AuthProvider";
 import { uploadFile, deleteProfilePics } from "../services/user";
@@ -21,8 +22,7 @@ const Profile = () => {
       updateUser(data.user);
     } catch (error) {
       setIsDeletingPic("idle");
-      alert("Error happened while deleting image");
-      console.log(error);
+      toast.error(`${error.response.data.message}. Please try again later`);
     } finally {
       setIsDeletingPic("idle");
     }
@@ -32,7 +32,7 @@ const Profile = () => {
     e.preventDefault();
 
     if (!selectedFile) {
-      alert("Please select a file first");
+      toast.info("Please select a file first");
       return;
     }
 
@@ -46,8 +46,7 @@ const Profile = () => {
       setSelectedFile(null);
     } catch (error) {
       setIsUpdatingPic("idle");
-      alert("Error happened while uploading image");
-      console.log(error);
+      toast.error(`${error.response.data.message}. Please try again later`);
     } finally {
       setIsUpdatingPic("idle");
     }
@@ -57,7 +56,7 @@ const Profile = () => {
     <>
       <Link
         to="/"
-        className="flex items-center my-10 text-base font-semibold text-gray-500 gap-x-2 hover:underline"
+        className="flex items-center my-10 text-base font-semibold text-gray-500 dark:text-neutral-500 gap-x-2 hover:underline"
       >
         <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -70,9 +69,9 @@ const Profile = () => {
         </svg>
         <span>Go back</span>
       </Link>
-      <div className="mt-10 bg-white shadow-lg w-[95%] mx-auto rounded-lg">
-        <div className="p-6 text-center sm:text-left sm:flex sm:items-start sm:gap-x-6 ">
-          <div className="overflow-hidden rounded-full size-[140px] sm:size-[140px] mx-auto sm:mx-0">
+      <div className="mt-10 bg-white dark:bg-neutral-800 shadow-lg w-[95%] mx-auto rounded-lg">
+        <div className="p-6 text-center md:text-left md:flex md:items-start md:gap-x-6 ">
+          <div className="overflow-hidden rounded-full size-[140px] sm:size-[140px] mx-auto md:mx-0">
             {user?.profilePicUrl ? (
               <img
                 className="inline-block object-cover w-full rounded-full"
@@ -110,13 +109,13 @@ const Profile = () => {
             )}
           </div>
           <div>
-            <div className="mt-4 border-b sm:mt-0 border-b-gray-300">
-              <h3 className="text-xl font-semibold sm:text-2xl text-gray-950">
+            <div className="mt-5 border-b md:mt-0 border-b-gray-300 dark:border-b-neutral-700">
+              <h3 className="text-xl font-semibold sm:text-2xl text-gray-950 dark:text-neutral-200">
                 {user?.firstName} {user?.lastName}
               </h3>
             </div>
             <div className="mt-2">
-              <p className="text-sm text-gray-900 sm:text-base ">
+              <p className="text-sm text-gray-900 dark:text-neutral-200 sm:text-base ">
                 Email:{" "}
                 <a
                   href={`mailto:${user?.email}`}
@@ -125,7 +124,7 @@ const Profile = () => {
                   {user?.email}
                 </a>
               </p>
-              <p className="text-sm text-gray-900 sm:text-base ">
+              <p className="text-sm text-gray-900 dark:text-neutral-200 sm:text-base ">
                 Account Created:{" "}
                 <span className="font-medium">
                   {dayjs(user?.createdAt).format("DD MMM, YYYY")}
@@ -142,7 +141,7 @@ const Profile = () => {
               <button
                 type="submit"
                 disabled={isUpdatingPic === "submitting"}
-                className="px-4 w-[130px] py-2 mt-2 text-sm capitalize bg-blue-700 text-gray-50 disabled:bg-blue-400 disabled:cursor-wait rounded-3xl hover:bg-blue-500 active:scale-105"
+                className="px-4 w-[130px] py-2 mt-3 text-sm capitalize bg-blue-700 text-gray-50 disabled:bg-blue-400 disabled:cursor-wait rounded-3xl hover:bg-blue-500 active:scale-105"
               >
                 {isUpdatingPic === "submitting" ? (
                   <div

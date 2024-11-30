@@ -102,7 +102,7 @@ const InvoiceDetails = () => {
       </AnimatePresence>
       <Link
         to={`..?${query}`}
-        className="flex items-center mb-10 text-base font-semibold text-gray-500 gap-x-2 hover:underline"
+        className="flex items-center mb-10 text-base font-semibold text-gray-500 dark:text-neutral-500 gap-x-2 hover:underline"
       >
         <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -176,7 +176,7 @@ const InvoiceDetails = () => {
             </h3> */}
             <h3 className="mt-3 text-lg font-semibold text-gray-800 dark:text-neutral-200">
               Bill to:{" "}
-              <span className="font-medium text-gray-500">
+              <span className="font-medium text-gray-500 dark:text-neutral-500">
                 {data?.invoice.clientName}
               </span>
             </h3>
@@ -215,7 +215,7 @@ const InvoiceDetails = () => {
 
               {data?.invoice.status === "Paid" && (
                 <div className="">
-                  <span className="block font-semibold text-blue-500 sm:inline-block sm:mr-2 dark:text-neutral-200">
+                  <span className="block font-semibold text-blue-600 sm:inline-block sm:mr-2 dark:text-neutral-200">
                     Paid At:
                   </span>
                   <span className="text-gray-500 dark:text-neutral-500">
@@ -229,7 +229,7 @@ const InvoiceDetails = () => {
                 </span>
                 <a
                   href={`mailto:${data?.invoice.clientEmail}`}
-                  className="text-blue-500 dark:text-blue-500 hover:underline"
+                  className="text-blue-600 dark:text-blue-600 hover:underline"
                 >
                   {data?.invoice.clientEmail}
                 </a>
@@ -242,7 +242,7 @@ const InvoiceDetails = () => {
         {/* End Grid */}
 
         {/* Invoice Table */}
-        <div className="p-4 mt-8 border border-gray-200 divide-y divide-gray-200 rounded-lg md:mt-6 dark:border-neutral-700">
+        <div className="p-4 mt-8 border border-gray-200 divide-y divide-gray-200 rounded-lg dark:divide-neutral-700 md:mt-6 dark:border-neutral-700">
           <div className="hidden pt-2 pb-4 sm:grid sm:grid-cols-3">
             <div className="text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
               Item

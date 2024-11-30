@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "preline/preline";
@@ -8,17 +8,26 @@ import ScrollToTop from "../components/ScrollToTop";
 import "react-toastify/dist/ReactToastify.css";
 
 function AppLayout() {
+  const [darkMode, setDarkMode] = useState(true);
   const location = useLocation();
 
   useEffect(() => {
     window.HSStaticMethods.autoInit();
   }, [location.pathname]);
 
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
+
   return (
     <AuthProvider>
       <ScrollToTop />
-      <main className="min-h-screen bg-slate-100">
-        <NavBar />
+      <main
+        className={`${
+          darkMode && "dark"
+        } min-h-screen bg-slate-100 dark:bg-neutral-900`}
+      >
+        <NavBar toggleDarkMode={toggleDarkMode} darkMode={darkMode} />
         <ToastContainer />
         <section className="pb-10 max-container">
           <Outlet />

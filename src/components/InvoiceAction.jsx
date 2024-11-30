@@ -2,7 +2,7 @@ import Button from "./common/Button";
 
 const InvoiceAction = ({ addModal, onPaid, status, isPending, onFormOpen }) => {
   return (
-    <div className="flex items-center justify-end p-2 bg-white rounded-lg shadow-md">
+    <div className="flex items-center justify-end p-2 bg-white rounded-lg shadow-md dark:bg-neutral-800">
       <div className="flex items-center gap-x-3">
         {status !== "Paid" && (
           <Button

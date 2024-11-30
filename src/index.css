@@ -4,6 +4,12 @@
 @tailwind components;
 @tailwind utilities;
 
+*,
+*::before,
+*::after {
+  @apply transition-colors duration-300;
+}
+
 body {
   font-family: "Inter", "sans-serif";
 }

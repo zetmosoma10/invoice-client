@@ -109,12 +109,12 @@ const Home = () => {
       </AnimatePresence>
       <div className="flex items-start justify-between my-8">
         <div>
-          <h1 className="font-bold text-2xl md:text-4xl leading-[-0.75px]">
+          <h1 className="font-bold text-2xl md:text-4xl leading-[-0.75px] dark:text-neutral-200">
             Invoices
           </h1>
           {user && (
             <>
-              <p className="text-sm text-gray-500 md:text-base">
+              <p className="text-sm text-gray-500 dark:text-neutral-500 md:text-base">
                 There are {data?.totalInvoices} total invoices in database.
               </p>
               <div className="mt-6">

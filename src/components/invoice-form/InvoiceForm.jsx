@@ -118,11 +118,11 @@ const InvoiceForm = ({ onFormClose, invoice }) => {
         animate={{ x: 0 }}
         exit={{ x: "-100%" }}
         transition={{ duration: 0.3 }}
-        className="overflow-y-scroll  bg-white pt-8 px-6 absolute top-0 left-0 bottom-0 h-screen w-full md:w-[75%] lg:w-[60%]"
+        className="overflow-y-scroll  bg-white dark:bg-neutral-800 pt-8 px-6 absolute top-0 left-0 bottom-0 h-screen w-full md:w-[75%] lg:w-[60%]"
       >
         <button
           onClick={onFormClose}
-          className="flex items-center text-base font-semibold text-gray-500 gap-x-2 hover:underline"
+          className="flex items-center text-base font-semibold text-gray-500 dark:text-neutral-500 gap-x-2 hover:underline"
         >
           <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -135,7 +135,7 @@ const InvoiceForm = ({ onFormClose, invoice }) => {
           </svg>
           <span>Go back</span>
         </button>
-        <h4 className="text-2xl font-bold mt-6 leading-[-0.5px] text-gray-950">
+        <h4 className="text-2xl font-bold mt-6 leading-[-0.5px] text-gray-950 dark:text-neutral-200">
           {invoice?.clientName ? (
             <span>
               Edit <span className="text-blue-500">#</span>
@@ -207,7 +207,7 @@ const InvoiceForm = ({ onFormClose, invoice }) => {
             </p>
           ) : null}
 
-          <div className="sticky bottom-0 left-0 right-0 w-full  z-20 bg-white drop-shadow-[0_-5px_100px_rgba(0,0,0,0.3)] flex items-center justify-end py-6 px-2 space-x-2 mt-40 ">
+          <div className="sticky bottom-0 left-0 right-0 w-full  z-20 bg-white dark:bg-neutral-800 drop-shadow-[0_-5px_100px_rgba(0,0,0,0.3)] flex items-center justify-end py-6 px-2 space-x-2 mt-40 ">
             {invoice?.clientName ? (
               <>
                 <Button
@@ -235,7 +235,7 @@ const InvoiceForm = ({ onFormClose, invoice }) => {
                 <Button
                   disabled={isCreatePending}
                   onClick={handleSubmit((data) => handleSave(data, "Draft"))}
-                  className="text-white bg-gray-800 hover:bg-gray-900 focus:bg-gray-900 dark:bg-white dark:text-neutral-800 rounded-xl"
+                  className="text-white bg-gray-800 dark:text-neutral-900 hover:bg-gray-900 focus:bg-gray-900 dark:bg-white dark:hover:text-neutral-200 rounded-xl"
                 >
                   Save as Draft
                 </Button>
