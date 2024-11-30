@@ -5,7 +5,7 @@ const NavBar = ({ darkMode, toggleDarkMode }) => {
   const { user } = useAuth();
 
   return (
-    <header className="w-full bg-blue-600 ">
+    <header className="w-full bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 ">
       <nav className="relative flex items-center justify-between w-[95%] gap-3 px-4 py-2 mx-auto sm:px-6 lg:px-8">
         <div>
           <Link

@@ -103,7 +103,7 @@ const Home = () => {
   };
 
   return (
-    <div className=" max-container">
+    <div className=" max-container my-3">
       <AnimatePresence>
         {isFormOpen && <InvoiceForm onFormClose={onFormClose} />}
       </AnimatePresence>
