@@ -111,7 +111,7 @@ const InvoiceForm = ({ onFormClose, invoice }) => {
   return (
     <section
       onClick={handleOverlayClick}
-      className="absolute top-0 bottom-0 left-0 z-10 w-full min-h-screen bg-gray-950 bg-opacity-15"
+      className="fixed top-0 bottom-0 left-0 z-10 w-full min-h-screen bg-gray-950 bg-opacity-15"
     >
       <motion.div
         initial={{ x: "-100%" }}

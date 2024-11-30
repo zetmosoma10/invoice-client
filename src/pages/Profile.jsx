@@ -53,7 +53,7 @@ const Profile = () => {
   };
 
   return (
-    <>
+    <div className="justify-end">
       <Link
         to="/"
         className="flex items-center my-10 text-base font-semibold text-gray-500 dark:text-neutral-500 gap-x-2 hover:underline"
@@ -179,7 +179,7 @@ const Profile = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

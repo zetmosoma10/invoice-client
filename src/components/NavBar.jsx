@@ -6,7 +6,7 @@ const NavBar = ({ darkMode, toggleDarkMode }) => {
 
   return (
     <header className="w-full bg-blue-600 ">
-      <nav className="relative flex items-center justify-between w-full gap-3 px-4 py-2 mx-auto sm:px-6 lg:px-8">
+      <nav className="relative flex items-center justify-between w-[95%] gap-3 px-4 py-2 mx-auto sm:px-6 lg:px-8">
         <div>
           <Link
             to="/"

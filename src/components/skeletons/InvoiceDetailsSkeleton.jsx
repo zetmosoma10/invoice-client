@@ -1,6 +1,6 @@
 const InvoiceDetailsSkeleton = () => {
   return (
-    <div className="max-w-[85rem] px-4 sm:px-6 lg:px-8 mx-auto my-4 sm:my-10 animate-pulse">
+    <div className=" max-container px-4 sm:px-6 lg:px-8 my-4 sm:my-10 animate-pulse">
       <div className="flex items-center justify-end w-full px-3 py-6 bg-white rounded-lg gap-x-6 dark:bg-neutral-800">
         <div className="h-6 w-[100px] bg-gray-200 rounded-lg dark:bg-neutral-700"></div>
         <div className="h-6 w-[100px] bg-gray-200 rounded-lg dark:bg-neutral-700"></div>

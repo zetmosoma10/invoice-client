@@ -37,8 +37,8 @@ const Register = () => {
   };
 
   return (
-    <div className="flex items-center justify-center">
-      <div className="bg-white shadow-md mt-7 rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
+    <div className="flex items-center justify-center  w-11/12 sm:w-3/4 md:w-1/2 my-4">
+      <div className="w-full bg-white shadow-md mt-7 rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
         <div className="px-6 py-6 sm:p-7">
           <div className="text-center">
             <h1 className="block text-2xl font-bold text-gray-800 dark:text-white">
@@ -64,7 +64,7 @@ const Register = () => {
 
           <form onSubmit={handleSubmit(onSubmit)} className="mt-10" noValidate>
             <div className="grid gap-y-4">
-              <div className="space-y-4 sm:flex sm:space-y-0 sm:gap-x-4">
+              <div className="space-y-4 sm:grid sm:grid-cols-2 sm:space-y-0 sm:gap-x-4 ">
                 <Input
                   label="First Name"
                   id="firstName"

@@ -83,8 +83,6 @@ const InvoiceDetails = () => {
     setModal(false);
   };
 
-  const query = location.state?.query || "";
-
   if (isInvoicePending) {
     return <InvoiceDetailsSkeleton />;
   }
@@ -93,8 +91,10 @@ const InvoiceDetails = () => {
     return navigate("/not-found", { replace: true });
   }
 
+  const query = location.state?.query || "";
+
   return (
-    <div className="max-w-[85rem] px-4 sm:px-6 lg:px-8 mx-auto my-4 sm:my-10 ">
+    <div className=" max-container px-4 sm:px-6 lg:px-8 my-4 sm:my-10 ">
       <AnimatePresence>
         {isInvoiceFormOpen && (
           <InvoiceForm onFormClose={onFormClose} invoice={data?.invoice} />

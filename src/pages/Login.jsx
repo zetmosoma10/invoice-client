@@ -39,8 +39,8 @@ const Login = () => {
   const message = location.state?.message || null;
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="sm:w-[450px] bg-white  rounded-xl shadow-md dark:bg-neutral-800 dark:border-neutral-700">
+    <div className="flex items-center justify-center  w-11/12 sm:w-3/4 md:w-1/2 lg:w-1/3 ">
+      <div className="w-full  bg-white  rounded-xl shadow-md dark:bg-neutral-800 dark:border-neutral-700">
         <div className="px-5 py-6 sm:p-7">
           <div className="text-center">
             <h1 className="block text-2xl font-bold text-gray-800 dark:text-white">

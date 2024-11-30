@@ -22,7 +22,7 @@ const Invoice = ({
       <Link
         to={`invoices/${id}`}
         state={{ query }}
-        className="grid grid-cols-2 grid-rows-2 px-4 py-3 mb-4 text-gray-500 bg-white rounded-lg shadow-sm dark:bg-neutral-800 gap-y-4 md:grid-rows-1 md:gap-y-0 md:grid-cols-5 md:items-center hover:shadow-md"
+        className="grid grid-cols-2 grid-rows-2 px-4 py-3 mb-4 text-gray-500 bg-white rounded-lg shadow-sm dark:hover:border-neutral-700 transition-all duration-200 dark:bg-neutral-800 gap-y-4 md:grid-rows-1 md:gap-y-0 md:grid-cols-5 md:items-center hover:shadow-md"
       >
         <span className="font-bold text-gray-950 dark:text-neutral-200">
           #{invoiceNumber.toUpperCase()}

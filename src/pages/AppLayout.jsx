@@ -25,11 +25,11 @@ function AppLayout() {
       <main
         className={`${
           darkMode && "dark"
-        } min-h-screen bg-slate-100 dark:bg-neutral-900`}
+        } min-h-screen flex flex-col bg-slate-100 dark:bg-neutral-900`}
       >
         <NavBar toggleDarkMode={toggleDarkMode} darkMode={darkMode} />
         <ToastContainer />
-        <section className="pb-10 max-container">
+        <section className="flex-1 flex  justify-center">
           <Outlet />
         </section>
       </main>
