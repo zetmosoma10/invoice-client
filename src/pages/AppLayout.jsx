@@ -8,12 +8,18 @@ import ScrollToTop from "../components/ScrollToTop";
 import "react-toastify/dist/ReactToastify.css";
 
 function AppLayout() {
-  const [darkMode, setDarkMode] = useState(true);
+  const [darkMode, setDarkMode] = useState(
+    JSON.parse(localStorage.getItem("theme")) || false
+  );
   const location = useLocation();
 
   useEffect(() => {
     window.HSStaticMethods.autoInit();
   }, [location.pathname]);
+
+  useEffect(() => {
+    localStorage.setItem("theme", JSON.stringify(darkMode));
+  }, [darkMode]);
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
