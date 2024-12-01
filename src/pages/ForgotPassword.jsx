@@ -3,6 +3,8 @@ import Input from "../components/common/Input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { forgotPasswordMutation } from "../services/auth.js";
+import { toast } from "react-toastify";
 
 const schema = z.object({
   email: z.string().email("Valid email required"),
@@ -12,11 +14,23 @@ const ForgotPassword = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({ resolver: zodResolver(schema) });
 
+  const { mutate, isError, isPending, error } = forgotPasswordMutation();
+
   const onSubmit = (data) => {
-    console.log(data);
+    mutate(data, {
+      onSuccess: (data) => {
+        reset();
+        toast.success(data.message);
+      },
+      onError: (error) => {
+        console.log(error);
+        toast.error(error.response.statusText);
+      },
+    });
   };
 
   return (
@@ -39,6 +53,12 @@ const ForgotPassword = () => {
             </p>
           </div>
 
+          {isError && error.status >= 400 && error.status < 500 && (
+            <p className="mt-4 text-lg font-semibold text-center text-red-600 ">
+              {error?.response.data.message}
+            </p>
+          )}
+
           <div className="mt-10">
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="grid gap-y-4">
@@ -50,8 +70,21 @@ const ForgotPassword = () => {
                   register={register}
                   errors={errors?.email}
                 />
-                <button className="inline-flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg gap-x-2 hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
-                  Reset password
+                <button
+                  disabled={isPending}
+                  className="inline-flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg gap-x-2 hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+                >
+                  {isPending ? (
+                    <div
+                      className="animate-spin inline-block size-6 border-[3px] border-current border-t-transparent text-gray-50 rounded-full dark:text-gray-50"
+                      role="status"
+                      aria-label="loading"
+                    >
+                      <span className="sr-only">Loading...</span>
+                    </div>
+                  ) : (
+                    "Reset password"
+                  )}
                 </button>
               </div>
             </form>

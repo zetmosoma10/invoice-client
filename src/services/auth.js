@@ -45,4 +45,32 @@ const decodeJwt = () => {
   return null;
 };
 
-export { loginUser, registerUser, decodeJwt };
+const forgotPassword = async (email) => {
+  const { data } = await axiosInstance.post("/auth/forgot-password", email);
+  return data;
+};
+
+const forgotPasswordMutation = () => {
+  return useMutation({
+    mutationFn: (data) => forgotPassword(data),
+  });
+};
+
+const resetPassword = async (payload) => {
+  const { data } = await axiosInstance.patch("/auth/reset-password", payload);
+  return data;
+};
+
+const resetPasswordMutation = () => {
+  return useMutation({
+    mutationFn: (payload) => resetPassword(payload),
+  });
+};
+
+export {
+  loginUser,
+  registerUser,
+  decodeJwt,
+  forgotPasswordMutation,
+  resetPasswordMutation,
+};

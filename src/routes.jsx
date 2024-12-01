@@ -8,6 +8,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import Profile from "./pages/Profile";
 import Logout from "./pages/Logout";
 import NotFoundPage from "./pages/NotFoundPage";
+import ResetPassword from "./pages/ResetPassword";
 import ProtectRoutes from "./components/ProtectRoutes";
 import RedirectIfAuthenticated from "./components/RedirectIfAuthenticated";
 
@@ -50,9 +51,14 @@ const router = createBrowserRouter([
         path: "user/forgot-password",
         element: <ForgotPassword />,
       },
+
       {
         path: "user/logout",
         element: <Logout />,
+      },
+      {
+        path: "reset-password",
+        element: <ResetPassword />,
       },
     ],
   },
