@@ -1,3 +1,4 @@
+import { useMutation } from "@tanstack/react-query";
 import axiosInstance from "./axiosInstance";
 
 // * GET user details
@@ -28,4 +29,16 @@ const deleteProfilePics = async () => {
   return data;
 };
 
-export { getUser, uploadFile, deleteProfilePics };
+// * DELETE USER
+const deleteUserRequest = async (user) => {
+  const { data } = await axiosInstance.post("/user/delete-user", user);
+  return data;
+};
+
+const deleteUser = () => {
+  return useMutation({
+    mutationFn: (user) => deleteUserRequest(user),
+  });
+};
+
+export { getUser, uploadFile, deleteProfilePics, deleteUser };

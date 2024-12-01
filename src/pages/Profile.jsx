@@ -1,15 +1,59 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { AnimatePresence } from "motion/react";
 import dayjs from "dayjs";
+import { z } from "zod";
 import { useAuth } from "../context/AuthProvider";
-import { uploadFile, deleteProfilePics } from "../services/user";
+import { uploadFile, deleteProfilePics, deleteUser } from "../services/user";
+import Button from "./../components/common/Button";
+import Modal from "../components/Modal";
+import Input from "./../components/common/Input";
+
+const schema = z.object({
+  password: z
+    .string()
+    .min(4, "Password must at least have 4 characters")
+    .max(150, "Password must not have more than 150 characters"),
+});
 
 const Profile = () => {
   const [selectedFile, setSelectedFile] = useState(null);
-  const { user, updateUser } = useAuth();
+  const [modal, setModal] = useState(false);
+  const { user, updateUser, logout } = useAuth();
   const [isUpdatingPic, setIsUpdatingPic] = useState("idle");
   const [isDeletingPic, setIsDeletingPic] = useState("idle");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: zodResolver(schema) });
+
+  const { mutate, isError, error, isPending } = deleteUser();
+
+  const addModal = () => {
+    setModal(true);
+  };
+
+  const removeModal = () => {
+    setModal(false);
+  };
+
+  const onDelete = (data) => {
+    console.log(data);
+    mutate(data, {
+      onSuccess: (data) => {
+        logout();
+      },
+      onError: (error) => {
+        console.log(error);
+        if (!error?.status)
+          toast.error(`${error.message}. Please try again later.`);
+      },
+    });
+  };
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -28,7 +72,7 @@ const Profile = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmitFile = async (e) => {
     e.preventDefault();
 
     if (!selectedFile) {
@@ -53,23 +97,73 @@ const Profile = () => {
   };
 
   return (
-    <div className="justify-end">
-      <Link
-        to="/"
-        className="flex items-center my-10 text-base font-semibold text-gray-500 dark:text-neutral-500 gap-x-2 hover:underline"
-      >
-        <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M6.342.886L2.114 5.114l4.228 4.228"
-            stroke="#9277FF"
-            strokeWidth="2"
-            fill="none"
-            fillRule="evenodd"
-          />
-        </svg>
-        <span>Go back</span>
-      </Link>
-      <div className="mt-10 bg-white dark:bg-neutral-800 shadow-lg w-[95%] mx-auto rounded-lg">
+    <div className="w-[95%] mx-auto">
+      <AnimatePresence>
+        {modal && (
+          <Modal removeModal={removeModal}>
+            <form onSubmit={handleSubmit(onDelete)} className="p-5">
+              <h3 className="font-bold text-xl md:text-2xl leading-[-0.5] text-red-600 dark:text-red-600">
+                Confirm Deletion
+              </h3>
+              <p className="mt-2 mb-4 text-sm text-gray-500 dark:text-neutral-200">
+                Are you sure you want to delete the account ? This action cannot
+                be undone.
+              </p>
+              {isError && error.status >= 400 && error.status < 500 && (
+                <p className="mt-4 text-lg font-semibold text-center text-red-600 ">
+                  {error?.response.data.message}
+                </p>
+              )}
+              <Input
+                id="password"
+                label="Password"
+                register={register}
+                errors={errors?.password}
+                autoFocus={true}
+              />
+              <div className="flex items-center justify-end mt-5 gap-x-2">
+                <Button
+                  onClick={removeModal}
+                  className="text-blue-700 bg-gray-200 rounded-2xl hover:text-white hover:bg-gray-800 focus:bg-gray-800"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  disabled={isPending}
+                  className="text-red-600 border border-red-600 hover:bg-red-600 hover:text-white focus:bg-red-600 focus:text-white rounded-xl"
+                >
+                  {isPending ? "Deleting..." : "Delete"}
+                </Button>
+              </div>
+            </form>
+          </Modal>
+        )}
+      </AnimatePresence>
+      <div className="flex items-center justify-between">
+        <Link
+          to="/"
+          className="flex items-center my-10 text-base font-semibold text-gray-500 dark:text-neutral-500 gap-x-2 hover:underline"
+        >
+          <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M6.342.886L2.114 5.114l4.228 4.228"
+              stroke="#9277FF"
+              strokeWidth="2"
+              fill="none"
+              fillRule="evenodd"
+            />
+          </svg>
+          <span>Go back</span>
+        </Link>
+        <Button
+          onClick={addModal}
+          className="text-red-600 border border-red-600 hover:bg-red-600 hover:text-white focus:bg-red-600 focus:text-white rounded-xl"
+        >
+          Delete Account
+        </Button>
+      </div>
+      <div className="mt-10 bg-white dark:bg-neutral-800 shadow-lg  rounded-lg">
         <div className="p-6 text-center md:text-left md:flex md:items-start md:gap-x-6 ">
           <div className="overflow-hidden rounded-full size-[140px] sm:size-[140px] mx-auto md:mx-0">
             {user?.profilePicUrl ? (
@@ -131,7 +225,7 @@ const Profile = () => {
                 </span>
               </p>
             </div>
-            <form onSubmit={handleSubmit} className="mt-3 ">
+            <form onSubmit={handleSubmitFile} className="mt-3 ">
               <input
                 type="file"
                 accept="image/*"

@@ -8,6 +8,7 @@ import InvoiceAction from "../components/InvoiceAction";
 import InvoiceDetailsSkeleton from "../components/skeletons/InvoiceDetailsSkeleton";
 import Modal from "../components/Modal";
 import InvoiceForm from "./../components/invoice-form/InvoiceForm";
+import Button from "../components/common/Button";
 import {
   getInvoice,
   deleteInvoice,
@@ -125,12 +126,35 @@ const InvoiceDetails = () => {
       {/* Card */}
       <AnimatePresence>
         {modal && (
-          <Modal
-            invoiceNumber={data?.invoice.invoiceNumber.toUpperCase()}
-            onDelete={() => onDelete(id)}
-            removeModal={removeModal}
-            isDeletePending={isDeletePending}
-          />
+          <Modal removeModal={removeModal}>
+            <div className="p-5">
+              <h3 className="font-bold text-xl md:text-2xl leading-[-0.5] text-gray-950 dark:text-neutral-200">
+                Confirm Deletion
+              </h3>
+              <p className="mt-2 text-sm text-gray-500 dark:text-neutral-200">
+                Are you sure you want to delete invoice{" "}
+                <span className="font-bold text-gray-950 dark:text-neutral-200">
+                  #{data?.invoice.invoiceNumber.toUpperCase()}
+                </span>
+                ? This action cannot be undone.
+              </p>
+              <div className="flex items-center justify-end mt-5 gap-x-2">
+                <Button
+                  onClick={removeModal}
+                  className="text-blue-700 bg-gray-200 rounded-2xl hover:text-white hover:bg-gray-800 focus:bg-gray-800"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  disabled={isDeletePending}
+                  onClick={() => onDelete(id)}
+                  className="text-white bg-red-500 hover:bg-red-600 focus:bg-red-600 rounded-2xl"
+                >
+                  {isDeletePending ? "Deleting..." : "Delete"}
+                </Button>
+              </div>
+            </div>
+          </Modal>
         )}
       </AnimatePresence>
       <div className="flex flex-col p-4 mt-8 bg-white shadow-md sm:p-10 rounded-xl dark:bg-neutral-800">
