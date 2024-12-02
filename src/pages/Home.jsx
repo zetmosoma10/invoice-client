@@ -10,6 +10,7 @@ import ShowEmptyIcon from "../components/common/ShowEmptyIcon";
 import Dropdown from "../components/Dropdown";
 import InvoiceForm from "../components/invoice-form/InvoiceForm";
 import Button from "../components/common/Button";
+import UnExpectedError from "../components/UnExpectedError";
 
 const Home = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -88,12 +89,12 @@ const Home = () => {
     setIsFormOpen(false);
   };
 
-  if (isError) {
-    return <h2 className="text-3xl font-semibold ">{error?.message}</h2>;
+  if ((isError && !error.status) || invoiceError.status >= 500) {
+    return <UnExpectedError message={error.message} />;
   }
 
   return (
-    <div className=" max-container my-3">
+    <div className="my-3 max-container">
       <AnimatePresence>
         {isFormOpen && <InvoiceForm onFormClose={onFormClose} />}
       </AnimatePresence>

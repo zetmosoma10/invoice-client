@@ -9,6 +9,7 @@ import InvoiceDetailsSkeleton from "../components/skeletons/InvoiceDetailsSkelet
 import Modal from "../components/Modal";
 import InvoiceForm from "./../components/invoice-form/InvoiceForm";
 import Button from "../components/common/Button";
+import UnExpectedError from "../components/UnExpectedError";
 import {
   getInvoice,
   deleteInvoice,
@@ -92,10 +93,14 @@ const InvoiceDetails = () => {
     return navigate("/not-found", { replace: true });
   }
 
+  if ((isInvoiceError && !invoiceError.status) || invoiceError.status >= 500) {
+    return <UnExpectedError message={invoiceError.message} />;
+  }
+
   const query = location.state?.query || "";
 
   return (
-    <div className=" max-container px-4 sm:px-6 lg:px-8 my-4 sm:my-10 ">
+    <div className="px-4 my-4 max-container sm:px-6 lg:px-8 sm:my-10">
       <AnimatePresence>
         {isInvoiceFormOpen && (
           <InvoiceForm onFormClose={onFormClose} invoice={data?.invoice} />

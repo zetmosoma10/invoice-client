@@ -30,14 +30,14 @@ const Register = () => {
         navigate("/", { replace: true });
       },
       onError: (error) => {
-        if (!error?.status)
+        if (!error?.status || error.status >= 500)
           toast.error(`${error.message}. Please try again later.`);
       },
     });
   };
 
   return (
-    <div className="flex items-center justify-center  w-11/12 sm:w-3/4 md:w-1/2 my-4">
+    <div className="flex items-center justify-center w-11/12 my-4 sm:w-3/4 md:w-1/2">
       <div className="w-full bg-white shadow-md mt-7 rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
         <div className="px-6 py-6 sm:p-7">
           <div className="text-center">

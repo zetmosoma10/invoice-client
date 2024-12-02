@@ -27,14 +27,14 @@ const ForgotPassword = () => {
         toast.success(data.message);
       },
       onError: (error) => {
-        console.log(error);
-        toast.error(error.response.statusText);
+        if (!error?.status || error.status >= 500)
+          toast.error(`${error.message}. Please try again later.`);
       },
     });
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen  w-11/12 sm:w-3/4 md:w-1/2 lg:w-1/3 ">
+    <div className="flex items-center justify-center w-11/12 min-h-screen sm:w-3/4 md:w-1/2 lg:w-1/3 ">
       <div className="w-full bg-white shadow-md rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
         <div className="px-5 py-6 sm:p-7">
           <div className="text-center">
