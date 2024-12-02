@@ -82,7 +82,8 @@ const InvoiceForm = ({ onFormClose, invoice }) => {
         onFormClose();
       },
       onError: (error) => {
-        toast.error(error.message);
+        if (!error?.status || error?.status >= 500)
+          toast.error(`${error.message}. Please try again later.`);
       },
     });
   };
@@ -94,7 +95,8 @@ const InvoiceForm = ({ onFormClose, invoice }) => {
         onFormClose();
       },
       onError: (error) => {
-        toast.error(error.message);
+        if (!error?.status || error?.status >= 500)
+          toast.error(`${error.message}. Please try again later.`);
       },
     });
   };

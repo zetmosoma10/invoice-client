@@ -89,7 +89,7 @@ const Home = () => {
     setIsFormOpen(false);
   };
 
-  if ((isError && !error.status) || invoiceError.status >= 500) {
+  if ((isError && !error?.status) || error?.status >= 500) {
     return <UnExpectedError message={error.message} />;
   }
 

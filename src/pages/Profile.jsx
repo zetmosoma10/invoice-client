@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,6 +20,7 @@ const schema = z.object({
 });
 
 const Profile = () => {
+  const navigate = useNavigate();
   const [selectedFile, setSelectedFile] = useState(null);
   const [modal, setModal] = useState(false);
   const { user, updateUser, logout } = useAuth();
@@ -41,15 +42,15 @@ const Profile = () => {
     setModal(false);
   };
 
-  const onDelete = (data) => {
+  const onDeleteAccount = (data) => {
     console.log(data);
     mutate(data, {
       onSuccess: (data) => {
+        navigate("/user/register", { replace: true });
         logout();
       },
       onError: (error) => {
-        console.log(error);
-        if (!error?.status)
+        if (!error?.status || error?.status >= 500)
           toast.error(`${error.message}. Please try again later.`);
       },
     });
@@ -101,7 +102,7 @@ const Profile = () => {
       <AnimatePresence>
         {modal && (
           <Modal removeModal={removeModal}>
-            <form onSubmit={handleSubmit(onDelete)} className="p-5">
+            <form onSubmit={handleSubmit(onDeleteAccount)} className="p-5">
               <h3 className="font-bold text-xl md:text-2xl leading-[-0.5] text-red-600 dark:text-red-600">
                 Confirm Deletion
               </h3>
@@ -163,7 +164,7 @@ const Profile = () => {
           Delete Account
         </Button>
       </div>
-      <div className="mt-10 bg-white dark:bg-neutral-800 shadow-lg  rounded-lg">
+      <div className="mt-10 bg-white rounded-lg shadow-lg dark:bg-neutral-800">
         <div className="p-6 text-center md:text-left md:flex md:items-start md:gap-x-6 ">
           <div className="overflow-hidden rounded-full size-[140px] sm:size-[140px] mx-auto md:mx-0">
             {user?.profilePicUrl ? (

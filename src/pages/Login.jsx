@@ -30,7 +30,7 @@ const Login = () => {
         navigate("/", { replace: true });
       },
       onError: (error) => {
-        if (!error?.status || error.status >= 500)
+        if (!error?.status || error?.status >= 500)
           toast.error(`${error.message}. Please try again later.`);
       },
     });
