@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
-import Input from "../components/common/Input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { forgotPasswordMutation } from "../services/auth.js";
 import { toast } from "react-toastify";
+import Input from "../components/common/Input";
+import useForgotPassword from "./../hooks/auth/useForgotPassword";
 
 const schema = z.object({
   email: z.string().email("Valid email required"),
@@ -18,7 +18,7 @@ const ForgotPassword = () => {
     formState: { errors },
   } = useForm({ resolver: zodResolver(schema) });
 
-  const { mutate, isError, isPending, error } = forgotPasswordMutation();
+  const { mutate, isError, isPending, error } = useForgotPassword();
 
   const onSubmit = (data) => {
     mutate(data, {
@@ -44,7 +44,7 @@ const ForgotPassword = () => {
             <p className="mt-2 text-sm text-gray-600 dark:text-neutral-400">
               Remember your password?
               <Link
-                to="/user/login"
+                to="/auth/login"
                 className="font-medium text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline dark:text-blue-500"
               >
                 {" "}

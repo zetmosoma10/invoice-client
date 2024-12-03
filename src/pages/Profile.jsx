@@ -7,10 +7,11 @@ import { AnimatePresence } from "motion/react";
 import dayjs from "dayjs";
 import { z } from "zod";
 import { useAuth } from "../context/AuthProvider";
-import { uploadFile, deleteProfilePics, deleteUser } from "../services/user";
+import { uploadFile, deleteProfilePics } from "../services/user";
 import Button from "./../components/common/Button";
 import Modal from "../components/Modal";
 import Input from "./../components/common/Input";
+import useDeleteAccount from "../hooks/user/useDeleteAccount";
 
 const schema = z.object({
   password: z
@@ -32,7 +33,7 @@ const Profile = () => {
     formState: { errors },
   } = useForm({ resolver: zodResolver(schema) });
 
-  const { mutate, isError, error, isPending } = deleteUser();
+  const { mutate, isError, error, isPending } = useDeleteAccount();
 
   const addModal = () => {
     setModal(true);
@@ -46,7 +47,7 @@ const Profile = () => {
     console.log(data);
     mutate(data, {
       onSuccess: (data) => {
-        navigate("/user/register", { replace: true });
+        navigate("/auth/register", { replace: true });
         logout();
       },
       onError: (error) => {
@@ -116,6 +117,7 @@ const Profile = () => {
                 </p>
               )}
               <Input
+                type="password"
                 id="password"
                 label="Password"
                 register={register}

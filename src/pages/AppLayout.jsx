@@ -1,33 +1,35 @@
 import { useEffect, useState } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "preline/preline";
 import NavBar from "../components/NavBar";
 import { AuthProvider } from "../context/AuthProvider";
 import ScrollToTop from "../components/ScrollToTop";
-import "react-toastify/dist/ReactToastify.css";
 import Loading from "../components/Loading";
+import "react-toastify/dist/ReactToastify.css";
 
 function AppLayout() {
   const [isLoading, setIsLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(
     JSON.parse(localStorage.getItem("theme")) || false
   );
-  const location = useLocation();
 
   useEffect(() => {
-    const handleLoad = () => setIsLoading(false);
+    const handleDOMContentLoaded = () => setIsLoading(false);
 
-    window.addEventListener("load", handleLoad);
+    if (
+      document.readyState === "complete" ||
+      document.readyState === "interactive"
+    ) {
+      handleDOMContentLoaded();
+    } else {
+      window.addEventListener("DOMContentLoaded", handleDOMContentLoaded);
+    }
 
     return () => {
-      window.removeEventListener("load", handleLoad); // Cleanup
+      window.removeEventListener("DOMContentLoaded", handleDOMContentLoaded);
     };
   }, []);
-
-  useEffect(() => {
-    window.HSStaticMethods.autoInit();
-  }, [location.pathname]);
 
   useEffect(() => {
     localStorage.setItem("theme", JSON.stringify(darkMode));

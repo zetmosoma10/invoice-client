@@ -3,10 +3,10 @@ import Input from "../components/common/Input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import _ from "lodash";
-import { registerUser } from "../services/auth.js";
 import registerSchema from "../schemas/registerSchema.js";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import useRegister from "../hooks/auth/useRegister.js";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ const Register = () => {
 
   const queryClient = useQueryClient();
 
-  const { mutate, isPending, isError, error } = registerUser();
+  const { mutate, isPending, isError, error } = useRegister();
 
   const onSubmit = (data) => {
     const userData = _.omit(data, "confirmPassword");
@@ -47,7 +47,7 @@ const Register = () => {
             <p className="mt-2 text-sm text-gray-600 dark:text-neutral-400">
               Already have an account?
               <Link
-                to="/user/login"
+                to="/auth/login"
                 className="font-medium text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline dark:text-blue-500"
               >
                 {" "}

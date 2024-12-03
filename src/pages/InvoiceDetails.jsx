@@ -10,11 +10,9 @@ import Modal from "../components/Modal";
 import InvoiceForm from "./../components/invoice-form/InvoiceForm";
 import Button from "../components/common/Button";
 import UnExpectedError from "../components/UnExpectedError";
-import {
-  getInvoice,
-  deleteInvoice,
-  markAsPaid,
-} from "../services/invoicesService";
+import useGetInvoice from "./../hooks/invoices/useGetInvoice";
+import useDeleteInvoice from "./../hooks/invoices/useDeleteInvoice";
+import useMarkAsPaid from "./../hooks/invoices/useMarkAsPaid";
 
 const InvoiceDetails = () => {
   const [modal, setModal] = useState(false);
@@ -28,11 +26,11 @@ const InvoiceDetails = () => {
     isLoading: isInvoicePending,
     isError: isInvoiceError,
     error: invoiceError,
-  } = getInvoice(id);
+  } = useGetInvoice(id);
 
   const { mutate: deleteMutation, isPending: isDeletePending } =
-    deleteInvoice();
-  const { mutate: markAsPaidMutation, isPending } = markAsPaid();
+    useDeleteInvoice();
+  const { mutate: markAsPaidMutation, isPending } = useMarkAsPaid();
 
   useEffect(() => {
     if (modal || isInvoiceFormOpen) {

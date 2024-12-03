@@ -1,14 +1,15 @@
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
+import { motion } from "motion/react";
 import Input from "../common/Input";
 import Button from "../common/Button";
 import AddressSection from "./AddressSection";
 import ItemsSection from "./ItemsSection";
 import PaymentTerms from "./PaymentTerms";
 import invoiceSchema from "../../schemas/invoiceSchema";
-import { createInvoice, updateInvoice } from "../../services/invoicesService";
-import { motion } from "motion/react";
+import useCreateInvoice from "./../../hooks/invoices/useCreateInvoice";
+import useUpdateInvoice from "./../../hooks/invoices/useUpdateInvoice";
 
 const InvoiceForm = ({ onFormClose, invoice }) => {
   const {
@@ -60,14 +61,14 @@ const InvoiceForm = ({ onFormClose, invoice }) => {
     isPending: isCreatePending,
     isError: isCreateError,
     error: createError,
-  } = createInvoice();
+  } = useCreateInvoice();
 
   const {
     mutate: updateMutation,
     isPending: isUpdatePending,
     isError: isUpdateError,
     error: updateError,
-  } = updateInvoice();
+  } = useUpdateInvoice();
 
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) {
@@ -82,6 +83,7 @@ const InvoiceForm = ({ onFormClose, invoice }) => {
         onFormClose();
       },
       onError: (error) => {
+        console.log(error);
         if (!error?.status || error?.status >= 500)
           toast.error(`${error.message}. Please try again later.`);
       },
@@ -205,7 +207,7 @@ const InvoiceForm = ({ onFormClose, invoice }) => {
 
           {isUpdateError ? (
             <p className="my-3 text-red-500">
-              {updateError.response.data.message}
+              {updateError?.response?.data?.message}
             </p>
           ) : null}
 

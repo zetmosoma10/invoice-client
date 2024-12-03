@@ -1,10 +1,19 @@
-import { useMutation } from "@tanstack/react-query";
+import { jwtDecode } from "jwt-decode";
 import axiosInstance from "./axiosInstance";
 
 // * GET user details
-const getUser = async () => {
+const getCurrentUser = async () => {
   const { data } = await axiosInstance.get("/user/get-current-user");
   return data;
+};
+
+// * GET USER FROM LOCALSTORAGE
+const getUserFromLocalStorage = () => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    return jwtDecode(token);
+  }
+  return null;
 };
 
 // * POST profile pic
@@ -23,22 +32,21 @@ const uploadFile = async (file) => {
 };
 
 // * REMOVE PROFILE
-//delete-profile-image
 const deleteProfilePics = async () => {
   const { data } = await axiosInstance.post("/user/delete-profile-image");
   return data;
 };
 
 // * DELETE USER
-const deleteUserRequest = async (user) => {
+const deleteAccount = async (user) => {
   const { data } = await axiosInstance.post("/user/delete-user", user);
   return data;
 };
 
-const deleteUser = () => {
-  return useMutation({
-    mutationFn: (user) => deleteUserRequest(user),
-  });
+export {
+  getCurrentUser,
+  uploadFile,
+  deleteProfilePics,
+  deleteAccount,
+  getUserFromLocalStorage,
 };
-
-export { getUser, uploadFile, deleteProfilePics, deleteUser };

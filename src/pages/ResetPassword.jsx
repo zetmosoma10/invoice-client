@@ -4,9 +4,9 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import _ from "lodash";
 import Input from "../components/common/Input";
-import { resetPasswordMutation } from "../services/auth";
 import { useAuth } from "../context/AuthProvider";
 import { toast } from "react-toastify";
+import useResetPassword from "../hooks/auth/useResetPassword";
 
 const schema = z
   .object({
@@ -31,7 +31,7 @@ const ResetPassword = () => {
   const id = searchParams.get("id");
   const { login } = useAuth();
 
-  const { mutate, isError, error, isPending } = resetPasswordMutation();
+  const { mutate, isError, error, isPending } = useResetPassword();
 
   const onSubmit = (data) => {
     mutate(

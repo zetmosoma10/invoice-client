@@ -38,22 +38,22 @@ const router = createBrowserRouter([
         element: <RedirectIfAuthenticated />,
         children: [
           {
-            path: "user/login",
+            path: "auth/login",
             element: <Login />,
           },
           {
-            path: "user/register",
+            path: "auth/register",
             element: <Register />,
           },
         ],
       },
       {
-        path: "user/forgot-password",
+        path: "auth/forgot-password",
         element: <ForgotPassword />,
       },
 
       {
-        path: "user/logout",
+        path: "auth/logout",
         element: <Logout />,
       },
       {

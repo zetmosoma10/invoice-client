@@ -43,7 +43,7 @@ const NavBar = ({ darkMode, toggleDarkMode }) => {
           </div>
           {!user && (
             <Link
-              to="user/login"
+              to="auth/login"
               className="flex items-center w-full p-2 text-sm text-white/80 hover:text-white focus:outline-none focus:text-white"
             >
               <svg
@@ -108,7 +108,7 @@ const NavBar = ({ darkMode, toggleDarkMode }) => {
                 <p className="ml-2 text-base">{user.firstName}</p>
               </Link>
               <Link
-                to="user/logout"
+                to="auth/logout"
                 className="px-2 py-1 ml-4 text-sm text-blue-600 transition-all border md:text-base bg-gray-50 rounded-3xl hover:scale-105"
               >
                 Logout

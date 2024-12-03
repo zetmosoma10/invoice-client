@@ -1,12 +1,11 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { decodeJwt } from "../services/auth";
 import { useQueryClient } from "@tanstack/react-query";
-import { getUser } from "../services/user";
+import { getCurrentUser, getUserFromLocalStorage } from "../services/user";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(decodeJwt());
+  const [user, setUser] = useState(getUserFromLocalStorage());
 
   const queryClient = useQueryClient();
 
@@ -16,7 +15,7 @@ export const AuthProvider = ({ children }) => {
 
   const fetchUser = async () => {
     try {
-      const data = await getUser();
+      const data = await getCurrentUser();
       setUser(data?.user);
     } catch (error) {
       console.log("Error fetching user.", error);
@@ -25,7 +24,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const token = decodeJwt();
+    const token = getUserFromLocalStorage();
     if (token) {
       fetchUser();
     }

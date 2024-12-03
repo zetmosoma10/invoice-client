@@ -3,9 +3,9 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "../components/common/Input";
 import loginSchema from "../schemas/loginSchema";
-import { loginUser } from "../services/auth.js";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import useLogin from "./../hooks/auth/useLogin";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ const Login = () => {
 
   const queryClient = useQueryClient();
 
-  const { mutate, isPending, isError, error } = loginUser();
+  const { mutate, isPending, isError, error } = useLogin();
 
   const onSubmit = (data) => {
     location.state = null;
@@ -49,7 +49,7 @@ const Login = () => {
             <p className="mt-2 text-sm text-gray-600 dark:text-neutral-400">
               Don't have an account yet?
               <Link
-                to="/user/register"
+                to="/auth/register"
                 className="font-medium text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline dark:text-blue-500"
               >
                 {" "}
@@ -86,7 +86,7 @@ const Login = () => {
               />
               <div className="text-end">
                 <Link
-                  to="/user/forgot-password"
+                  to="/auth/forgot-password"
                   className="text-sm font-medium text-blue-600 gap-x-1 decoration-2 hover:underline focus:outline-none focus:underline dark:text-blue-500"
                 >
                   Forgot password?

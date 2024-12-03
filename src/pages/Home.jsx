@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { AnimatePresence } from "motion/react";
 import { useAuth } from "../context/AuthProvider";
-import { getAllInvoices } from "../services/invoicesService";
 import Invoice from "../components/Invoice";
 import Pagination from "../components/Pagination";
 import InvoiceSkeleton from "../components/skeletons/InvoiceSkeleton";
@@ -11,6 +10,7 @@ import Dropdown from "../components/Dropdown";
 import InvoiceForm from "../components/invoice-form/InvoiceForm";
 import Button from "../components/common/Button";
 import UnExpectedError from "../components/UnExpectedError";
+import useGetAllInvoices from "./../hooks/invoices/useGetAllInvoices";
 
 const Home = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -25,7 +25,7 @@ const Home = () => {
 
   const queryStr = searchParams.toString();
 
-  const { data, isError, isLoading, error } = getAllInvoices(
+  const { data, isError, isLoading, error } = useGetAllInvoices(
     page,
     selectedStatus
   );
@@ -81,7 +81,7 @@ const Home = () => {
     if (user) {
       setIsFormOpen(true);
     } else {
-      navigate("user/login", { state: { message: "You should login first" } });
+      navigate("auth/login", { state: { message: "You should login first" } });
     }
   };
 
