@@ -10,6 +10,7 @@ import PaymentTerms from "./PaymentTerms";
 import invoiceSchema from "../../schemas/invoiceSchema";
 import useCreateInvoice from "./../../hooks/invoices/useCreateInvoice";
 import useUpdateInvoice from "./../../hooks/invoices/useUpdateInvoice";
+import { useState } from "react";
 
 const InvoiceForm = ({ onFormClose, invoice }) => {
   const {
@@ -51,6 +52,9 @@ const InvoiceForm = ({ onFormClose, invoice }) => {
     },
   });
 
+  const [isSavingDraft, setIsSavingDraft] = useState(false);
+  const [isSavingAndSending, setIsSavingAndSending] = useState(false);
+
   const { fields, append, remove } = useFieldArray({
     name: "items",
     control,
@@ -83,20 +87,23 @@ const InvoiceForm = ({ onFormClose, invoice }) => {
         onFormClose();
       },
       onError: (error) => {
-        console.log(error);
         if (!error?.status || error?.status >= 500)
           toast.error(`${error.message}. Please try again later.`);
       },
     });
   };
 
-  const handleSave = (data, status) => {
+  const handleSave = (data, status, setLoading) => {
+    setLoading(true);
     const payload = { ...data, status };
+
     createMutation(payload, {
       onSuccess: () => {
+        setLoading(false);
         onFormClose();
       },
       onError: (error) => {
+        setLoading(false);
         if (!error?.status || error?.status >= 500)
           toast.error(`${error.message}. Please try again later.`);
       },
@@ -104,7 +111,7 @@ const InvoiceForm = ({ onFormClose, invoice }) => {
   };
 
   const onSubmit = (data) => {
-    handleSave(data, "Pending");
+    handleSave(data, "Pending", setIsSavingAndSending);
   };
 
   const onCancel = () => {
@@ -237,18 +244,20 @@ const InvoiceForm = ({ onFormClose, invoice }) => {
                   Discard
                 </Button>
                 <Button
-                  disabled={isCreatePending}
-                  onClick={handleSubmit((data) => handleSave(data, "Draft"))}
-                  className="text-white bg-gray-800 dark:text-neutral-900 hover:bg-gray-900 focus:bg-gray-900 dark:bg-white dark:hover:text-neutral-200 rounded-xl"
+                  disabled={isSavingAndSending || isSavingDraft}
+                  onClick={handleSubmit((data) =>
+                    handleSave(data, "Draft", setIsSavingDraft)
+                  )}
+                  className="text-white bg-gray-800 dark:text-neutral-900 hover:bg-gray-900 focus:bg-gray-900 dark:bg-white dark:focus:text-white dark:hover:text-neutral-200 rounded-xl"
                 >
-                  Save as Draft
+                  {isSavingDraft ? "Saving Draft..." : "Save as Draft"}
                 </Button>
                 <Button
-                  disabled={isCreatePending}
+                  disabled={isSavingAndSending || isSavingDraft}
                   type="submit"
                   className="text-white bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 rounded-xl"
                 >
-                  {isCreatePending ? "Saving..." : "Save & Send"}
+                  {isSavingAndSending ? "Saving & Sending..." : "Save & Send"}
                 </Button>
               </>
             )}
