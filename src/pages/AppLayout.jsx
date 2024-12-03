@@ -6,12 +6,24 @@ import NavBar from "../components/NavBar";
 import { AuthProvider } from "../context/AuthProvider";
 import ScrollToTop from "../components/ScrollToTop";
 import "react-toastify/dist/ReactToastify.css";
+import Loading from "../components/Loading";
 
 function AppLayout() {
+  const [isLoading, setIsLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(
     JSON.parse(localStorage.getItem("theme")) || false
   );
   const location = useLocation();
+
+  useEffect(() => {
+    const handleLoad = () => setIsLoading(false);
+
+    window.addEventListener("load", handleLoad);
+
+    return () => {
+      window.removeEventListener("load", handleLoad); // Cleanup
+    };
+  }, []);
 
   useEffect(() => {
     window.HSStaticMethods.autoInit();
@@ -25,6 +37,10 @@ function AppLayout() {
     setDarkMode(!darkMode);
   };
 
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <AuthProvider>
       <ScrollToTop />
@@ -35,7 +51,7 @@ function AppLayout() {
       >
         <NavBar toggleDarkMode={toggleDarkMode} darkMode={darkMode} />
         <ToastContainer />
-        <section className="flex-1 flex  justify-center">
+        <section className="flex justify-center flex-1">
           <Outlet context={{ darkMode }} />
         </section>
       </main>
