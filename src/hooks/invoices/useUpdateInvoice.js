@@ -7,38 +7,24 @@ const useUpdateInvoice = () => {
   return useMutation({
     mutationFn: (invoice) => updateInvoice(invoice),
     onMutate: async (updatedInvoice) => {
-      await queryClient.cancelQueries(["invoices"]);
       await queryClient.cancelQueries(["invoice", updatedInvoice._id]);
 
-      const prevInvoices = queryClient.getQueryData(["invoices"]);
       const prevInvoiceDetails = queryClient.getQueryData([
         "invoice",
         updatedInvoice._id,
       ]);
 
-      queryClient.setQueryData(["invoices"], (oldInvoices) => {
-        return oldInvoices?.map((invoice) =>
-          invoice.id === updateInvoice.id
-            ? { ...invoice, ...updateInvoice }
-            : invoice
-        );
-      });
-
       queryClient.setQueryData(
-        ["invoice", updatedInvoice._id],
+        ["invoices", updatedInvoice._id],
         (oldInvoice) => {
-          return {
-            ...oldInvoice,
-            ...updatedInvoice,
-          };
+          return oldInvoice ? { ...oldInvoice, ...updateInvoice } : oldInvoice;
         }
       );
 
-      return { prevInvoiceDetails, prevInvoices };
+      return { prevInvoiceDetails };
     },
 
     onError: (error, updatedInvoice, context) => {
-      queryClient.setQueryData(["invoices"], context.prevInvoices);
       queryClient.setQueryData(
         ["invoice", updatedInvoice.id],
         context.prevInvoiceDetails

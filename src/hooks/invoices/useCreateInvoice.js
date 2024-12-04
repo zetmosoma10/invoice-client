@@ -24,7 +24,7 @@ const useCreateInvoice = () => {
       queryClient.setQueryData(["invoices"], context.prevInvoices);
     },
     onSettled: () => {
-      queryClient.invalidateQueries(["invoices"]);
+      queryClient.invalidateQueries({ queryKey: ["invoices"] });
     },
   });
 };
