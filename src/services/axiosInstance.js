@@ -1,9 +1,7 @@
 import axios from "axios";
 
-const apiUrl = import.meta.env.VITE_API_URL;
-
 const axiosInstance = axios.create({
-  baseURL: `${apiUrl}/api`,
+  baseURL: "https://invoice-api-av4j.onrender.com/api",
 });
 
 axiosInstance.interceptors.request.use((config) => {
