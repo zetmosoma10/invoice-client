@@ -33,8 +33,6 @@ const Profile = () => {
     formState: { errors },
   } = useForm({ resolver: zodResolver(schema) });
 
-  console.log(user);
-
   const { mutate, isError, error, isPending } = useDeleteAccount();
 
   const addModal = () => {
