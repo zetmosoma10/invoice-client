@@ -199,15 +199,6 @@ const InvoiceDetails = () => {
         {/* Grid */}
         <div className="grid gap-3 mt-8 sm:grid-cols-2">
           <div>
-            {/* <h3 className="text-lg font-semibold text-gray-800 dark:text-neutral-200">
-              Bill to:{"  "}
-              <a
-                href={`mailto:${data?.invoice.clientEmail}`}
-                className="text-sm font-semibold text-blue-500 cursor-pointer hover:underline"
-              >
-                {data?.invoice.clientEmail}
-              </a>
-            </h3> */}
             <h3 className="mt-3 text-lg font-semibold text-gray-800 dark:text-neutral-200">
               Bill to:{" "}
               <span className="font-medium text-gray-500 dark:text-neutral-500">
@@ -257,7 +248,7 @@ const InvoiceDetails = () => {
                   </span>
                 </div>
               )}
-              <div className="">
+              <div className="col-span-2 sm:col-span-1">
                 <span className="block font-semibold text-gray-800 sm:inline-block sm:mr-2 dark:text-neutral-200">
                   Email:
                 </span>

@@ -218,7 +218,7 @@ const InvoiceForm = ({ onFormClose, invoice }) => {
             </p>
           ) : null}
 
-          <div className="sticky bottom-0 left-0 right-0 w-full  z-20 bg-white dark:bg-neutral-800 drop-shadow-[0_-5px_100px_rgba(0,0,0,0.3)] flex items-center justify-end py-6 px-2 space-x-2 mt-40 ">
+          <div className="sticky bottom-0 left-0 right-0 w-full  z-20 bg-white dark:bg-neutral-800 drop-shadow-[0_-5px_100px_rgba(0,0,0,0.3)] flex items-center justify-end py-6 px-2  space-x-2 mt-40 ">
             {invoice?.clientName ? (
               <>
                 <Button
@@ -255,7 +255,7 @@ const InvoiceForm = ({ onFormClose, invoice }) => {
                 <Button
                   disabled={isSavingAndSending || isSavingDraft}
                   type="submit"
-                  className="text-white bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 rounded-xl"
+                  className="text-sm text-white bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 rounded-xl"
                 >
                   {isSavingAndSending ? "Saving & Sending..." : "Save & Send"}
                 </Button>
