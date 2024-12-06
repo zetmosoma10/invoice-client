@@ -113,7 +113,7 @@ const Register = () => {
                     <span className="sr-only">Loading...</span>
                   </div>
                 ) : (
-                  "Sing up"
+                  "Sign up"
                 )}
               </button>
             </div>

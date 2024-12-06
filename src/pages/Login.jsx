@@ -105,7 +105,7 @@ const Login = () => {
                     <span className="sr-only">Loading...</span>
                   </div>
                 ) : (
-                  "Sing in"
+                  "Sign in"
                 )}
               </button>
             </div>
