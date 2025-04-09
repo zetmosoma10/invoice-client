@@ -87,7 +87,7 @@ const InvoiceForm = ({ onFormClose, invoice }) => {
         onFormClose();
       },
       onError: (error) => {
-        if (!error?.status || error?.status >= 500)
+        if (error?.message === "Network Error" || error?.status >= 500)
           toast.error(`${error.message}. Please try again later.`);
       },
     });
@@ -104,8 +104,8 @@ const InvoiceForm = ({ onFormClose, invoice }) => {
       },
       onError: (error) => {
         setLoading(false);
-        if (!error?.status || error?.status >= 500)
-          toast.error(`${error.message}. Please try again later.`);
+        if (error?.message === "Network Error" || error?.status >= 500)
+          toast.error("Server is down. Please try again later.");
       },
     });
   };

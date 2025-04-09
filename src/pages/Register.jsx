@@ -30,8 +30,8 @@ const Register = () => {
         navigate("/", { replace: true });
       },
       onError: (error) => {
-        if (!error?.status || error?.status >= 500)
-          toast.error(`${error.message}. Please try again later.`);
+        if (error?.message === "Network Error" || error?.status >= 500)
+          toast.error("Server is down. Please try again later.");
       },
     });
   };
@@ -56,7 +56,7 @@ const Register = () => {
             </p>
           </div>
 
-          {isError && error?.status === 400 && (
+          {isError && error?.response && error.response?.status === 400 && (
             <p className="mt-4 text-lg font-semibold text-center text-red-600 ">
               {error?.response.data.message}
             </p>

@@ -18,7 +18,6 @@ export const AuthProvider = ({ children }) => {
       const data = await getCurrentUser();
       setUser(data?.user);
     } catch (error) {
-      console.log("Error fetching user.", error);
       logout();
     }
   };

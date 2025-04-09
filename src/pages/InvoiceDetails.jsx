@@ -51,10 +51,14 @@ const InvoiceDetails = () => {
         navigate("/", { replace: true });
       },
       onError: (error) => {
-        if (!error?.status || error?.status >= 500) {
+        if (error?.message === "Network Error" || error?.status >= 500) {
           toast.error(`${error.message}. Please try again later.`);
-        } else {
-          toast.error(error?.response?.data.message);
+        } else if (
+          error?.response &&
+          error.response?.status >= 400 &&
+          error.response?.status < 500
+        ) {
+          toast.error(error?.response?.data?.message);
         }
       },
     });
@@ -96,8 +100,8 @@ const InvoiceDetails = () => {
   }
 
   if (
-    (isInvoiceError && !invoiceError?.status) ||
-    invoiceError?.status >= 500
+    isInvoiceError &&
+    (invoiceError?.message === "Network Error" || invoiceError?.status >= 500)
   ) {
     return <UnExpectedError message={invoiceError.message} />;
   }

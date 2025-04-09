@@ -89,7 +89,8 @@ const Home = () => {
     setIsFormOpen(false);
   };
 
-  if ((isError && !error?.status) || error?.status >= 500) {
+  //! UNEXPECTED ERROR
+  if (isError && (error?.message === "Network Error" || error?.status >= 500)) {
     return <UnExpectedError message={error.message} />;
   }
 

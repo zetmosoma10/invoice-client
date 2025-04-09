@@ -51,8 +51,8 @@ const Profile = () => {
         logout();
       },
       onError: (error) => {
-        if (!error?.status || error?.status >= 500)
-          toast.error(`${error.message}. Please try again later.`);
+        if (error?.message === "Network Error" || error?.status >= 500)
+          toast.error("Server is down. Please try again later.");
       },
     });
   };
