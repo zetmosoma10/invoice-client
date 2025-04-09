@@ -1,6 +1,6 @@
 # Invoice App
 
-This is the **Frontend Invoice app** built with **React.js + Vite** for creating and updating invoices. Users are able to register and login with jwt auth, and perform CRUD operation for invoices. Users also get real-time email notification hen invoice created or updated.
+This is the **Frontend Invoice app** built with **React.js + Vite** for creating and updating invoices. Users are able to register and login with jwt auth, and perform CRUD operation for invoices. Users also get real-time email notification when invoices are created or updated.
 
 ## FEATURES
 
